@@ -1,11 +1,13 @@
-import './App.css'
+import "./App.css";
+import AppRoutes from "./routes/AppRoutes";
+import React from "react";
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline bg-green-400">
-      Hello world!
-    </h1>
-  )
+    <>
+      <AppRoutes />
+    </>
+  );
 }
 
-export default App
+export default App;
