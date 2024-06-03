@@ -3,6 +3,7 @@ import HomePage from "../pages/HomePage/HomePage";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import React from "react";
+import HostPage from "../pages/HostPage/HostPage";
 
 export default function AppRoutes() {
   return (
@@ -11,6 +12,7 @@ export default function AppRoutes() {
         <Routes>
           {/* ---------------PUBLIC ROUTES------------- */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/host" element={<HostPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </ScrollToTop>
