@@ -63,9 +63,10 @@ function Footer() {
               </li>
             </ul>
           </Col>
-          <Col span={5}>
+          <Col span={4}>
             <div className="font-bold">Kết nối với chúng tôi</div>
           </Col>
+          <Col span={2} />
         </Row>
         <Row className="flex justify-center items-center pt-2 bg-slate-300 pb-2">
           <p>Copyrights © 2024 . All rights reserved.</p>
