@@ -1,7 +1,18 @@
 import { Header as HeaderAntd } from "antd/es/layout/layout";
 
 function Header() {
-  <HeaderAntd>Header</HeaderAntd>;
+  return (
+    <>
+      <HeaderAntd
+        style={{
+          padding: 0,
+          background: "white",
+        }}
+      >
+        Header
+      </HeaderAntd>
+    </>
+  );
 }
 
 export default Header;
