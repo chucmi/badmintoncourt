@@ -61,6 +61,7 @@ export default function HostSider() {
           mode="inline"
           defaultSelectedKeys={["1"]}
           items={items}
+          style={{ height: "68%" }}
         />
 
         <Footer />

@@ -4,7 +4,8 @@ export default function Footer() {
   return (
     <>
       <FooterAntd className="text-center bg-white font-semibold">
-        Copyrights ©{new Date().getFullYear()} . All rights reserved.
+        Copyrights © {new Date().getFullYear()}. <br />
+        All rights reserved.
       </FooterAntd>
     </>
   );

@@ -69,7 +69,7 @@ function Footer() {
           <Col span={2} />
         </Row>
         <Row className="flex justify-center items-center pt-2 bg-slate-300 pb-2 font-semibold">
-          Copyrights ©{new Date().getFullYear()} . All rights reserved.
+          Copyrights © {new Date().getFullYear()} . All rights reserved.
         </Row>
       </FooterAntd>
     </>
