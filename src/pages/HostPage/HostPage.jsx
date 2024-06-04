@@ -2,6 +2,7 @@ import React from "react";
 import { Layout } from "antd";
 import Header from "../../layouts/HostLayout/Header/Header";
 import HostSider from "../../layouts/HostLayout/Sider/HostSider";
+import CourtForm from "../../components/CourtForm/CourtForm";
 
 const { Content } = Layout;
 
@@ -28,8 +29,8 @@ export default function HostPage() {
         >
           <Header />
 
-          <Content className="text-center h-screen flex items-center justify-center text-black">
-            Content
+          <Content className="text-center h-screen flex text-black">
+            <CourtForm />
           </Content>
         </Layout>
       </Layout>
