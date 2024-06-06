@@ -40,7 +40,7 @@ items.push({
   key: String(items.length + 1),
   icon: React.createElement(LogoutOutlined),
   label: (
-    <a target="_blank" rel="Logout" href="/">
+    <a target="" rel="Logout" href="/">
       Logout
     </a>
   ),
