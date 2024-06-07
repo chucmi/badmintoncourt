@@ -1,3 +1,6 @@
+import "./App.css";
+import AppRoutes from "./routes/AppRoutes";
+import React from "react";
 
 import Dashboard from "./Components/Dashboard/Dashboard";
 import { Home } from "./Components/Home";
@@ -45,6 +48,7 @@ function App() {
       <div>
      <RouterProvider router={router}/>
       </div>
+      <AppRoutes />
     </>
   );
 }
