@@ -1,13 +1,29 @@
 import { Button, Form, Input, Select, TimePicker, Switch } from "antd";
+import { useState, useEffect } from "react";
 import FormInput from "../FormInput/FormInput";
 
 export default function CourtForm() {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    console.log('Received values:', values);
+    console.log("Received values:", values);
     // Perform your submit action here
   };
+
+  const [provinces, setProvinces] = useState([]);
+
+  useEffect(() => {
+    // Fetch provinces from the API
+    fetch("https://vapi.vnappmob.com/api/province/")
+      .then((response) => response.json())
+      .then((data) => {
+        // Set the provinces in state
+        setProvinces(data.results);
+      })
+      .catch((error) => {
+        console.error("Error fetching provinces:", error);
+      });
+  }, []);
 
   return (
     <>
@@ -43,10 +59,14 @@ export default function CourtForm() {
           rules={[{ required: true, message: "Please select the province" }]}
         >
           <Select placeholder="Select province">
-            {/* Add your province options here */}
-            <Select.Option value="1">Province 1</Select.Option>
-            <Select.Option value="2">Province 2</Select.Option>
-            {/* Add more options as needed */}
+            {provinces.map((province) => (
+              <Select.Option
+                key={province.province_id}
+                value={province.province_id}
+              >
+                {province.province_name}
+              </Select.Option>
+            ))}
           </Select>
         </FormInput>
 
@@ -87,11 +107,13 @@ export default function CourtForm() {
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                const openingTime = getFieldValue('openingTime');
+                const openingTime = getFieldValue("openingTime");
                 if (!value || !openingTime || value.isAfter(openingTime)) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error("Closing time must be after opening time"));
+                return Promise.reject(
+                  new Error("Closing time must be after opening time")
+                );
               },
             }),
           ]}
@@ -99,11 +121,7 @@ export default function CourtForm() {
           <TimePicker format="HH:mm" />
         </FormInput>
 
-        <FormInput
-          label="Status:"
-          name="status"
-          valuePropName="checked"
-        >
+        <FormInput label="Status:" name="status" valuePropName="checked">
           <Switch checkedChildren="Open" unCheckedChildren="Closed" />
         </FormInput>
 
