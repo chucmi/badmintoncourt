@@ -1,11 +1,52 @@
-import './App.css'
 
+import Dashboard from "./Components/Dashboard/Dashboard";
+import { Home } from "./Components/Home";
+import Login from "./Components/Login/Login";
+import Register from "./Components/Register/Register";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/login", 
+    element: (
+      <div>
+        <Login />
+      </div>
+    ),
+  },
+  {
+    path: "/register",
+    element: (
+      <div>
+        <Register />
+      </div>
+    ),
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <div>
+        <Dashboard />
+      </div>
+    ),
+  },
+  {
+    path: "/",
+    element: (
+      <div>
+        <Home />
+      </div>
+    ),
+  },
+]);
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline bg-green-400">
-      Hello world!
-    </h1>
-  )
+    <>
+      <div>
+     <RouterProvider router={router}/>
+      </div>
+    </>
+  );
 }
 
-export default App
+export default App;
