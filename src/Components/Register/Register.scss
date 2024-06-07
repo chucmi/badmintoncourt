@@ -1,0 +1,218 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+:root {
+  --primaryColor: #3EAEF4;
+  --hoverColor: hsl(191, 71%, 70%);
+  --whiteColor: hsl(0, 0%, 100%);
+  --paleGreen: hsl(96, 75%, 89%);
+  --blackColor: hsl(0, 0%, 18%);
+  --greyText: hsl(0, 0%, 75%);
+  --bgColor: hsl(113, 11%, 85%);
+  --inputColor: hsl(154, 14%, 90%);
+  --biggestFontSize: 2.5rem;
+  --h1FontSize: 1.5rem;
+  --h2FontSize: 1.25rem;
+  --h3FontSize: 1rem;
+  --normalFontSize: .938rem;
+  --smallFontSize: .813rem;
+  --smallestFontSize: .75rem;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+html {
+  font-size: 90%;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+.icon {
+  font-size: var(--h2FontSize);
+  cursor: pointer;
+}
+
+img, video {
+  height: auto;
+  width: 100%;
+}
+
+.message {
+  display: none;
+}
+
+.showMessage {
+  display: block;
+  color: var(--whiteColor);
+  background: rgb(255, 0, 0);
+  border-radius: 3px;
+  text-align: center;
+}
+
+.btn {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: var(--whiteColor);
+  background-color: var(--primaryColor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background: var(--hoverColor);
+  }
+
+  .icon {
+    margin-left: .5rem;
+  }
+}
+
+.loginPage {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  .container {
+    width: 80%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 7px 50px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+
+    .imageDiv {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40%;
+
+      img {
+        width: 80%;
+        height: auto;
+      }
+    }
+
+    .formDiv {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 60%;
+
+      .headerDiv {
+        text-align: center;
+        margin-bottom: 1.5rem;
+
+        h3 {
+          font-size: var(--h2FontSize);
+          color: var(--blackColor);
+        }
+      }
+
+      .form {
+        width: 100%;
+        max-width: 400px;
+
+        .inputDiv {
+          margin-bottom: 1.5rem;
+
+          label {
+            font-size: var(--normalFontSize);
+            color: var(--greyText);
+            margin-bottom: .5rem;
+            display: inline-block;
+          }
+
+          .input {
+            display: flex;
+            align-items: center;
+            background: var(--inputColor);
+            border-radius: 5px;
+            padding: .5rem;
+
+            input,
+            select {
+              border: none;
+              outline: none;
+              background: none;
+              padding: .5rem;
+              flex: 1;
+              font-size: var(--normalFontSize);
+            }
+          }
+        }
+
+        .forgotPassword {
+          margin-top: 1rem;
+          font-size: var(--smallFontSize);
+          color: var(--greyText);
+          text-align: center;
+
+          a {
+            color: var(--primaryColor);
+            margin-left: .5rem;
+          }
+        }
+      }
+
+      .footerDiv {
+        margin-top: 1.5rem;
+        text-align: center;
+
+        .text {
+          color: var(--greyText);
+          margin-right: .5rem;
+        }
+
+        .signUpLink {
+          color: var(--primaryColor);
+        }
+      }
+    }
+  }
+}
