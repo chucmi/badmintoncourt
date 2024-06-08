@@ -1,17 +1,35 @@
 import { Button, Form, Input, Select, TimePicker, Switch } from "antd";
+import { useState, useEffect } from "react";
 import FormInput from "../FormInput/FormInput";
+import { getProvinces } from "../../services/provinceAPI";
 
 export default function CourtForm() {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    console.log('Received values:', values);
+    console.log("Received values:", values);
     // Perform your submit action here
   };
 
+  const [provinces, setProvinces] = useState([]);
+
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      const data = await getProvinces();
+      if (data) {
+        setProvinces(data);
+      }
+    };
+    fetchProvinces();
+  }, []);
+
   return (
     <>
+      <div className="font-bold text-2xl mb-4 text-center mt-6">
+        Add Your Court
+      </div>
       <Form
+        className="mx-44"
         form={form}
         layout="vertical"
         onFinish={onFinish}
@@ -19,8 +37,6 @@ export default function CourtForm() {
           status: false, // Default status to closed
         }}
       >
-        <div className="font-bold text-2xl mb-4">Add Your Court</div>
-
         <FormInput
           label="Court Name:"
           name="courtName"
@@ -43,10 +59,14 @@ export default function CourtForm() {
           rules={[{ required: true, message: "Please select the province" }]}
         >
           <Select placeholder="Select province">
-            {/* Add your province options here */}
-            <Select.Option value="1">Province 1</Select.Option>
-            <Select.Option value="2">Province 2</Select.Option>
-            {/* Add more options as needed */}
+            {provinces.map((province) => (
+              <Select.Option
+                key={province.province_id}
+                value={province.province_id}
+              >
+                {province.province_name}
+              </Select.Option>
+            ))}
           </Select>
         </FormInput>
 
@@ -87,11 +107,13 @@ export default function CourtForm() {
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                const openingTime = getFieldValue('openingTime');
+                const openingTime = getFieldValue("openingTime");
                 if (!value || !openingTime || value.isAfter(openingTime)) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error("Closing time must be after opening time"));
+                return Promise.reject(
+                  new Error("Closing time must be after opening time")
+                );
               },
             }),
           ]}
@@ -99,11 +121,7 @@ export default function CourtForm() {
           <TimePicker format="HH:mm" />
         </FormInput>
 
-        <FormInput
-          label="Status:"
-          name="status"
-          valuePropName="checked"
-        >
+        <FormInput label="Status:" name="status" valuePropName="checked">
           <Switch checkedChildren="Open" unCheckedChildren="Closed" />
         </FormInput>
 
