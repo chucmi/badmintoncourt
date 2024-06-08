@@ -66,7 +66,7 @@ export default function HostPage() {
         >
           <Header username="Host" />
 
-          <Content className="text-center h-screen flex text-black">
+          <Content className="">
             <CourtForm />
           </Content>
         </Layout>

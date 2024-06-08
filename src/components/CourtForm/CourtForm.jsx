@@ -1,6 +1,7 @@
 import { Button, Form, Input, Select, TimePicker, Switch } from "antd";
 import { useState, useEffect } from "react";
 import FormInput from "../FormInput/FormInput";
+import { getProvinces } from "../../services/provinceAPI";
 
 export default function CourtForm() {
   const [form] = Form.useForm();
@@ -13,21 +14,22 @@ export default function CourtForm() {
   const [provinces, setProvinces] = useState([]);
 
   useEffect(() => {
-    // Fetch provinces from the API
-    fetch("https://vapi.vnappmob.com/api/province/")
-      .then((response) => response.json())
-      .then((data) => {
-        // Set the provinces in state
-        setProvinces(data.results);
-      })
-      .catch((error) => {
-        console.error("Error fetching provinces:", error);
-      });
+    const fetchProvinces = async () => {
+      const data = await getProvinces();
+      if (data) {
+        setProvinces(data);
+      }
+    };
+    fetchProvinces();
   }, []);
 
   return (
     <>
+      <div className="font-bold text-2xl mb-4 text-center mt-6">
+        Add Your Court
+      </div>
       <Form
+        className="mx-44"
         form={form}
         layout="vertical"
         onFinish={onFinish}
@@ -35,8 +37,6 @@ export default function CourtForm() {
           status: false, // Default status to closed
         }}
       >
-        <div className="font-bold text-2xl mb-4">Add Your Court</div>
-
         <FormInput
           label="Court Name:"
           name="courtName"
