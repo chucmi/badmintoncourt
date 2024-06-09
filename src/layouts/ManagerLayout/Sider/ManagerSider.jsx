@@ -34,7 +34,7 @@ const ManagerSider = ({
         mode="inline"
         defaultSelectedKeys={["1"]}
         items={items}
-        style={{ height: "68%" }}
+        style={{ height: "65%" }}
       />
       <Footer />
     </Sider>
