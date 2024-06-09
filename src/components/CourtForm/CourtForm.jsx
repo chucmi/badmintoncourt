@@ -78,48 +78,52 @@ export default function CourtForm() {
           <Input.TextArea placeholder="Enter description" rows={4} />
         </FormInput>
 
-        <FormInput
-          label="Opening Time:"
-          name="openingTime"
-          rules={[
-            { required: true, message: "Please select the opening time" },
-            {
-              validator: (_, value) =>
-                value && value.isValid()
-                  ? Promise.resolve()
-                  : Promise.reject(new Error("Please select a valid time")),
-            },
-          ]}
-        >
-          <TimePicker format="HH:mm" />
-        </FormInput>
-
-        <FormInput
-          label="Closing Time:"
-          name="closingTime"
-          rules={[
-            { required: true, message: "Please select the closing time" },
-            {
-              validator: (_, value) =>
-                value && value.isValid()
-                  ? Promise.resolve()
-                  : Promise.reject(new Error("Please select a valid time")),
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                const openingTime = getFieldValue("openingTime");
-                if (!value || !openingTime || value.isAfter(openingTime)) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error("Closing time must be after opening time")
-                );
+        <div className="flex">
+          <FormInput
+            label="Opening Time:"
+            name="openingTime"
+            rules={[
+              { required: true, message: "Please select the opening time" },
+              {
+                validator: (_, value) =>
+                  value && value.isValid()
+                    ? Promise.resolve()
+                    : Promise.reject(new Error("Please select a valid time")),
               },
-            }),
-          ]}
-        >
-          <TimePicker format="HH:mm" />
-        </FormInput>
+            ]}
+          >
+            <TimePicker format="HH:mm" />
+          </FormInput>
+
+          <div className="w-8" />
+
+          <FormInput
+            label="Closing Time:"
+            name="closingTime"
+            rules={[
+              { required: true, message: "Please select the closing time" },
+              {
+                validator: (_, value) =>
+                  value && value.isValid()
+                    ? Promise.resolve()
+                    : Promise.reject(new Error("Please select a valid time")),
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  const openingTime = getFieldValue("openingTime");
+                  if (!value || !openingTime || value.isAfter(openingTime)) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("Closing time must be after opening time")
+                  );
+                },
+              }),
+            ]}
+          >
+            <TimePicker format="HH:mm" />
+          </FormInput>
+        </div>
 
         <FormInput label="Status:" name="status" valuePropName="checked">
           <Switch checkedChildren="Open" unCheckedChildren="Closed" />
