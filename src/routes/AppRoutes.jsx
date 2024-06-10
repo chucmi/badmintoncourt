@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from "../pages/HomePage/HomePage";
-import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
+import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import React from "react";
 import HostPage from "../pages/HostPage/HostPage";
