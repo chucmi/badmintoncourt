@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout } from "antd";
 import Header from "../../layouts/ManagerLayout/Header/Header";
-import CourtForm from "../../Components/CourtForm/CourtForm";
+import CourtForm from "../../components/CourtForm/CourtForm";
 import {
   AppstoreOutlined,
   BarChartOutlined,

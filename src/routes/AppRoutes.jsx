@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from "../pages/HomePage/HomePage";
-import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
+import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import React from "react";
 import HostPage from "../pages/HostPage/HostPage";
-import Login from "../Components/Login/Login";
-import Register from "../Components/Register/Register";
+import Login from "../components/Login/Login";
+import Register from "../components/Register/Register";
 
 export default function AppRoutes() {
   return (
