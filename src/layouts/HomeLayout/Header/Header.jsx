@@ -89,13 +89,13 @@ export default function Header() {
           </a>
         </Dropdown>
 
-        <Button className="bg-transparent border-none text-xl ml-5 flex h-12">
-          <Badge count={0} showZero>
-            <a href="/cart">
+        <a href="/cart">
+          <Button className="bg-transparent border-none text-xl ml-5 flex h-12">
+            <Badge count={0} showZero>
               <ShoppingCartOutlined className="text-3xl" />
-            </a>
-          </Badge>
-        </Button>
+            </Badge>
+          </Button>
+        </a>
       </HeaderAntd>
     </>
   );

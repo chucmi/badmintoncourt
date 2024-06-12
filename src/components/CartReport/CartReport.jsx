@@ -2,9 +2,9 @@ import { Button, Card, Col, Divider, List, Row, Typography } from "antd";
 const { Text } = Typography;
 
 const orderItems = [
-  { name: "Sản cầu lông...", price: "40.000 đ", quantity: 1 },
-  { name: "Sản cầu lông...", price: "40.000 đ", quantity: 1 },
-  { name: "Sản cầu lông...", price: "40.000 đ", quantity: 1 },
+  { name: "Sân cầu lông...", price: "40.000 đ", quantity: 1 },
+  { name: "Sân cầu lông...", price: "40.000 đ", quantity: 1 },
+  { name: "Sân cầu lông...", price: "40.000 đ", quantity: 1 },
 ];
 
 const totalAmount = "120.000 đ";
@@ -27,7 +27,9 @@ export default function CartReport() {
           </List.Item>
         )}
       />
-      <Divider />
+      <Divider style={
+        {border: "1px solid black"}
+      } />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Text strong>Tổng :</Text>
         <Text strong  style={{color: "red"}}>{totalAmount}</Text>
