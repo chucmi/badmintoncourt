@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Button, Dropdown, Input, Space } from "antd";
+import { Avatar, Badge, Button, Dropdown, Input, Space } from "antd";
 import {
   SearchOutlined,
   UserOutlined,
@@ -90,7 +90,11 @@ export default function Header() {
         </Dropdown>
 
         <Button className="bg-transparent border-none text-xl ml-5 flex h-12">
-          <ShoppingCartOutlined className="text-3xl" />
+          <Badge count={0} showZero>
+            <a href="/cart">
+              <ShoppingCartOutlined className="text-3xl" />
+            </a>
+          </Badge>
         </Button>
       </HeaderAntd>
     </>

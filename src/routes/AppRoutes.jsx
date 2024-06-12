@@ -6,6 +6,7 @@ import React from "react";
 import HostPage from "../pages/HostPage/HostPage";
 import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
+import CartPage from "../pages/CartPage/CartPage";
 
 export default function AppRoutes() {
   return (
@@ -13,7 +14,9 @@ export default function AppRoutes() {
       <ScrollToTop>
         <Routes>
           {/* ---------------PUBLIC ROUTES------------- */}
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />}>
+            <Route path="cart" element={<CartPage />} />
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/host" element={<HostPage />} />
