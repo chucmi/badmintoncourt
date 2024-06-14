@@ -7,20 +7,50 @@ import Title from "antd/es/typography/Title";
 const items = [
   {
     name: "Sân cầu lông Nhật Thiện, Thủ Đức, HCM",
-    price: "40.000",
-    quantity: 1,
+    slots: [
+      {
+        price: "40.000",
+        value: "10:00 - 11:00",
+        id: 1,
+      },
+      {
+        price: "50.000",
+        value: "12:00 - 13:00",
+        id: 2,
+      },
+    ],
     image: "path_to_image",
   },
   {
     name: "Sân cầu lông Nhật Thiện, Thủ Đức, HCM",
-    price: "40.000",
-    quantity: 1,
+    slots: [
+      {
+        price: "40.000",
+        value: "10:00 - 11:00",
+        id: 3,
+      },
+      {
+        price: "50.000",
+        value: "12:00 - 13:00",
+        id: 1,
+      },
+    ],
     image: "path_to_image",
   },
   {
     name: "Sân cầu lông Nhật Thiện, Thủ Đức, HCM",
-    price: "40.000",
-    quantity: 1,
+    slots: [
+      {
+        price: "40.000",
+        value: "10:00 - 11:00",
+        id: 2,
+      },
+      {
+        price: "50.000",
+        value: "12:00 - 13:00",
+        id: 1,
+      },
+    ],
     image: "path_to_image",
   },
 ];
@@ -38,7 +68,7 @@ export default function CartPage() {
             </Col>
             <Col span={15} />
             <Col>
-              <Title level={4}>4 sản phẩm</Title>
+              <Title level={4}>3 sản phẩm</Title>
             </Col>
           </Row>
 
