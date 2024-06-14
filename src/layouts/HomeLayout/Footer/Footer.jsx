@@ -5,27 +5,15 @@ import Logo from "../../../assets/logo.png";
 function Footer() {
   return (
     <>
+    <hr/>
       <FooterAntd className="text-center items-center justify-center text-black w-full p-0">
         <Row justify="space-around" className="pb-3">
           <Col span={1} />
-          <Col span={3}>
+          <Col span={3} className="flex justify-center">
             <div className="p-3">
               <a href="/">
                 <img src={Logo} className="h-16 w-80 bg-contain" />
               </a>
-            </div>
-            <div className="font-semibold">
-              <ul>
-                <li>
-                  <a href="/">Trang chủ</a>
-                </li>
-                <li>
-                  <a href="/">Giới thiệu</a>
-                </li>
-                <li>
-                  <a href="/">Liên hệ</a>
-                </li>
-              </ul>
             </div>
           </Col>
           <Col span={3}>

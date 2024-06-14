@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Set the base URL for your API
-axios.defaults.baseURL = "http://localhost:8080/api/";
+axios.defaults.baseURL = "https://badmintonbookingserver.up.railway.app/api";
 
 // Initialize a flag for token refresh
 let refresh = false;

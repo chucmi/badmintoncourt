@@ -1,0 +1,11 @@
+/* global.scss */
+body, html, #root, .ant-layout {
+    height: 105%;
+    margin: 0;
+  }
+  
+  .ant-layout {
+    // background: url('/src/assets/89a5d3251ae3d3ed0da0b94fe1d861f4.jpg') no-repeat center center fixed;
+    background-size: cover;
+  }
+  
