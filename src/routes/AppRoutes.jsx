@@ -8,6 +8,7 @@ import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
 import ViewYardDetail from "../components/ViewYardDetail/ViewYardDetail";
 import CartPage from "../pages/CartPage/CartPage";
+import ListCourt from "../components/ListCourt/ListCourt"
 
 export default function AppRoutes() {
   return (
@@ -23,6 +24,7 @@ export default function AppRoutes() {
           <Route path="/register" element={<Register />} />
           <Route path="/host" element={<HostPage />} />
           <Route path="*" element={<ErrorPage />} />
+          <Route path="/list" element={<ListCourt />} />
         </Routes>
       </ScrollToTop>
     </>

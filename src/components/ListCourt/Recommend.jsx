@@ -1,4 +1,4 @@
-// src/components/RecommendedCard.jsx
+
 import React from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 

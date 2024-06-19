@@ -1,4 +1,4 @@
-// src/components/ListCourt/ListCourt.jsx
+
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -10,9 +10,9 @@ import RecommendedCard from './Recommend';
 const ListCourt = () => {
   const [courts, setCourts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const courtsPerPage = 4; // Số sân cầu lông trên mỗi trang
+  const courtsPerPage = 4; 
 
-  // Mô phỏng dữ liệu giả, có thể thay thế bằng API thực tế sau này
+ 
   const sampleData = [
     {
       id: 1,
@@ -107,19 +107,19 @@ const ListCourt = () => {
   ];
 
   useEffect(() => {
-    // Simulate fetching data from API
+  
     setTimeout(() => {
       setCourts(sampleData);
-    }, 500); // Giả lập thời gian delay của API
+    }, 500); 
   }, []);
 
-  // Tính toán số trang và sân hiện tại
+ 
   const totalPages = Math.ceil(courts.length / courtsPerPage);
   const indexOfLastCourt = currentPage * courtsPerPage;
   const indexOfFirstCourt = indexOfLastCourt - courtsPerPage;
   const currentCourts = courts.slice(indexOfFirstCourt, indexOfLastCourt);
 
-  // Xử lý chuyển trang
+
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
