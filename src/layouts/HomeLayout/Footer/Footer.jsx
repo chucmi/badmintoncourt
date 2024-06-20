@@ -5,8 +5,8 @@ import Logo from "../../../assets/logo.png";
 function Footer() {
   return (
     <>
-    <hr/>
-      <FooterAntd className="text-center items-center justify-center text-black w-full p-0">
+      <hr />
+      <FooterAntd className="text-center items-center justify-center text-black w-full p-0 pt-6">
         <Row justify="space-around" className="pb-3">
           <Col span={1} />
           <Col span={3} className="flex justify-center">

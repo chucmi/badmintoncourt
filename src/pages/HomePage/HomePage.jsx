@@ -10,7 +10,7 @@ export default function HomePage() {
     <>
       <Layout>
         <Header />
-        <Content className="text-center h-fit text-black py-10">
+        <Content className="h-fit">
           <Outlet />
         </Content>
         <Footer />
