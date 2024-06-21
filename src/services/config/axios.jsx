@@ -32,7 +32,7 @@ axios.interceptors.response.use(
 
 // Create an axios instance with custom headers
 const axiosClient = axios.create({
-  baseURL: "", // Set your desired base URL
+  baseURL: "https://badmintonbookingserver.up.railway.app/api", // Set your desired base URL
   headers: {
     "Content-type": "application/json",
   },
