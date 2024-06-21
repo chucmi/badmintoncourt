@@ -9,10 +9,17 @@ import { AiOutlineSwapRight } from 'react-icons/ai';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from "axios";
+import GoogleButton from 'react-google-button';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [navigate, setNavigate] = useState(false);
+
+    const googleLogin = async () => {
+        window.location.href ="http://localhost:8080/oauth2/authorization/google"
+ 
+   }
+ 
 
     const submit = async e => {
         e.preventDefault();
@@ -72,6 +79,7 @@ const Login = () => {
                             Sign Up
                         </Link>
                     </div>
+                    <GoogleButton onClick={() => googleLogin()} />
                 </div>
             </div>
         </div>

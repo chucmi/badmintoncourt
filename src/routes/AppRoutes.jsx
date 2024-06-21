@@ -9,6 +9,7 @@ import Register from "../components/Register/Register";
 import ViewYardDetail from "../components/ViewYardDetail/ViewYardDetail";
 import CartPage from "../pages/CartPage/CartPage";
 import ListCourt from "../components/ListCourt/ListCourt";
+import LoginSuccess from "../components/Login/LoginGoogle";
 
 export default function AppRoutes() {
   return (
@@ -21,7 +22,8 @@ export default function AppRoutes() {
             <Route path="cart" element={<CartPage />} />
             <Route path="" element={<ListCourt />} />
           </Route>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/login-success" element={<LoginSuccess/>} />
           <Route path="/register" element={<Register />} />
           <Route path="/host" element={<HostPage />} />
           <Route path="*" element={<ErrorPage />} />
