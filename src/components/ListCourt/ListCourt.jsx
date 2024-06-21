@@ -5,14 +5,23 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import CourtCard from "./CourtCard";
-import Header from "../../layouts/HomeLayout/Header/Header";
-import Footer from "../../layouts/HomeLayout/Footer/Footer";
 import RecommendedCard from "./Recommend";
+import { getYards } from "../../services/yardAPI";
 
 const ListCourt = () => {
   const [courts, setCourts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const courtsPerPage = 4;
+
+  useEffect(() => {
+    const fetchYards = async () => {
+      const data = await getYards();
+      if (data) {
+        setCourts(data);
+      }
+    };
+    fetchYards();
+  }, []);
 
   const sampleData = [
     {
@@ -116,11 +125,11 @@ const ListCourt = () => {
     },
   ];
 
-  useEffect(() => {
-    setTimeout(() => {
-      setCourts(sampleData);
-    }, 500);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setCourts(sampleData);
+  //   }, 500);
+  // }, []);
 
   const totalPages = Math.ceil(courts.length / courtsPerPage);
   const indexOfLastCourt = currentPage * courtsPerPage;
