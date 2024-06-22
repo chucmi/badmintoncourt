@@ -17,9 +17,9 @@ export default function AppRoutes() {
         <Routes>
           {/* ---------------PUBLIC ROUTES------------- */}
           <Route path="/" element={<HomePage />}>
-            <Route path="yardDetail" element={<ViewYardDetail />} />
-            <Route path="cart" element={<CartPage />} />
             <Route path="" element={<ListCourt />} />
+            <Route path="cart" element={<CartPage />} />
+            <Route path="yard/:yardid" element={<ViewYardDetail />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

@@ -130,7 +130,7 @@ export default function Header() {
             className="ml-5 text-black font-bold h-12 w-48"
             onClick={() => navigate("/login")}
           >
-            Login
+            Đăng nhập
           </Button>
         )}
 

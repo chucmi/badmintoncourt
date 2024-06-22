@@ -1,12 +1,18 @@
 import { Button } from "antd";
 import React from "react";
 import { FaMapMarkerAlt, FaPhone, FaDollarSign } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const CourtCard = ({ court }) => {
+  const navigate = useNavigate();
+
+  const handleViewDetail = () => {
+    navigate(`/yard/${court.id}`);
+  };
   return (
     <div className="flex flex-col md:flex-row items-start bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden w-full h-auto p-4">
       <img
-        className="object-cover w-full md:w-48 h-full md:h-auto"
+        className="object-cover w-full md:w-60 h-full md:h-auto"
         src="/src/assets/1.png"
         alt={court.name}
       />
@@ -20,16 +26,22 @@ const CourtCard = ({ court }) => {
         </div>
         <div className="flex items-center text-gray-700 mb-2">
           <FaPhone className="mr-2" />
-          <p className="font-normal">{court.phone | "NoData!"}</p>
+          <p className="font-normal">{court.phone || "No Data!"}</p>
         </div>
         <div className="flex items-center text-gray-700 mb-2">
           <FaDollarSign className="mr-2" />
-          <p className="font-normal">{court.price | "NoData!"}</p>
+          <p className="font-normal">{court.price || "No Data!"}</p>
         </div>
         <p className="font-normal text-gray-700">{court.description}</p>
       </div>
       <div className="p-4">
-        <Button type="primary">Book now</Button>
+        <Button
+          type="primary"
+          className="font-semibold h-10"
+          onClick={handleViewDetail}
+        >
+          Đặt sân ngay
+        </Button>
       </div>
     </div>
   );
