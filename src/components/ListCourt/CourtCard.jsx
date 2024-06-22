@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import React from "react";
 import { FaMapMarkerAlt, FaPhone, FaDollarSign } from "react-icons/fa";
 
@@ -26,6 +27,9 @@ const CourtCard = ({ court }) => {
           <p className="font-normal">{court.price | "NoData!"}</p>
         </div>
         <p className="font-normal text-gray-700">{court.description}</p>
+      </div>
+      <div className="p-4">
+        <Button type="primary">Book now</Button>
       </div>
     </div>
   );
