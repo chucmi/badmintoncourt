@@ -1,10 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import courtsReducer from "../courtsSlice";
 
 const store = configureStore({
-  reducer: {
-    courts: courtsReducer,
-  },
+  reducer: {},
 });
 
 export default store;
