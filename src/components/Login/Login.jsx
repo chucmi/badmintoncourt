@@ -15,7 +15,7 @@ const Login = () => {
   const [navigate, setNavigate] = useState(false);
 
   const googleLogin = async () => {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = 'https://badmintonbookingserver.up.railway.app/oauth2/authorization/google';
   };
 
   const submit = async (e) => {
