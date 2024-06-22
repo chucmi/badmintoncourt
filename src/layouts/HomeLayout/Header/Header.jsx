@@ -1,24 +1,16 @@
-import React from "react";
-import { Avatar, Badge, Button, Dropdown, Input, Space } from "antd";
-import {
-  SearchOutlined,
-  UserOutlined,
-  DownOutlined,
-  SmileOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
-import { Header as HeaderAntd } from "antd/es/layout/layout";
-import Logo from "../../../assets/logo.png";
-import { Navigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Avatar, Badge, Button, Dropdown, Input, Space } from 'antd';
+import { SearchOutlined, UserOutlined, DownOutlined, SmileOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { Header as HeaderAntd } from 'antd/es/layout/layout';
+import Logo from '../../../assets/logo.png';
+import { Navigate } from 'react-router-dom';
+import axiosClient from '../../../services/config/axios';
 
 export default function Header() {
-  // const [name, setName] = useState("");
   const [navigate, setNavigate] = useState(false);
   const items = [
     {
-      key: "1",
+      key: '1',
       label: (
         <a
           target="_blank"
@@ -30,7 +22,7 @@ export default function Header() {
       ),
     },
     {
-      key: "2",
+      key: '2',
       label: (
         <a
           target="_blank"
@@ -44,7 +36,7 @@ export default function Header() {
       disabled: true,
     },
     {
-      key: "3",
+      key: '3',
       label: (
         <a
           target="_blank"
@@ -57,7 +49,7 @@ export default function Header() {
       disabled: true,
     },
     {
-      key: "4",
+      key: '4',
       danger: true,
       label: (
         <a
@@ -71,26 +63,18 @@ export default function Header() {
       ),
     },
   ];
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const { data } = await axios.get("/v1/admin/hi");
-  //       console.log(data.data);
-  //       setName(data);
-  //     } catch (e) {
-  //       setNavigate(true);
-  //     }
-  //   })();
-  // }, []);
 
   const logout = async () => {
-    const data = await axios.post(
-      "/v1/auth/logout",
-      {},
-      { withCredentials: true }
-    );
-    console.log(data.data);
-    setNavigate(true);
+    const token = localStorage.getItem('token');
+    console.log(token);
+    try {
+      const { data } = await axiosClient.post('/v1/auth/logout', { token });
+      console.log(data);
+      localStorage.removeItem('token');
+      setNavigate(true);
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
   };
 
   if (navigate) {
@@ -98,44 +82,29 @@ export default function Header() {
   }
 
   return (
-    <>
-      <HeaderAntd className="text-center flex items-center justify-center bg-slate-300 text-white h-24 ">
-        <a href="/">
-          <img className="h-16 w-80 bg-contain" src={Logo} />
+    <HeaderAntd className="text-center flex items-center justify-center bg-slate-300 text-white h-24">
+      <a href="/">
+        <img className="h-16 w-80 bg-contain" src={Logo} />
+      </a>
+      <Input className="font-bold h-12 ml-8" placeholder="Nhập sân cầu lông bạn cần tìm?" />
+      <Button type="primary" icon={<SearchOutlined />} className="text-black font-bold h-12 w-48 ml-2">
+        Tìm kiếm
+      </Button>
+      <Dropdown menu={{ items }}>
+        <a onClick={(e) => e.preventDefault()}>
+          <Space>
+            <Avatar size={42} className="ml-5" icon={<UserOutlined />} />
+            <DownOutlined className="text-xl ml-2" />
+          </Space>
         </a>
-        <Input
-          className="font-bold h-12 ml-8"
-          placeholder="Nhập sân cầu lông bạn cần tìm?"
-        />
-        <Button
-          type="primary"
-          icon={<SearchOutlined />}
-          className="text-black font-bold h-12 w-48 ml-2"
-        >
-          Tìm kiếm
+      </Dropdown>
+      <a href="/cart">
+        <Button className="bg-transparent border-none text-xl ml-5 flex h-12">
+          <Badge count={0} showZero>
+            <ShoppingCartOutlined className="text-3xl" />
+          </Badge>
         </Button>
-
-        <Dropdown
-          menu={{
-            items,
-          }}
-        >
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              <Avatar size={42} className="ml-5" icon={<UserOutlined />} />
-              <DownOutlined className="text-xl ml-2" />
-            </Space>
-          </a>
-        </Dropdown>
-
-        <a href="/cart">
-          <Button className="bg-transparent border-none text-xl ml-5 flex h-12">
-            <Badge count={0} showZero>
-              <ShoppingCartOutlined className="text-3xl" />
-            </Badge>
-          </Button>
-        </a>
-      </HeaderAntd>
-    </>
+      </a>
+    </HeaderAntd>
   );
 }

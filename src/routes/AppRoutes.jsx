@@ -10,7 +10,7 @@ import ViewYardDetail from "../components/ViewYardDetail/ViewYardDetail";
 import CartPage from "../pages/CartPage/CartPage";
 import ListCourt from "../components/ListCourt/ListCourt";
 import LoginSuccess from "../components/Login/LoginGoogle";
-
+import PaymentHistory from "../components/PaymentHistory/PaymentHistory";
 export default function AppRoutes() {
   return (
     <>
@@ -21,6 +21,7 @@ export default function AppRoutes() {
             <Route path="yardDetail" element={<ViewYardDetail />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="" element={<ListCourt />} />
+            <Route path="/paymentHistory" element={<PaymentHistory/>} />
           </Route>
           <Route path="/login" element={<Login/>} />
           <Route path="/login-success" element={<LoginSuccess/>} />
