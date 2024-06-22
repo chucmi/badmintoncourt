@@ -1,27 +1,120 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import {
+//   faChevronLeft,
+//   faChevronRight,
+// } from "@fortawesome/free-solid-svg-icons";
+// import CourtCard from "./CourtCard";
+// import RecommendedCard from "./Recommend";
+// import { getYards } from "../../services/yardAPI";
+
+// const ListCourt = () => {
+//   const [courts, setCourts] = useState([]);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const courtsPerPage = 4;
+
+//   useEffect(() => {
+//     const fetchYards = async () => {
+//       const data = await getYards();
+//       if (data) {
+//         setCourts(data);
+//       }
+//     };
+//     fetchYards();
+//   }, []);
+
+//   const totalPages = Math.ceil(courts.length / courtsPerPage);
+//   const indexOfLastCourt = currentPage * courtsPerPage;
+//   const indexOfFirstCourt = indexOfLastCourt - courtsPerPage;
+//   const currentCourts = courts.slice(indexOfFirstCourt, indexOfLastCourt);
+
+//   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+//   return (
+//     <>
+//       <div className="container mx-auto p-8">
+//         <div className="grid grid-cols-4 ">
+//           <div className="col-span-3">
+//             <div className="grid grid-cols-1 ">
+//               {currentCourts.map((court) => (
+//                 <div key={court.id} className="h-full">
+//                   <CourtCard court={court} />
+//                 </div>
+//               ))}
+//             </div>
+//             {/* Phân trang */}
+//             <div className="flex justify-center mt-4">
+//               <button
+//                 onClick={() => paginate(currentPage - 1)}
+//                 disabled={currentPage === 1}
+//                 className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === 1 ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+//               >
+//                 <FontAwesomeIcon icon={faChevronLeft} />
+//               </button>
+//               {Array.from({ length: totalPages }, (_, index) => (
+//                 <button
+//                   key={index}
+//                   onClick={() => paginate(index + 1)}
+//                   className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+//                 >
+//                   {index + 1}
+//                 </button>
+//               ))}
+//               <button
+//                 onClick={() => paginate(currentPage + 1)}
+//                 disabled={currentPage === totalPages}
+//                 className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === totalPages ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+//               >
+//                 <FontAwesomeIcon icon={faChevronRight} />
+//               </button>
+//             </div>
+//           </div>
+//           <div className="col-span-1">
+//             <div className="border rounded p-4">
+//               <h3 className="text-lg font-bold mb-4">Recommended Courts</h3>
+//               <div className="grid grid-cols-1 ">
+//                 {sampleData.slice(0, 4).map((court) => (
+//                   <div key={court.id}>
+//                     <RecommendedCard court={court} />
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default ListCourt;
+
+// src/components/ListCourt/index.js
+
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCourts } from "../../redux/courtsSlice";
 import CourtCard from "./CourtCard";
 import RecommendedCard from "./Recommend";
-import { getYards } from "../../services/yardAPI";
 
 const ListCourt = () => {
-  const [courts, setCourts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
+  const courts = useSelector((state) => state.courts.courts);
+  const status = useSelector((state) => state.courts.status);
+  const error = useSelector((state) => state.courts.error);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const courtsPerPage = 4;
 
   useEffect(() => {
-    const fetchYards = async () => {
-      const data = await getYards();
-      if (data) {
-        setCourts(data);
-      }
-    };
-    fetchYards();
-  }, []);
+    if (status === "idle") {
+      dispatch(fetchCourts());
+    }
+  }, [status, dispatch]);
 
   const sampleData = [
     {
@@ -125,12 +218,6 @@ const ListCourt = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setCourts(sampleData);
-  //   }, 500);
-  // }, []);
-
   const totalPages = Math.ceil(courts.length / courtsPerPage);
   const indexOfLastCourt = currentPage * courtsPerPage;
   const indexOfFirstCourt = indexOfLastCourt - courtsPerPage;
@@ -141,55 +228,59 @@ const ListCourt = () => {
   return (
     <>
       <div className="container mx-auto p-8">
-        <div className="grid grid-cols-4 ">
-          <div className="col-span-3">
-            <div className="grid grid-cols-1 ">
-              {currentCourts.map((court) => (
-                <div key={court.id} className="h-full">
-                  <CourtCard court={court} />
-                </div>
-              ))}
-            </div>
-            {/* Phân trang */}
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-                className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === 1 ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
-              >
-                <FontAwesomeIcon icon={faChevronLeft} />
-              </button>
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => paginate(index + 1)}
-                  className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-              <button
-                onClick={() => paginate(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === totalPages ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
-              >
-                <FontAwesomeIcon icon={faChevronRight} />
-              </button>
-            </div>
-          </div>
-          <div className="col-span-1">
-            <div className="border rounded p-4">
-              <h3 className="text-lg font-bold mb-4">Recommended Courts</h3>
+        {status === "loading" && <div>Loading...</div>}
+        {status === "failed" && <div>Error: {error}</div>}
+        {status === "succeeded" && (
+          <div className="grid grid-cols-4 ">
+            <div className="col-span-3">
               <div className="grid grid-cols-1 ">
-                {sampleData.slice(0, 4).map((court) => (
-                  <div key={court.id}>
-                    <RecommendedCard court={court} />
+                {currentCourts.map((court) => (
+                  <div key={court.id} className="h-full">
+                    <CourtCard court={court} />
                   </div>
                 ))}
               </div>
+              {/* Pagination */}
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === 1 ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </button>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => paginate(index + 1)}
+                    className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === totalPages ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+                >
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </button>
+              </div>
+            </div>
+            <div className="col-span-1">
+              <div className="border rounded p-4">
+                <h3 className="text-lg font-bold mb-4">Recommended Courts</h3>
+                <div className="grid grid-cols-1 ">
+                  {sampleData.slice(0, 4).map((court) => (
+                    <div key={court.id}>
+                      <RecommendedCard court={court} />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

@@ -62,6 +62,10 @@ export default function HostPage() {
       });
     }
   };
+
+  const token = localStorage.getItem("token");
+  const username = JSON.parse(atob(token.split(".")[1])).sub;
+
   return (
     <>
       <Layout hasSider>
@@ -72,7 +76,7 @@ export default function HostPage() {
         />
 
         <Layout style={{ marginLeft: width }}>
-          <Header username="Host" />
+          <Header username={username} />
 
           <Content className="">
             <CourtForm />
