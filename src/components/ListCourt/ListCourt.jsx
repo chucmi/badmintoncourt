@@ -8,6 +8,107 @@ import CourtCard from "./CourtCard";
 import RecommendedCard from "./Recommend";
 import { getYards } from "../../services/yardAPI";
 
+const sampleData = [
+  {
+    id: 1,
+    name: "Premium Badminton Court",
+    address: "123 Main St",
+    phone: "123-456-7890",
+    price: "$30/hour",
+    image: "/src/assets/1.png",
+    description:
+      "Enjoy playing on our premium badminton court with top-notch facilities and equipment.",
+  },
+  {
+    id: 2,
+    name: "Standard Badminton Court",
+    address: "456 Oak St",
+    phone: "987-654-3210",
+    price: "$20/hour",
+    image: "/src/assets/1.png",
+    description:
+      "A standard court perfect for casual games and training sessions.",
+  },
+  {
+    id: 3,
+    name: "Budget Badminton Court",
+    address: "789 Pine St",
+    phone: "555-555-5555",
+    price: "$15/hour",
+    image: "/src/assets/1.png",
+    description:
+      "An affordable option for those who just want to play for fun.",
+  },
+  {
+    id: 4,
+    name: "Luxury Badminton Court",
+    address: "321 Elm St",
+    phone: "111-222-3333",
+    price: "$50/hour",
+    image: "/src/assets/1.png",
+    description:
+      "Experience the luxury of playing on a top-tier court with all the amenities.",
+  },
+  {
+    id: 5,
+    name: "Professional Badminton Court",
+    address: "555 Maple St",
+    phone: "999-888-7777",
+    price: "$40/hour",
+    image: "/src/assets/1.png",
+    description:
+      "Designed for professional athletes with high-performance facilities.",
+  },
+  {
+    id: 6,
+    name: "Community Badminton Court",
+    address: "222 Willow St",
+    phone: "888-777-6666",
+    price: "$25/hour",
+    image: "/src/assets/1.png",
+    description:
+      "A community court accessible to all with excellent facilities.",
+  },
+  {
+    id: 7,
+    name: "City Badminton Court",
+    address: "333 Cedar St",
+    phone: "777-666-5555",
+    price: "$35/hour",
+    image: "/src/assets/1.png",
+    description: "A city court with great lighting and well-maintained courts.",
+  },
+  {
+    id: 8,
+    name: "University Badminton Court",
+    address: "444 Birch St",
+    phone: "666-555-4444",
+    price: "$10/hour",
+    image: "/src/assets/1.png",
+    description:
+      "A budget-friendly court located within the university premises.",
+  },
+  {
+    id: 9,
+    name: "High School Badminton Court",
+    address: "555 Spruce St",
+    phone: "555-444-3333",
+    price: "$5/hour",
+    image: "/src/assets/1.png",
+    description:
+      "A basic court available for high school students and the public.",
+  },
+  {
+    id: 10,
+    name: "Club Badminton Court",
+    address: "666 Fir St",
+    phone: "444-333-2222",
+    price: "$45/hour",
+    image: "/src/assets/1.png",
+    description: "A private club court with exclusive amenities for members.",
+  },
+];
+
 const ListCourt = () => {
   const [courts, setCourts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,114 +123,6 @@ const ListCourt = () => {
     };
     fetchYards();
   }, []);
-
-  const sampleData = [
-    {
-      id: 1,
-      name: "Premium Badminton Court",
-      address: "123 Main St",
-      phone: "123-456-7890",
-      price: "$30/hour",
-      image: "/src/assets/1.png",
-      description:
-        "Enjoy playing on our premium badminton court with top-notch facilities and equipment.",
-    },
-    {
-      id: 2,
-      name: "Standard Badminton Court",
-      address: "456 Oak St",
-      phone: "987-654-3210",
-      price: "$20/hour",
-      image: "/src/assets/1.png",
-      description:
-        "A standard court perfect for casual games and training sessions.",
-    },
-    {
-      id: 3,
-      name: "Budget Badminton Court",
-      address: "789 Pine St",
-      phone: "555-555-5555",
-      price: "$15/hour",
-      image: "/src/assets/1.png",
-      description:
-        "An affordable option for those who just want to play for fun.",
-    },
-    {
-      id: 4,
-      name: "Luxury Badminton Court",
-      address: "321 Elm St",
-      phone: "111-222-3333",
-      price: "$50/hour",
-      image: "/src/assets/1.png",
-      description:
-        "Experience the luxury of playing on a top-tier court with all the amenities.",
-    },
-    {
-      id: 5,
-      name: "Professional Badminton Court",
-      address: "555 Maple St",
-      phone: "999-888-7777",
-      price: "$40/hour",
-      image: "/src/assets/1.png",
-      description:
-        "Designed for professional athletes with high-performance facilities.",
-    },
-    {
-      id: 6,
-      name: "Community Badminton Court",
-      address: "222 Willow St",
-      phone: "888-777-6666",
-      price: "$25/hour",
-      image: "/src/assets/1.png",
-      description:
-        "A community court accessible to all with excellent facilities.",
-    },
-    {
-      id: 7,
-      name: "City Badminton Court",
-      address: "333 Cedar St",
-      phone: "777-666-5555",
-      price: "$35/hour",
-      image: "/src/assets/1.png",
-      description:
-        "A city court with great lighting and well-maintained courts.",
-    },
-    {
-      id: 8,
-      name: "University Badminton Court",
-      address: "444 Birch St",
-      phone: "666-555-4444",
-      price: "$10/hour",
-      image: "/src/assets/1.png",
-      description:
-        "A budget-friendly court located within the university premises.",
-    },
-    {
-      id: 9,
-      name: "High School Badminton Court",
-      address: "555 Spruce St",
-      phone: "555-444-3333",
-      price: "$5/hour",
-      image: "/src/assets/1.png",
-      description:
-        "A basic court available for high school students and the public.",
-    },
-    {
-      id: 10,
-      name: "Club Badminton Court",
-      address: "666 Fir St",
-      phone: "444-333-2222",
-      price: "$45/hour",
-      image: "/src/assets/1.png",
-      description: "A private club court with exclusive amenities for members.",
-    },
-  ];
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setCourts(sampleData);
-  //   }, 500);
-  // }, []);
 
   const totalPages = Math.ceil(courts.length / courtsPerPage);
   const indexOfLastCourt = currentPage * courtsPerPage;
