@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { TinyColor } from "@ctrl/tinycolor";
-import { Button, ConfigProvider } from "antd";
+import { Button, ConfigProvider, Spin } from "antd";
 import { Fade } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
+import { useParams } from "react-router-dom";
+import { getYardDetail } from "../../services/yardAPI"; // Ensure this is the correct path to your API service
 
-const viewYardDetail = () => {
+const ViewYardDetail = () => {
+  const { yardid } = useParams();
+  const [courtDetail, setCourtDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCourtDetail = async () => {
+      try {
+        const data = await getYardDetail(yardid);
+        setCourtDetail(data);
+      } catch (error) {
+        setError(error.message || "Something went wrong. Please try later!");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourtDetail();
+  }, [yardid]);
+
   const slideImages = [
     {
       url: "https://shopvnb.com/uploads/tin_tuc/review-san-cau-long-quan-12-san-cau-long-nhat-pham.webp",
@@ -34,7 +56,6 @@ const viewYardDetail = () => {
     position: "relative",
   };
 
-
   const bannerStyle = {
     position: "absolute",
     bottom: 0,
@@ -56,6 +77,14 @@ const viewYardDetail = () => {
   const getActiveColors = (colors) =>
     colors.map((color) => new TinyColor(color).darken(5).toString());
 
+  if (loading) {
+    return <Spin />;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <>
       <div className="flex h-fit pt-16  justify-center">
@@ -76,7 +105,7 @@ const viewYardDetail = () => {
                 style={{ ...divStyle, backgroundImage: `url(${image.url})` }}
                 className="border-2 rounded-2xl border-black "
               >
-                <div style={bannerStyle} >
+                <div style={bannerStyle}>
                   <span>{image.caption}</span>
                 </div>
               </div>
@@ -85,31 +114,33 @@ const viewYardDetail = () => {
         </div>
         <div className="border-2 rounded-2xl border-black bg-white p-5 ml-10 w-[528px] h-[291px]">
           <div className="text-left">
-            <h2 className="font-bold">
-              SÂN CẦU LÔNG QUỐC KHÁNH, XUÂN LỘC, ĐỒNG NAI
-            </h2>
+            <h2 className="font-bold">{courtDetail.name}</h2>
             <div className="pt-3">
               <p>
-                <span className="font-bold">📌 Location: </span>Suối Cát, XÃ SUỐI
-                CÁT, HUYỆN XUÂN LỘC, Đồng Nai
+                <span className="font-bold">📌 Location: </span>
+                {courtDetail.address}
               </p>
               <p>
-                <span className="font-bold">⏰ Time-Available: </span>5:00 - 21:00
+                <span className="font-bold">⏰ Time-Available: </span>
+                {courtDetail.open_time} - {courtDetail.close_time}
               </p>
               <p>
-                <span className="font-bold">📞 PhoneNumber: </span>035x 2xx 2xx
+                <span className="font-bold">📞 PhoneNumber: </span>
+                {courtDetail.phone || "No data!"}
               </p>
               <p>
-                <span className="font-bold">💶 Price: </span>40.000 đ - 60.000 đ
+                <span className="font-bold">💶 Price: </span>
+                {courtDetail.price || "0.000 đ - 0.000 đ"}
               </p>
               <div className="flex items-center">
                 <span className="font-bold">✅ Time:</span>
                 <div className="border-2 rounded-2xl border-black px-2 ml-2">
-                  5am - 9pm
+                  {courtDetail.time || "No data!"}
                 </div>
               </div>
               <p>
-                <span className="font-bold">💲 Giá tạm tính: </span>40.000 đ
+                <span className="font-bold">💲 Giá tạm tính: </span>
+                {courtDetail.price || "0.000 đ"}
               </p>
             </div>
           </div>
@@ -167,7 +198,7 @@ const viewYardDetail = () => {
         </div>
       </div>
 
-      <div className="pt-44">
+      <div className="pt-44 pb-12">
         <h1 className="text-cyan-600 font-bold text-left pl-48">
           CÁC SÂN CẦU LÔNG KHÁC DÀNH CHO BẠN
         </h1>
@@ -195,4 +226,4 @@ const viewYardDetail = () => {
   );
 };
 
-export default viewYardDetail;
+export default ViewYardDetail;

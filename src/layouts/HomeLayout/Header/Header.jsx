@@ -1,5 +1,14 @@
-import React from "react";
-import { Avatar, Badge, Button, Dropdown, Input, Space } from "antd";
+import React, { useState } from "react";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Dropdown,
+  Input,
+  Space,
+  notification,
+} from "antd";
+
 import {
   SearchOutlined,
   UserOutlined,
@@ -9,13 +18,13 @@ import {
 } from "@ant-design/icons";
 import { Header as HeaderAntd } from "antd/es/layout/layout";
 import Logo from "../../../assets/logo.png";
-import { Navigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../../services/authAPI"; // Import logout function
 
 export default function Header() {
-  // const [name, setName] = useState("");
-  const [navigate, setNavigate] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const navigate = useNavigate();
+
   const items = [
     {
       key: "1",
@@ -63,7 +72,7 @@ export default function Header() {
         <a
           onClick={(e) => {
             e.preventDefault();
-            logout();
+            handleLogout();
           }}
         >
           Logout
@@ -71,35 +80,22 @@ export default function Header() {
       ),
     },
   ];
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const { data } = await axios.get("/v1/admin/hi");
-  //       console.log(data.data);
-  //       setName(data);
-  //     } catch (e) {
-  //       setNavigate(true);
-  //     }
-  //   })();
-  // }, []);
 
-  const logout = async () => {
-    const data = await axios.post(
-      "/v1/auth/logout",
-      {},
-      { withCredentials: true }
-    );
-    console.log(data.data);
-    setNavigate(true);
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setIsLoggedIn(false);
+      navigate("/");
+    } catch (error) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+    }
   };
-
-  if (navigate) {
-    return <Navigate to="/login" />;
-  }
 
   return (
     <>
-      <HeaderAntd className="text-center flex items-center justify-center bg-slate-300 text-white h-24 ">
+      <HeaderAntd className="text-center flex items-center justify-center bg-slate-300 text-white h-24">
         <a href="/">
           <img className="h-16 w-80 bg-contain" src={Logo} />
         </a>
@@ -114,19 +110,28 @@ export default function Header() {
         >
           Tìm kiếm
         </Button>
-
-        <Dropdown
-          menu={{
-            items,
-          }}
-        >
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              <Avatar size={42} className="ml-5" icon={<UserOutlined />} />
-              <DownOutlined className="text-xl ml-2" />
-            </Space>
-          </a>
-        </Dropdown>
+        {isLoggedIn ? (
+          <Dropdown
+            menu={{
+              items,
+            }}
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <Avatar size={42} className="ml-5" icon={<UserOutlined />} />
+                <DownOutlined className="text-xl ml-2" />
+              </Space>
+            </a>
+          </Dropdown>
+        ) : (
+          <Button
+            type="primary"
+            className="ml-5 text-black font-bold h-12 w-48"
+            onClick={() => navigate("/login")}
+          >
+            Đăng nhập
+          </Button>
+        )}
 
         <a href="/cart">
           <Button className="bg-transparent border-none text-xl ml-5 flex h-12">
