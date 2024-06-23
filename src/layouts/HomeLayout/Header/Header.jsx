@@ -20,10 +20,12 @@ import { Header as HeaderAntd } from "antd/es/layout/layout";
 import Logo from "../../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../services/authAPI"; // Import logout function
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const navigate = useNavigate();
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   const items = [
     {
@@ -135,7 +137,7 @@ export default function Header() {
 
         <a href="/cart">
           <Button className="bg-transparent border-none text-xl ml-5 flex h-12">
-            <Badge count={0} showZero>
+            <Badge count={cartItems.length} showZero>
               <ShoppingCartOutlined className="text-3xl" />
             </Badge>
           </Button>

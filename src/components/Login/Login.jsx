@@ -54,6 +54,12 @@ const Login = () => {
       <video src={video} autoPlay muted loop />
       <div className="container flex">
         <div className="imageDiv">
+          <Link
+            to="/"
+            className="absolute left-5 top-4 btn bg-gray-200 p-2 rounded-md"
+          >
+            Home
+          </Link>
           <img src={pic} alt="Logo Image" />
         </div>
         <div className="formDiv">
@@ -101,6 +107,10 @@ const Login = () => {
             <Link to="/register" className="signUpLink">
               Sign Up
             </Link>
+          </div>
+          <div className="pt-4 text-center font-semibold">
+            Or
+            <GoogleButton onClick={() => googleLogin()} />
           </div>
         </div>
       </div>

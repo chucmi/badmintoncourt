@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { TinyColor } from "@ctrl/tinycolor";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import { Button, ConfigProvider, Spin } from "antd";
 import { Fade } from "react-slideshow-image";
+import { TinyColor } from "@ctrl/tinycolor";
+import { getYardDetail } from "../../services/yardAPI";
+import { addToCart } from "../../redux/cartSlice"; // Adjust the path accordingly
 import "react-slideshow-image/dist/styles.css";
-import { useParams } from "react-router-dom";
-import { getYardDetail } from "../../services/yardAPI"; // Ensure this is the correct path to your API service
 
 const ViewYardDetail = () => {
   const { yardid } = useParams();
+  const dispatch = useDispatch();
   const [courtDetail, setCourtDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,6 +29,23 @@ const ViewYardDetail = () => {
 
     fetchCourtDetail();
   }, [yardid]);
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        id: courtDetail.id,
+        name: courtDetail.name,
+        address: courtDetail.address,
+        open_time: courtDetail.open_time,
+        close_time: courtDetail.close_time,
+        phone: courtDetail.phone,
+        price: courtDetail.price,
+        time: courtDetail.time,
+        image:
+          "https://shopvnb.com/uploads/tin_tuc/review-san-cau-long-quan-12-san-cau-long-nhat-pham.webp", // You can dynamically set the image URL here
+      })
+    );
+  };
 
   const slideImages = [
     {
@@ -165,7 +185,7 @@ const ViewYardDetail = () => {
                   },
                 }}
               >
-                <Button type="primary" size="large">
+                <Button type="primary" size="large" onClick={handleAddToCart}>
                   Đặt hàng ngay
                 </Button>
               </ConfigProvider>

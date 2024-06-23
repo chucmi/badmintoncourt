@@ -7,8 +7,8 @@ import store from "./redux/store/store.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
-    {/* <Provider store={store}> */}
-    <App />
-    {/* </Provider> */}
+    <Provider store={store}>
+      <App />
+    </Provider>
   </Router>
 );
