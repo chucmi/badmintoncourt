@@ -19,7 +19,6 @@ export default function AppRoutes() {
           {/* ---------------PUBLIC ROUTES------------- */}
           <Route path="/" element={<HomePage />}>
             <Route path="" element={<ListCourt />} />
-            <Route path="/paymentHistory" element={<PaymentHistory />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="yard/:yardid" element={<ViewYardDetail />} />
           </Route>
@@ -27,6 +26,7 @@ export default function AppRoutes() {
           <Route path="/login-success" element={<LoginSuccess />} />
           <Route path="/register" element={<Register />} />
           <Route path="/host" element={<HostPage />} />
+          <Route path="/paymentHistory" element={<PaymentHistory />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </ScrollToTop>
