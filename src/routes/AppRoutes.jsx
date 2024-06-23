@@ -18,13 +18,13 @@ export default function AppRoutes() {
         <Routes>
           {/* ---------------PUBLIC ROUTES------------- */}
           <Route path="/" element={<HomePage />}>
-            <Route path="yardDetail" element={<ViewYardDetail />} />
-            <Route path="cart" element={<CartPage />} />
             <Route path="" element={<ListCourt />} />
-            <Route path="/paymentHistory" element={<PaymentHistory/>} />
+            <Route path="/paymentHistory" element={<PaymentHistory />} />
+            <Route path="cart" element={<CartPage />} />
+            <Route path="yard/:yardid" element={<ViewYardDetail />} />
           </Route>
-          <Route path="/login" element={<Login/>} />
-          <Route path="/login-success" element={<LoginSuccess/>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
           <Route path="/register" element={<Register />} />
           <Route path="/host" element={<HostPage />} />
           <Route path="*" element={<ErrorPage />} />
