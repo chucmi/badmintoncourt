@@ -138,7 +138,7 @@ const ListCourt = () => {
           <div className="col-span-3">
             <div className="grid grid-cols-1 ">
               {currentCourts.map((court) => (
-                <div key={court.id} className="h-full">
+                <div key={court.id} className="">
                   <CourtCard court={court} />
                 </div>
               ))}

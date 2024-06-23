@@ -53,7 +53,11 @@ const Login = () => {
     <div className="loginPage flex">
       <video src={video} autoPlay muted loop />
       <div className="container flex">
+    
         <div className="imageDiv">
+        <Link to="/" className="absolute left-5 top-4 btn bg-gray-200 p-2 rounded-md">
+          Home
+        </Link>
           <img src={pic} alt="Logo Image" />
         </div>
         <div className="formDiv">
