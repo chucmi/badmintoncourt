@@ -1,4 +1,5 @@
 import { Button, Card, Col, Divider, List, Row, Typography } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 const { Text } = Typography;
 
 const orderItems = [
@@ -7,8 +8,10 @@ const orderItems = [
   { name: "Sân cầu lông...", price: "40.000 đ", quantity: 1 },
 ];
 
-const totalAmount = "120.000 đ";
+const totalAmount = "0.000 đ";
 export default function CartReport() {
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
   return (
     <Card
       title="ĐƠN HÀNG"
@@ -17,22 +20,20 @@ export default function CartReport() {
     >
       <List
         itemLayout="horizontal"
-        dataSource={orderItems}
+        dataSource={cartItems}
         renderItem={(item) => (
           <List.Item>
-            <Text strong>
-              x{item.quantity} {item.name}
-            </Text>
-            <Text>{item.price}</Text>
+            <Text strong>x1 {item.name}</Text>
+            <Text>{item.price || "0.000 đ"}</Text>
           </List.Item>
         )}
       />
-      <Divider style={
-        {border: "1px solid black"}
-      } />
+      <Divider style={{ border: "1px solid black" }} />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Text strong>Tổng :</Text>
-        <Text strong  style={{color: "red"}}>{totalAmount}</Text>
+        <Text strong style={{ color: "red" }}>
+          {totalAmount}
+        </Text>
       </div>
       <Button type="primary" block style={{ marginTop: 16 }}>
         Thanh toán
