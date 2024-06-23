@@ -13,6 +13,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [navigate, setNavigate] = useState(false);
+  const [role, setRole] = useState("");
 
   const googleLogin = async () => {
     window.location.href =
@@ -30,6 +31,10 @@ const Login = () => {
       axiosClient.defaults.headers.common["Authorization"] =
         `Bearer ${data.token}`;
       localStorage.setItem("token", data.token);
+      localStorage.setItem("refresh_token", data.refresh_token);
+      const userRole = JSON.parse(atob(data.token.split(".")[1])).role;
+      setRole(userRole);
+
       setNavigate(true);
     } catch (error) {
       console.error("Login failed", error);
@@ -37,7 +42,11 @@ const Login = () => {
   };
 
   if (navigate) {
-    return <Navigate to="/" />;
+    if (role === "ROLE_ADMIN") {
+      return <Navigate to="/host" />;
+    } else {
+      return <Navigate to="/" />;
+    }
   }
 
   return (
@@ -62,6 +71,7 @@ const Login = () => {
                   type="text"
                   id="username"
                   placeholder="Enter username"
+                  required
                 />
               </div>
             </div>
@@ -74,6 +84,7 @@ const Login = () => {
                   type="password"
                   id="password"
                   placeholder="Enter password"
+                  required
                 />
               </div>
             </div>
@@ -86,12 +97,11 @@ const Login = () => {
             </span>
           </form>
           <div className="footerDiv">
-            <span className="text">Dont have an account?</span>
-            <Link to={"/register"} className="signUpLink">
+            <span className="text">Don't have an account?</span>
+            <Link to="/register" className="signUpLink">
               Sign Up
             </Link>
           </div>
-          <GoogleButton onClick={() => googleLogin()} />
         </div>
       </div>
     </div>
