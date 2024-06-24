@@ -11,10 +11,12 @@ import CartPage from "../pages/CartPage/CartPage";
 import ListCourt from "../components/ListCourt/ListCourt";
 import LoginSuccess from "../components/Login/LoginGoogle";
 import PaymentHistory from "../components/PaymentHistory/PaymentHistory";
+import PrivateRoute from "./PrivateRoute";
+import { AuthProvider } from "../services/context/AuthContext";
 
 export default function AppRoutes() {
   return (
-    <>
+    <AuthProvider>
       <ScrollToTop>
         <Routes>
           {/* ---------------PUBLIC ROUTES------------- */}
@@ -22,16 +24,22 @@ export default function AppRoutes() {
             <Route path="" element={<ListCourt />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="yard/:yardid" element={<ViewYardDetail />} />
+            <Route path="login" element={<Login />} />
+            <Route path="login-success" element={<LoginSuccess />} />
+            <Route path="register" element={<Register />} />
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/login-success" element={<LoginSuccess />} />
-          <Route path="/register" element={<Regigitster />} />
+
           {/* ---------------HOST ROUTES------------- */}
-          <Route path="/host" element={<ManagerLayout />} />
-          <Route path="/paymentHistory" element={<PaymentHistory />} />
+          <Route element={<PrivateRoute role="ROLE_ADMIN" />}>
+            <Route path="/host" element={<ManagerLayout />} />
+            <Route path="/paymentHistory" element={<PaymentHistory />} />
+          </Route>
+          {/* ---------------USER ROUTES------------- */}
+          <Route element={<PrivateRoute role="ROLE_USER" />}></Route>
+          {/* ---------------STAFF ROUTES------------- */}
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </ScrollToTop>
-    </>
+    </AuthProvider>
   );
 }
