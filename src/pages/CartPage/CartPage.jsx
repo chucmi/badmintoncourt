@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Col, Row, Button, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../../components/CartItem/CartItem";
 import CartReport from "../../components/CartReport/CartReport";
-import { clearCart, removeExpiredItems } from "../../redux/cartSlice"; // Import the actions
+import { clearCart } from "../../redux/cartSlice"; // Import the actions
 
 const { Title } = Typography;
 
@@ -30,7 +30,7 @@ export default function CartPage() {
             </Col>
             <Col className="pl-5">
               <Button type="primary" danger onClick={handleClearCart}>
-                Clear All
+                Xoá hết
               </Button>
             </Col>
           </Row>
