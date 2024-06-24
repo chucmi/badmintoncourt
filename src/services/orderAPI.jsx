@@ -7,7 +7,7 @@ let notificationDisplayed = false;
 export const createBookingOrdersBulk = async (orderItems) => {
   try {
     const response = await axiosClient.post(
-      "/createBookingOrders/bulk",
+      "/v1/createBookingOrders/bulk",
       orderItems
     );
     if (!notificationDisplayed) {

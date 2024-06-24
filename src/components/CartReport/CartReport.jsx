@@ -30,8 +30,8 @@ export default function CartReport() {
     }
 
     const orderItems = cartItems.map((item) => ({
-      yardId: item.id,
-      userId: userId,
+      yard_id: item.id,
+      user_id: userId,
     }));
 
     try {
