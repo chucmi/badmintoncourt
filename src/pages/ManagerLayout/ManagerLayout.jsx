@@ -1,7 +1,6 @@
 import React from "react";
 import { Layout, notification } from "antd";
 import Header from "../../layouts/ManagerLayout/Header/Header";
-import CourtForm from "../../components/CourtForm/CourtForm";
 import ManagerSider from "../../layouts/ManagerLayout/Sider/ManagerSider";
 import {
   LogoutOutlined,
@@ -11,7 +10,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { logout } from "../../services/authAPI"; // Import logout function from authAPI
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -78,8 +77,8 @@ export default function ManagerLayout() {
         <Layout style={{ marginLeft: width }}>
           <Header username={username} />
 
-          <Content className="">
-            <CourtForm />
+          <Content>
+            <Outlet />
           </Content>
         </Layout>
       </Layout>

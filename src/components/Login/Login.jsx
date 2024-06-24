@@ -8,13 +8,11 @@ import video from "../../assets/video.mp4";
 import pic from "../../assets/login.png";
 import "../../App.css";
 import axiosClient from "../../services/config/axios";
-import { useAuth } from "../../services/context/AuthContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { login } = useAuth();
 
   const googleLogin = async () => {
     window.location.href =
@@ -33,9 +31,6 @@ const Login = () => {
         `Bearer ${data.token}`;
       localStorage.setItem("token", data.token);
       localStorage.setItem("refresh_token", data.refresh_token);
-
-      const userRole = JSON.parse(atob(data.token.split(".")[1])).role;
-      login({ ...data, role: userRole });
     } catch (error) {
       setError("Login failed");
       console.error("Login failed", error);

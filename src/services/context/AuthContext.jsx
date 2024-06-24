@@ -1,44 +1,26 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import axiosClient from "../config/axios";
+import { createContext, useEffect, useState } from "react";
 
-const AuthContext = createContext();
+const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [auth, setAuth] = useState({});
 
   useEffect(() => {
-    // Check if token is available in localStorage and validate it
+    let role = null;
     const token = localStorage.getItem("token");
     if (token) {
-      const fetchUser = async () => {
-        try {
-          const { data } = await axiosClient.get("/v1/auth/user", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setUser(data);
-        } catch (error) {
-          console.error("Failed to fetch user", error);
-        }
-      };
-      fetchUser();
+      role = JSON.parse(atob(token.split(".")[1])).role;
+    }
+    if (role) {
+      setAuth({ role });
     }
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refresh_token");
-    setUser(null);
-  };
-
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export default AuthContext;

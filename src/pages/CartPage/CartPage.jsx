@@ -17,7 +17,7 @@ export default function CartPage() {
 
   return (
     <>
-      <Row>
+      <Row className="py-10">
         <Col span={2} />
         <Col span={11}>
           <Row className="border-b-2 border-black">

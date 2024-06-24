@@ -3,6 +3,7 @@ import "./App.css";
 import AppRoutes from "./routes/AppRoutes";
 import React, { useEffect } from "react";
 import { removeExpiredItems } from "./redux/cartSlice";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +23,9 @@ function App() {
 
   return (
     <>
-      <AppRoutes />
+      <Router>
+        <AppRoutes />
+      </Router>
     </>
   );
 }
