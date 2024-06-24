@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaUserShield } from "react-icons/fa";
 import { BsFillShieldLockFill } from "react-icons/bs";
 import { AiOutlineSwapRight } from "react-icons/ai";
@@ -8,12 +8,13 @@ import video from "../../assets/video.mp4";
 import pic from "../../assets/login.png";
 import "../../App.css";
 import axiosClient from "../../services/config/axios";
+import { useAuth } from "../../services/context/AuthContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [navigate, setNavigate] = useState(false);
-  const [role, setRole] = useState("");
+  const [error, setError] = useState(null);
+  const { login } = useAuth();
 
   const googleLogin = async () => {
     window.location.href =
@@ -32,22 +33,14 @@ const Login = () => {
         `Bearer ${data.token}`;
       localStorage.setItem("token", data.token);
       localStorage.setItem("refresh_token", data.refresh_token);
-      const userRole = JSON.parse(atob(data.token.split(".")[1])).role;
-      setRole(userRole);
 
-      setNavigate(true);
+      const userRole = JSON.parse(atob(data.token.split(".")[1])).role;
+      login({ ...data, role: userRole });
     } catch (error) {
+      setError("Login failed");
       console.error("Login failed", error);
     }
   };
-
-  if (navigate) {
-    if (role === "ROLE_ADMIN") {
-      return <Navigate to="/host" />;
-    } else {
-      return <Navigate to="/" />;
-    }
-  }
 
   return (
     <div className="loginPage flex">
@@ -67,7 +60,7 @@ const Login = () => {
             <h3>Welcome Back!</h3>
           </div>
           <form onSubmit={submit} className="form grid">
-            <span>Login Status will go here</span>
+            {error && <span>{error}</span>}
             <div className="inputDiv">
               <label htmlFor="username">Username</label>
               <div className="input flex">
