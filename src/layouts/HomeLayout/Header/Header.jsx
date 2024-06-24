@@ -87,7 +87,7 @@ export default function Header() {
     try {
       await logout();
       setIsLoggedIn(false);
-      navigate("/");
+      window.location.href = "/";
     } catch (error) {
       notification.error({
         message: error?.message || "Some thing wrong. Please try later!",

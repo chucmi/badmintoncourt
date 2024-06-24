@@ -54,7 +54,7 @@ export default function ManagerLayout() {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate("/");
+      window.location.href = "/";
     } catch (error) {
       notification.error({
         message: error?.message || "Some thing wrong. Please try later!",

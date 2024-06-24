@@ -31,6 +31,8 @@ const Login = () => {
         `Bearer ${data.token}`;
       localStorage.setItem("token", data.token);
       localStorage.setItem("refresh_token", data.refresh_token);
+
+      window.location.href = "/";
     } catch (error) {
       setError("Login failed");
       console.error("Login failed", error);

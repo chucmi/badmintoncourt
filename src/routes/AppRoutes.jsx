@@ -42,6 +42,17 @@ export default function AppRoutes() {
                 </Route>
               </Route>
             </>
+          ) : auth?.role === "ROLE_USER" ? (
+            <>
+              <Route path="/" element={<HomeLayout />}>
+                <Route index element={<ListCourt />} />
+                <Route path="cart" element={<CartPage />} />
+                <Route path="yard/:yardid" element={<ViewYardDetail />} />
+                <Route path="login" element={<Login />} />
+                <Route path="login-success" element={<LoginSuccess />} />
+                <Route path="register" element={<Register />} />
+              </Route>
+            </>
           ) : (
             <></>
           )}
