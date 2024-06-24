@@ -5,7 +5,7 @@ import Footer from "../../layouts/HomeLayout/Footer/Footer";
 import Header from "../../layouts/HomeLayout/Header/Header";
 import { Outlet } from "react-router-dom";
 import "./global.scss";
-export default function HomePage() {
+export default function HomeLayout() {
   return (
     <>
       <Layout>

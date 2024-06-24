@@ -33,7 +33,7 @@ const items = [
 const backgroundColor = "white";
 const themeBackgroundColor = "light";
 
-export default function HostPage() {
+export default function ManagerLayout() {
   const navigate = useNavigate();
 
   // Add the logout item separately
