@@ -95,124 +95,126 @@ img, video {
     margin-left: .5rem;
   }
 }
-
 .loginPage {
-  height: 120vh;
+  height: 100vh; /* Ensure the container takes the full viewport height */
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   overflow: hidden;
-
-  video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-  }
-
-  .container {
-    width: 80%;
-    max-width: 1000px;
-    display: flex;
-    justify-content: space-between;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 7px 50px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-
-    .imageDiv {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40%;
-
-      img {
-        width: 80%;
-        height: auto;
-      }
-    }
-
-    .formDiv {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 60%;
-
-      .headerDiv {
-        text-align: center;
-        margin-bottom: 1.5rem;
-
-        h3 {
-          font-size: var(--h2FontSize);
-          color: var(--blackColor);
-        }
-      }
-
-      .form {
-        width: 100%;
-        max-width: 400px;
-
-        .inputDiv {
-          margin-bottom: 1.5rem;
-
-          label {
-            font-size: var(--normalFontSize);
-            color: var(--greyText);
-            margin-bottom: .5rem;
-            display: inline-block;
-          }
-
-          .input {
-            display: flex;
-            align-items: center;
-            background: var(--inputColor);
-            border-radius: 5px;
-            padding: .5rem;
-
-            input,
-            select {
-              border: none;
-              outline: none;
-              background: none;
-              padding: .5rem;
-              flex: 1;
-              font-size: var(--normalFontSize);
-            }
-          }
-        }
-
-        .forgotPassword {
-          margin-top: 1rem;
-          font-size: var(--smallFontSize);
-          color: var(--greyText);
-          text-align: center;
-
-          a {
-            color: var(--primaryColor);
-            margin-left: .5rem;
-          }
-        }
-      }
-
-      .footerDiv {
-        margin-top: 1.5rem;
-        text-align: center;
-
-        .text {
-          color: var(--greyText);
-          margin-right: .5rem;
-        }
-
-        .signUpLink {
-          color: var(--primaryColor);
-        }
-      }
-    }
-  }
 }
+
+.loginPage video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0; /* Set z-index to 0 to make it the background layer */
+}
+
+.loginPage .container {
+  position: relative;
+  z-index: 1; /* Ensure the container and its children are above the video */
+  width: 80%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 7px 50px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.loginPage .container .imageDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+}
+
+.loginPage .container .imageDiv img {
+  width: 80%;
+  height: auto;
+}
+
+.loginPage .container .formDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+}
+
+.loginPage .container .formDiv .headerDiv {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.loginPage .container .formDiv .headerDiv h3 {
+  font-size: var(--h2FontSize);
+  color: var(--blackColor);
+}
+
+.loginPage .container .formDiv .form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.loginPage .container .formDiv .form .inputDiv {
+  margin-bottom: 1.5rem;
+}
+
+.loginPage .container .formDiv .form .inputDiv label {
+  font-size: var(--normalFontSize);
+  color: var(--greyText);
+  margin-bottom: .5rem;
+  display: inline-block;
+}
+
+.loginPage .container .formDiv .form .inputDiv .input {
+  display: flex;
+  align-items: center;
+  background: var(--inputColor);
+  border-radius: 5px;
+  padding: .5rem;
+}
+
+.loginPage .container .formDiv .form .inputDiv .input input,
+.loginPage .container .formDiv .form .inputDiv .input select {
+  border: none;
+  outline: none;
+  background: none;
+  padding: .5rem;
+  flex: 1;
+  font-size: var(--normalFontSize);
+}
+
+.loginPage .container .formDiv .form .forgotPassword {
+  margin-top: 1rem;
+  font-size: var(--smallFontSize);
+  color: var(--greyText);
+  text-align: center;
+}
+
+.loginPage .container .formDiv .form .forgotPassword a {
+  color: var(--primaryColor);
+  margin-left: .5rem;
+}
+
+.loginPage .container .formDiv .footerDiv {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.loginPage .container .formDiv .footerDiv .text {
+  color: var(--greyText);
+  margin-right: .5rem;
+}
+
+.loginPage .container .formDiv .footerDiv .signUpLink {
+  color: var(--primaryColor);
+}
+

@@ -10,7 +10,7 @@ export default function HomeLayout() {
     <>
       <Layout>
         <Header />
-        <Content className="text-center h-fit text-black py-10">
+        <Content className="text-center h-fit text-black">
           <Outlet />
         </Content>
         <Footer />
