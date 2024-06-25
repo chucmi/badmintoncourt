@@ -1,14 +1,45 @@
-import { Button, Form, Input, Select, TimePicker, Switch } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Select,
+  TimePicker,
+  Switch,
+  notification,
+} from "antd";
 import { useState, useEffect } from "react";
 import FormInput from "../FormInput/FormInput";
 import { getProvinces } from "../../services/provinceAPI";
+import { createYard } from "../../services/yardAPI";
 
 export default function CourtForm() {
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log("Received values:", values);
-    // Perform your submit action here
+  const onFinish = async (values) => {
+    const formatTime = (time) => time.format("HH:mm:ss");
+
+    const data = {
+      name: values.courtName,
+      address: values.address,
+      description: values.description,
+      province_id: values.province_id,
+      status: values.status,
+      open_time: formatTime(values.openingTime),
+      close_time: formatTime(values.closingTime),
+      host_id: JSON.parse(atob(localStorage.getItem("token").split(".")[1])).id,
+    };
+
+    try {
+      await createYard(data);
+      notification.success({
+        message: "Tạo sân thành công",
+        description: "Sân của bạn đã được tạo thành công.",
+      });
+    } catch (error) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+    }
   };
 
   const [provinces, setProvinces] = useState([]);
