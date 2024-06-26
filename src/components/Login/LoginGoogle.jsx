@@ -12,8 +12,9 @@ const LoginSuccess = () => {
     if (token) {
       localStorage.setItem("token", token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      navigate("/"); // Redirect to the home page or another protected route
-    } 
+      window.location.href = "/";
+      // Redirect to the home page or another protected route
+    }
   }, [navigate]);
 
   return <div>Loading...</div>;

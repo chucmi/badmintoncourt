@@ -7,42 +7,47 @@ import { BsFillShieldLockFill } from "react-icons/bs";
 import { AiOutlineSwapRight } from "react-icons/ai";
 import "./Register.scss";
 import { Button } from "@mui/material";
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
-
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   // const [dob, setDob] = useState('');
   // const [gender, setGender] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [navigate, setNavigate] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const submit = async e => {
+  const submit = async (e) => {
     let roleId = 2;
     e.preventDefault();
     console.log("submit");
-    const response = await axios.post('http://localhost:8080/api/v1/auth/signup', {
-      username, email, firstName, lastName, password, roleId
-    });
+    const response = await axios.post(
+      "https://badmintonbookingserver.up.railway.app/api/v1/auth/signup",
+      {
+        username,
+        email,
+        firstName,
+        lastName,
+        password,
+        roleId,
+      }
+    );
 
     if (response.code === 200) {
       setNavigate(true);
-    }
-    else {
+    } else {
       setNavigate(false);
-      setErrorMsg('Sign Up failed. Please try again');
+      setErrorMsg("Sign Up failed. Please try again");
     }
-  }
+  };
 
   if (navigate) {
-    return <Navigate to="/login" />
+    return <Navigate to="/login" />;
   }
-
 
   return (
     <div className="loginPage flex">
@@ -64,16 +69,24 @@ const Register = () => {
               <label htmlFor="username">Username</label>
               <div className="input flex">
                 <FaUserShield className="icon" />
-                <input type="text" id="username" placeholder="Enter username"
-                  onChange={e => setUsername(e.target.value)} />
+                <input
+                  type="text"
+                  id="username"
+                  placeholder="Enter username"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </div>
             </div>
             <div className="inputDiv">
               <label htmlFor="email">Email</label>
               <div className="input flex">
                 <FaUserShield className="icon" />
-                <input type="email" id="email" placeholder="Enter email"
-                  onChange={e => setEmail(e.target.value)} />
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Enter email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
             </div>
             <div className="inputDiv">
@@ -84,7 +97,7 @@ const Register = () => {
                   type="text"
                   id="firstName"
                   placeholder="Enter first name"
-                  onChange={e => setFirstName(e.target.value)}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
             </div>
@@ -96,7 +109,7 @@ const Register = () => {
                   type="text"
                   id="lastName"
                   placeholder="Enter last name"
-                  onChange={e => setLastName(e.target.value)}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </div>
             </div>
@@ -126,7 +139,7 @@ const Register = () => {
                   type="password"
                   id="password"
                   placeholder="Enter password"
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>

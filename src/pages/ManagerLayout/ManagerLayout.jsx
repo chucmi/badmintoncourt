@@ -1,7 +1,6 @@
 import React from "react";
 import { Layout, notification } from "antd";
 import Header from "../../layouts/ManagerLayout/Header/Header";
-import CourtForm from "../../components/CourtForm/CourtForm";
 import ManagerSider from "../../layouts/ManagerLayout/Sider/ManagerSider";
 import {
   LogoutOutlined,
@@ -11,7 +10,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { logout } from "../../services/authAPI"; // Import logout function from authAPI
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -33,7 +32,7 @@ const items = [
 const backgroundColor = "white";
 const themeBackgroundColor = "light";
 
-export default function HostPage() {
+export default function ManagerLayout() {
   const navigate = useNavigate();
 
   // Add the logout item separately
@@ -55,7 +54,7 @@ export default function HostPage() {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate("/");
+      window.location.href = "/";
     } catch (error) {
       notification.error({
         message: error?.message || "Some thing wrong. Please try later!",
@@ -78,8 +77,8 @@ export default function HostPage() {
         <Layout style={{ marginLeft: width }}>
           <Header username={username} />
 
-          <Content className="">
-            <CourtForm />
+          <Content>
+            <Outlet />
           </Content>
         </Layout>
       </Layout>

@@ -1,14 +1,21 @@
 import React, { useState } from "react";
-import { Row, Col, InputNumber, Button, Typography, Image, Select } from "antd";
+import { Row, Col, Button, Typography, Image, Select } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { removeFromCart } from "../../redux/cartSlice";
 import NoDataImg from "../../assets/nodata.png";
 
 const { Text } = Typography;
 
 const CartItem = ({ item }) => {
   const [selectedSlotId, setSelectedSlotId] = useState(null);
+  const dispatch = useDispatch();
 
-  const selectedSlot = item.slots.find((slot) => slot.id === selectedSlotId);
+  const selectedSlot = item.slots?.find((slot) => slot.id === selectedSlotId);
+
+  const handleRemove = () => {
+    dispatch(removeFromCart({ id: item.id }));
+  };
 
   return (
     <Row
@@ -21,7 +28,7 @@ const CartItem = ({ item }) => {
       }}
     >
       <Col style={{ position: "absolute", top: "8px", right: "8px" }}>
-        <Button type="text" icon={<CloseOutlined />} />
+        <Button type="text" icon={<CloseOutlined />} onClick={handleRemove} />
       </Col>
       <Col span={6}>
         <Image
@@ -35,14 +42,18 @@ const CartItem = ({ item }) => {
       <Col span={10} style={{ textAlign: "center" }}>
         <Text strong>{item.name || "No Data"}</Text>
       </Col>
-      <Select
-        value={selectedSlotId}
-        onChange={(value) => setSelectedSlotId(value)}
-      >
-        {item.slots.map((slot) => (
-          <Select.Option value={slot.id}>{slot.value}</Select.Option>
-        ))}
-      </Select>
+      {item.slots && (
+        <Select
+          value={selectedSlotId}
+          onChange={(value) => setSelectedSlotId(value)}
+        >
+          {item.slots.map((slot) => (
+            <Select.Option key={slot.id} value={slot.id}>
+              {slot.value}
+            </Select.Option>
+          ))}
+        </Select>
+      )}
       <Col span={4} style={{ textAlign: "center" }}>
         <Text>{selectedSlot ? selectedSlot.price : "0.000"} đ</Text>
       </Col>
