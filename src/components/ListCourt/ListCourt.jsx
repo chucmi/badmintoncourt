@@ -108,26 +108,21 @@ const sampleData = [
     description: "A private club court with exclusive amenities for members.",
   },
 ];
-
 const ListCourt = () => {
   const [courts, setCourts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const courtsPerPage = 4;
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchYards = async () => {
-      const data = await getYards();
+      const data = await getYards(currentPage - 1);
       if (data) {
         setCourts(data);
+        setTotalPages(data.totalPages);
       }
     };
     fetchYards();
-  }, []);
-
-  const totalPages = Math.ceil(courts.length / courtsPerPage);
-  const indexOfLastCourt = currentPage * courtsPerPage;
-  const indexOfFirstCourt = indexOfLastCourt - courtsPerPage;
-  const currentCourts = courts.slice(indexOfFirstCourt, indexOfLastCourt);
+  }, [currentPage]);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -137,13 +132,13 @@ const ListCourt = () => {
         <div className="grid grid-cols-4 ">
           <div className="col-span-3">
             <div className="grid grid-cols-1 ">
-              {currentCourts.map((court) => (
+              {courts.map((court) => (
                 <div key={court.id} className="h-full">
                   <CourtCard court={court} />
                 </div>
               ))}
             </div>
-            {/* Phân trang */}
+            {/* Pagination */}
             <div className="flex justify-center mt-4">
               <button
                 onClick={() => paginate(currentPage - 1)}
@@ -163,8 +158,8 @@ const ListCourt = () => {
               ))}
               <button
                 onClick={() => paginate(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === totalPages ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+                disabled={courts.length < 5}
+                className={`px-4 py-2 mx-2 rounded focus:outline-none ${courts.length < 5 ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
               >
                 <FontAwesomeIcon icon={faChevronRight} />
               </button>
