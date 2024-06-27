@@ -10,13 +10,14 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { logout } from "../../services/authAPI"; // Import logout function from authAPI
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 
 const { Content } = Layout;
 
 const width = 260;
 
 const labels = ["Home", "Court Management", "Staff Management", "Settings"];
+const paths = ["/", "/adminmanagement/listcourt", "/staffmanagement", "/settings"];
 
 const items = [
   BarChartOutlined,
@@ -26,14 +27,16 @@ const items = [
 ].map((icon, index) => ({
   key: String(index + 1),
   icon: React.createElement(icon),
-  label: labels[index],
+  label: (
+    <Link to={paths[index]}>{labels[index]}</Link>
+  ),
 }));
 
 const backgroundColor = "white";
 const themeBackgroundColor = "light";
 
 export default function ManagerLayout() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Add the logout item separately
   items.push({
@@ -57,7 +60,7 @@ export default function ManagerLayout() {
       window.location.href = "/";
     } catch (error) {
       notification.error({
-        message: error?.message || "Some thing wrong. Please try later!",
+        message: error?.message || "Something went wrong. Please try later!",
       });
     }
   };

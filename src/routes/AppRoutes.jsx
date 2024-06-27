@@ -14,6 +14,8 @@ import PaymentHistory from "../components/PaymentHistory/PaymentHistory";
 import useAuth from "../services/config/provider/useAuth";
 import RequireAuth from "../services/config/provider/RequireAuth";
 import CourtForm from "../components/CourtForm/CourtForm";
+import YardForm from "../components/Admin/AdminCourtManagement";
+import YardList from "../components/Admin/AdminListCourt";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -37,6 +39,8 @@ export default function AppRoutes() {
             <>
               <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN"]} />}>
                 <Route path="/" element={<ManagerLayout />}>
+                <Route path="/adminmanagement/court"   element={<YardForm/>}/>
+                <Route path="/adminmanagement/listcourt" element={<YardList/>}/>
                   <Route index element={<CourtForm />} />
                   <Route path="paymentHistory" element={<PaymentHistory />} />
                 </Route>
