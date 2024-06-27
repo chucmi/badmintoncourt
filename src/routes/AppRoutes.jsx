@@ -39,10 +39,20 @@ export default function AppRoutes() {
             <>
               <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN"]} />}>
                 <Route path="/" element={<ManagerLayout />}>
+<<<<<<< HEAD
                 <Route path="/adminmanagement/court"   element={<YardForm/>}/>
                 <Route path="/adminmanagement/listcourt" element={<YardList/>}/>
+=======
+                  <Route index element={<PaymentHistory />} />
+                </Route>
+              </Route>
+            </>
+          ) : auth?.role === "ROLE_OWNER" ? (
+            <>
+              <Route element={<RequireAuth allowedRoles={["ROLE_OWNER"]} />}>
+                <Route path="/" element={<ManagerLayout />}>
+>>>>>>> 1f90918d231bb1d2169b693c5da1621655ac1d4c
                   <Route index element={<CourtForm />} />
-                  <Route path="paymentHistory" element={<PaymentHistory />} />
                 </Route>
               </Route>
             </>
