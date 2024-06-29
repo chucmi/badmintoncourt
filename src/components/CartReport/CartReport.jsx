@@ -4,7 +4,6 @@ import { createBookingOrdersBulk } from "../../services/orderAPI";
 import { useNavigate } from "react-router-dom";
 const { Text } = Typography;
 
-const totalAmount = "0.000 đ";
 export default function CartReport() {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const navigate = useNavigate();
@@ -32,6 +31,9 @@ export default function CartReport() {
     const orderItems = cartItems.map((item) => ({
       yard_id: item.id,
       user_id: userId,
+      slot_id: item.slot_id,
+      tourament_start: item.tournament_start,
+      tourament_end: item.tourament_end,
     }));
 
     try {
@@ -41,11 +43,16 @@ export default function CartReport() {
     }
   };
 
+  const totalAmount =
+    cartItems
+      .reduce((total, item) => total + item.price * item.date_count, 0)
+      .toLocaleString("vi-VN") + " đ";
+
   return (
     <Card
       title="ĐƠN HÀNG"
       bordered={false}
-      style={{ width: "26rem", margin: "0 auto", textAlign: "center" }}
+      style={{ width: "38rem", margin: "0 auto", textAlign: "center" }}
     >
       <List
         itemLayout="horizontal"
@@ -53,7 +60,16 @@ export default function CartReport() {
         renderItem={(item) => (
           <List.Item>
             <Text strong>x1 {item.name}</Text>
-            <Text>{item.price || "0.000 đ"}</Text>
+            <Text className="font-semibold">
+              {item.slot_start} - {item.slot_end}
+            </Text>
+            <Text className="font-bold">
+              {item.price.toLocaleString("vi-VN") + " đ"}{" "}
+              {"x " + item.date_count + "ngày"}
+              {" = " +
+                (item.price * item.date_count).toLocaleString("vi-VN") +
+                " đ"}
+            </Text>
           </List.Item>
         )}
       />

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Button, ConfigProvider, Spin } from "antd";
+import { Button, ConfigProvider, Spin, Select, DatePicker } from "antd";
 import { Fade } from "react-slideshow-image";
 import { TinyColor } from "@ctrl/tinycolor";
 import { getYardDetail } from "../../services/yardAPI";
 import { addToCart } from "../../redux/cartSlice"; // Adjust the path accordingly
 import "react-slideshow-image/dist/styles.css";
+import { formatDate, formatTime } from "../../utils/time";
 
 const ViewYardDetail = () => {
   const { yardid } = useParams();
@@ -14,7 +15,9 @@ const ViewYardDetail = () => {
   const [courtDetail, setCourtDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [bookingType, setBookingType] = useState("inday"); // Default booking type
+  const [selectedDates, setSelectedDates] = useState(["", ""]);
   useEffect(() => {
     const fetchCourtDetail = async () => {
       try {
@@ -31,6 +34,40 @@ const ViewYardDetail = () => {
   }, [yardid]);
 
   const handleAddToCart = () => {
+    if (!selectedSlot) {
+      alert("Please select a slot!");
+      return;
+    }
+    const selectedSlotDetail = courtDetail.slots.find(
+      (slot) => slot.id === selectedSlot
+    );
+
+    let tournament_start, tournament_end;
+    let booking_type_text;
+    let dateCount = 1;
+
+    if (bookingType === "inday") {
+      // For 'inday' booking type, start and end time are set to current date and time
+      tournament_start = formatDate(new Date().toISOString());
+      tournament_end = formatDate(new Date().toISOString());
+      booking_type_text = "Đặt trong ngày";
+    } else if (bookingType === "longterm") {
+      // For 'longterm' booking type, get start and end time from DatePicker
+      // Assuming you have a state to store DatePicker selected dates
+      // Replace 'selectedDates' with the actual state storing selected dates
+      // Ensure you handle undefined case if dates are not selected
+      tournament_start = selectedDates ? selectedDates[0] : null;
+      tournament_end = selectedDates ? selectedDates[1] : null;
+      if (tournament_start && tournament_end) {
+        const start = new Date(tournament_start);
+        const end = new Date(tournament_end);
+        const differenceInTime = end.getTime() - start.getTime();
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24); // Convert milliseconds to days
+        dateCount = differenceInDays;
+      }
+      booking_type_text = "Đặt dài hạn";
+    }
+
     dispatch(
       addToCart({
         id: courtDetail.id,
@@ -39,8 +76,15 @@ const ViewYardDetail = () => {
         open_time: courtDetail.open_time,
         close_time: courtDetail.close_time,
         phone: courtDetail.phone,
-        price: courtDetail.price,
-        time: courtDetail.time,
+        price: selectedSlotDetail.price,
+        tournament_start,
+        tournament_end,
+        booking_type: bookingType,
+        booking_type_text: booking_type_text,
+        slot_id: selectedSlotDetail.id,
+        slot_start: formatTime(selectedSlotDetail.start_time),
+        slot_end: formatTime(selectedSlotDetail.end_time),
+        date_count: dateCount,
         image:
           "https://shopvnb.com/uploads/tin_tuc/review-san-cau-long-quan-12-san-cau-long-nhat-pham.webp", // You can dynamically set the image URL here
       })
@@ -70,7 +114,7 @@ const ViewYardDetail = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "291px",
+    height: "320px",
     backgroundSize: "cover",
     backgroundPosition: "center",
     position: "relative",
@@ -107,23 +151,23 @@ const ViewYardDetail = () => {
 
   return (
     <>
-      <div className="flex h-fit pt-16  justify-center">
+      <div className="flex h-fit pt-16 justify-center">
         <div
           style={{
             width: "528px",
-            height: "291px",
+            height: "320px",
             boxSizing: "border-box",
             marginRight: "40px",
             position: "inherit",
           }}
-          className="slide-container "
+          className="slide-container"
         >
           <Fade>
             {slideImages.map((image, index) => (
               <div
                 key={index}
                 style={{ ...divStyle, backgroundImage: `url(${image.url})` }}
-                className="border-2 rounded-2xl border-black "
+                className="border-2 rounded-2xl border-black"
               >
                 <div style={bannerStyle}>
                   <span>{image.caption}</span>
@@ -132,7 +176,7 @@ const ViewYardDetail = () => {
             ))}
           </Fade>
         </div>
-        <div className="border-2 rounded-2xl border-black bg-white p-5 ml-10 w-[528px] h-[291px]">
+        <div className="border-2 rounded-2xl border-black bg-white p-5 ml-10 w-[528px] h-[320px]">
           <div className="text-left">
             <h2 className="font-bold">{courtDetail.name}</h2>
             <div className="pt-3">
@@ -142,26 +186,73 @@ const ViewYardDetail = () => {
               </p>
               <p>
                 <span className="font-bold">⏰ Time-Available: </span>
-                {courtDetail.open_time} - {courtDetail.close_time}
+                {formatTime(courtDetail.open_time)} -{" "}
+                {formatTime(courtDetail.close_time)}
               </p>
               <p>
                 <span className="font-bold">📞 PhoneNumber: </span>
                 {courtDetail.phone || "No data!"}
               </p>
-              <p>
-                <span className="font-bold">💶 Price: </span>
-                {courtDetail.price || "0.000 đ - 0.000 đ"}
-              </p>
               <div className="flex items-center">
-                <span className="font-bold">✅ Time:</span>
-                <div className="border-2 rounded-2xl border-black px-2 ml-2">
-                  {courtDetail.time || "No data!"}
-                </div>
+                <span className="font-bold">⏲ Lúc: </span>
+                <Select
+                  style={{ width: 200, marginLeft: 10 }}
+                  placeholder="Chọn thời gian"
+                  onChange={(value) => setSelectedSlot(value)}
+                >
+                  {courtDetail.slots.map((slot) => (
+                    <Select.Option key={slot.id} value={slot.id}>
+                      {`${formatTime(slot.start_time)} - ${formatTime(
+                        slot.end_time
+                      )}: ${slot.price} đ`}
+                    </Select.Option>
+                  ))}
+                </Select>
               </div>
-              <p>
-                <span className="font-bold">💲 Giá tạm tính: </span>
-                {courtDetail.price || "0.000 đ"}
-              </p>
+              <div className="flex items-center pt-3">
+                <span className="font-bold">Hình thức đặt: </span>
+                <Select
+                  style={{ width: 150, marginLeft: 10 }}
+                  value={bookingType}
+                  onChange={(value) => setBookingType(value)}
+                >
+                  <Select.Option value="inday">Đặt trong ngày</Select.Option>
+                  <Select.Option value="longterm">Đặt dài hạn</Select.Option>
+                </Select>
+              </div>
+              {bookingType === "longterm" && (
+                <div className="pt-3">
+                  <DatePicker.RangePicker
+                    onChange={(dates, dateStrings) => {
+                      console.log("Selected Dates:", dates, dateStrings);
+                      setSelectedDates(dateStrings); // Store Date objects
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="flex justify-evenly">
+            <div>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Button: {
+                      colorPrimary: `linear-gradient(116deg,  ${colors3.join(
+                        ", "
+                      )})`,
+                      colorPrimaryHover: `linear-gradient(116deg, ${getHoverColors(
+                        colors3
+                      ).join(", ")})`,
+                      colorPrimaryActive: `linear-gradient(116deg, ${getActiveColors(
+                        colors3
+                      ).join(", ")})`,
+                      lineWidth: 0,
+                    },
+                  },
+                }}
+              ></ConfigProvider>
             </div>
           </div>
 
@@ -209,9 +300,6 @@ const ViewYardDetail = () => {
                   },
                 }}
               >
-                <Button type="primary" size="large" className="w-32">
-                  🛒
-                </Button>
               </ConfigProvider>
             </div>
           </div>
@@ -224,20 +312,12 @@ const ViewYardDetail = () => {
         </h1>
         <div className="flex justify-evenly">
           {slideImages.map((image, index) => (
-            <div key={index} className="w-64 pt-10">
-              <div className="relative">
-                <img
-                  src={image.url}
-                  alt={image.caption}
-                  className="w-full h-[150px] object-cover border-2 rounded-2xl"
-                />
-                <div style={bannerStyle}>
-                  <span>{image.caption}</span>
-                </div>
-              </div>
-              <span className="block text-center mt-2 font-bold size-auto">
-                {image.caption}
-              </span>
+            <div key={index} className="h-[291px] w-[291px]">
+              <img
+                className="h-full w-full object-cover rounded-2xl"
+                src={image.url}
+                alt={`slide-${index}`}
+              />
             </div>
           ))}
         </div>
