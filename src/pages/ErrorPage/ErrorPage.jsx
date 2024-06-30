@@ -1,4 +1,16 @@
+import { Button, Result } from "antd";
 import React from "react";
 export default function ErrorPage() {
-  return <h1 className="bg-red-400 text-3xl font-bold">Error!</h1>;
+  return (
+    <Result
+      status="404"
+      title="404"
+      subTitle="Sorry, the page you visited does not exist."
+      extra={
+        <Button type="primary" href="/">
+          Back Home
+        </Button>
+      }
+    />
+  );
 }
