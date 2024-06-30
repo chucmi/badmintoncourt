@@ -47,3 +47,32 @@ export const createYard = async (data) => {
     }
   }
 };
+
+export const updateYard = async (id, data) => {
+  try {
+    const response = await axiosClient.put(`/v1/yards/update/${id}`, data);
+
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+      notificationDisplayed = true;
+    }
+  }
+};
+
+export const getOwnerYards = async (hostId) => {
+  try {
+    const response = await axiosClient.get(`/v1/yards/getByHost/${hostId}`);
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+      notificationDisplayed = true;
+    }
+  }
+};
