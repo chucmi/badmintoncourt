@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getOwnerYards } from "../../services/yardAPI";
-import { Card, Spin } from "antd";
+import { Card, Skeleton, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const { Meta } = Card;
@@ -33,7 +33,11 @@ export default function ListOwnerCourt() {
   return (
     <div className="container mx-auto flex justify-evenly">
       {loading ? (
-        <Spin size="large" />
+        <>
+          <div className="flex-col justify-center items-center">
+            <Skeleton active paragraph={{ rows: 10, width: 1000 }} />
+          </div>
+        </>
       ) : (
         courts.map((court) => (
           <Card

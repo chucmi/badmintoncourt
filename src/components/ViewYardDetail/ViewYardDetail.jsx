@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Button, ConfigProvider, Spin, Select, DatePicker } from "antd";
+import {
+  Button,
+  ConfigProvider,
+  Spin,
+  Select,
+  DatePicker,
+  Skeleton,
+} from "antd";
 import { Fade } from "react-slideshow-image";
 import { TinyColor } from "@ctrl/tinycolor";
 import { getYardDetail } from "../../services/yardAPI";
@@ -142,11 +149,14 @@ const ViewYardDetail = () => {
     colors.map((color) => new TinyColor(color).darken(5).toString());
 
   if (loading) {
-    return <Spin />;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
+    return (
+      <Skeleton
+        className="pt-16"
+        active
+        loading={loading}
+        paragraph={{ rows: 16 }}
+      />
+    );
   }
 
   return (
@@ -299,8 +309,7 @@ const ViewYardDetail = () => {
                     },
                   },
                 }}
-              >
-              </ConfigProvider>
+              ></ConfigProvider>
             </div>
           </div>
         </div>
