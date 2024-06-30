@@ -132,13 +132,8 @@ const ListCourt = () => {
         <div className="grid grid-cols-4 ">
           <div className="col-span-3">
             <div className="grid grid-cols-1 ">
-<<<<<<< HEAD
-              {currentCourts.map((court) => (
-                <div key={court.id} className="">
-=======
               {courts.map((court) => (
                 <div key={court.id} className="h-full">
->>>>>>> 1f90918d231bb1d2169b693c5da1621655ac1d4c
                   <CourtCard court={court} />
                 </div>
               ))}
