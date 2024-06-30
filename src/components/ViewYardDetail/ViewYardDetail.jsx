@@ -214,7 +214,7 @@ const ViewYardDetail = () => {
                     <Select.Option key={slot.id} value={slot.id}>
                       {`${formatTime(slot.start_time)} - ${formatTime(
                         slot.end_time
-                      )}: ${slot.price} đ`}
+                      )}: ${slot.price.toLocaleString("vi-VN")} đ`}
                     </Select.Option>
                   ))}
                 </Select>
@@ -287,7 +287,7 @@ const ViewYardDetail = () => {
                 }}
               >
                 <Button type="primary" size="large" onClick={handleAddToCart}>
-                  Đặt hàng ngay
+                  Đặt sân ngay
                 </Button>
               </ConfigProvider>
             </div>
