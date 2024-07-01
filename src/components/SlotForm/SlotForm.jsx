@@ -1,4 +1,4 @@
-import { Button, Form, Input, TimePicker } from "antd";
+import { Button, Form, Input, Switch, TimePicker } from "antd";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 
@@ -7,13 +7,12 @@ export default function SlotForm({ form, handleSaveSlot, slot }) {
     if (slot) {
       form.setFieldsValue({
         price: slot.price,
-        status: slot.status,
+        status: slot.status === "true" ? true : false,
         start_time: dayjs(slot.start_time, "HH:mm:ss"),
         end_time: dayjs(slot.end_time, "HH:mm:ss"),
       });
     }
   }, [form, slot]);
-
   return (
     <Form form={form} layout="vertical" onFinish={handleSaveSlot}>
       <Form.Item
@@ -23,12 +22,8 @@ export default function SlotForm({ form, handleSaveSlot, slot }) {
       >
         <Input type="number" placeholder="Enter price" />
       </Form.Item>
-      <Form.Item
-        label="Status:"
-        name="status"
-        rules={[{ required: true, message: "Please select the status" }]}
-      >
-        <Input placeholder="Enter status" />
+      <Form.Item label="Status:" name="status" valuePropName="checked">
+        <Switch checkedChildren="Open" unCheckedChildren="Closed" />
       </Form.Item>
       <Form.Item
         label="Start Time:"

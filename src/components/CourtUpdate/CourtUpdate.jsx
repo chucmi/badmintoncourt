@@ -242,7 +242,7 @@ export default function CourtUpdate() {
             <Switch checkedChildren="Open" unCheckedChildren="Closed" />
           </Form.Item>
           <div className="pb-6">
-            <div className="flex pb-5">
+            <div className="flex pb-5 gap-2">
               {court.slots.map((slot) => (
                 <SlotItem
                   key={slot.id}

@@ -17,7 +17,7 @@ export default function SlotItem({
         width: "auto",
         height: 40,
         borderRadius: 20,
-        backgroundColor: "#f0f0f0",
+        backgroundColor: slot.status === "true" ? "#f0f0f0" : "#f74d56",
         border: "1px solid #d9d9d9",
       }}
       body={{ padding: "0", display: "flex", alignItems: "center" }}
