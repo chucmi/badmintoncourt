@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import HomeLayout from "../pages/HomeLayout/HomeLayout";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
-import React from "react";
 import ManagerLayout from "../pages/ManagerLayout/ManagerLayout";
 import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
@@ -14,6 +13,14 @@ import PaymentHistory from "../components/PaymentHistory/PaymentHistory";
 import useAuth from "../services/config/provider/useAuth";
 import RequireAuth from "../services/config/provider/RequireAuth";
 import CourtForm from "../components/CourtForm/CourtForm";
+import ListOwnerCourt from "../components/ListOwnerCourt/ListOwnerCourt";
+import {
+  AdminMenuItems,
+  OwnerMenuItems,
+} from "../components/MenuItems/MenuItems";
+import CourtUpdate from "../components/CourtUpdate/CourtUpdate";
+import YardForm from "../components/Admin/AdminCourtManagement";
+import YardList from "../components/Admin/AdminListCourt";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -36,16 +43,27 @@ export default function AppRoutes() {
           ) : auth?.role === "ROLE_ADMIN" ? (
             <>
               <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN"]} />}>
-                <Route path="/" element={<ManagerLayout />}>
+                <Route
+                  path="/"
+                  element={<ManagerLayout items={AdminMenuItems} />}
+                >
                   <Route index element={<PaymentHistory />} />
+                  {/* <Route path="court" element={<YardForm />} /> */}
+                  <Route path="listcourt" element={<YardList />} />
+                  <Route path="payment" element={<PaymentHistory />} />
                 </Route>
               </Route>
             </>
           ) : auth?.role === "ROLE_OWNER" ? (
             <>
               <Route element={<RequireAuth allowedRoles={["ROLE_OWNER"]} />}>
-                <Route path="/" element={<ManagerLayout />}>
+                <Route
+                  path="/"
+                  element={<ManagerLayout items={OwnerMenuItems} />}
+                >
                   <Route index element={<CourtForm />} />
+                  <Route path="courts" element={<ListOwnerCourt />} />
+                  <Route path="courts/:yardid" element={<CourtUpdate />} />
                 </Route>
               </Route>
             </>
@@ -64,7 +82,7 @@ export default function AppRoutes() {
             <></>
           )}
 
-          {/* <Route path="*" element={<ErrorPage />} /> */}
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </ScrollToTop>
     </>
