@@ -24,11 +24,11 @@ export default function CartPage() {
             <Col>
               <Title level={3}>GIỎ HÀNG</Title>
             </Col>
-            <Col span={15} />
-            <Col>
+            <Col span={12} />
+            <Col span={5}>
               <Title level={4}>{cartItems.length} sản phẩm</Title>
             </Col>
-            <Col className="pl-5">
+            <Col span={2}>
               <Button type="primary" danger onClick={handleClearCart}>
                 Xoá hết
               </Button>
@@ -38,8 +38,8 @@ export default function CartPage() {
             <CartItem key={index} item={item} />
           ))}
         </Col>
-        <Col span={2} />
-        <Col span={7}>
+        <Col span={1} />
+        <Col span={9}>
           <CartReport />
         </Col>
       </Row>

@@ -7,6 +7,7 @@ import {
 import CourtCard from "./CourtCard";
 import RecommendedCard from "./Recommend";
 import { getYards } from "../../services/yardAPI";
+import { Skeleton } from "antd";
 
 const sampleData = [
   {
@@ -112,6 +113,7 @@ const ListCourt = () => {
   const [courts, setCourts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchYards = async () => {
@@ -120,6 +122,7 @@ const ListCourt = () => {
         setCourts(data);
         setTotalPages(data.totalPages);
       }
+      setLoading(false);
     };
     fetchYards();
   }, [currentPage]);
@@ -131,52 +134,64 @@ const ListCourt = () => {
       <div className="container mx-auto p-8">
         <div className="grid grid-cols-4 ">
           <div className="col-span-3">
-            <div className="grid grid-cols-1 ">
-              {courts.map((court) => (
-                <div key={court.id} className="h-full">
-                  <CourtCard court={court} />
-                </div>
-              ))}
-            </div>
-            {/* Pagination */}
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-                className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === 1 ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
-              >
-                <FontAwesomeIcon icon={faChevronLeft} />
-              </button>
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => paginate(index + 1)}
-                  className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-              <button
-                onClick={() => paginate(currentPage + 1)}
-                disabled={courts.length < 5}
-                className={`px-4 py-2 mx-2 rounded focus:outline-none ${courts.length < 5 ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
-              >
-                <FontAwesomeIcon icon={faChevronRight} />
-              </button>
-            </div>
-          </div>
-          <div className="col-span-1">
-            <div className="border rounded p-4">
-              <h3 className="text-lg font-bold mb-4">Recommended Courts</h3>
+            <Skeleton
+              active
+              loading={loading}
+              paragraph={{ rows: 16, width: 1000 }}
+            >
               <div className="grid grid-cols-1 ">
-                {sampleData.slice(0, 4).map((court) => (
-                  <div key={court.id}>
-                    <RecommendedCard court={court} />
+                {courts.map((court) => (
+                  <div key={court.id} className="h-full">
+                    <CourtCard court={court} />
                   </div>
                 ))}
               </div>
-            </div>
+              {/* Pagination */}
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === 1 ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </button>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => paginate(index + 1)}
+                    className={`px-4 py-2 mx-2 rounded focus:outline-none ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={courts.length < 5}
+                  className={`px-4 py-2 mx-2 rounded focus:outline-none ${courts.length < 5 ? "bg-gray-200 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+                >
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </button>
+              </div>
+            </Skeleton>
           </div>
+          <Skeleton
+            active
+            loading={loading}
+            paragraph={{ rows: 16, width: 300 }}
+          >
+            <div className="col-span-1">
+              <div className="border rounded p-4">
+                <h3 className="text-lg font-bold mb-4">Recommended Courts</h3>
+                <div className="grid grid-cols-1 ">
+                  {sampleData.slice(0, 4).map((court) => (
+                    <div key={court.id}>
+                      <RecommendedCard court={court} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Skeleton>
         </div>
       </div>
     </>
