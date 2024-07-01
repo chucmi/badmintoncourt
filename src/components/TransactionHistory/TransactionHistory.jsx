@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { getTransactionOfUser } from '../../services/paymentAPI';
-import { account } from '../../services/authAPI'
+import { account } from '../../services/authAPI';
 
 const TransactionHistory = () => {
     const [transactions, setTransactions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -32,9 +31,7 @@ const TransactionHistory = () => {
     };
 
     const filteredTransactions = transactions.filter((transaction) =>
-        Object.values(transaction).some((value) =>
-            typeof value === 'string' && value.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+        transaction.yard_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -43,10 +40,10 @@ const TransactionHistory = () => {
             <div className="flex justify-end mb-4">
                 <input
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search by name..."
                     value={searchTerm}
                     onChange={handleSearch}
-                    className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mr-4"
                 />
             </div>
             <div className="overflow-x-auto">
