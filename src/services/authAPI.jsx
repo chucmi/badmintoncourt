@@ -50,3 +50,22 @@ const logout = async () => {
 };
 
 export { login, logout };
+
+export const account = async () => {
+  try {
+    const response = await axiosClient.get("/v1/auth/account"); 
+    if (response.data && response.data.status === 1) {
+      return response.data.data;
+    } else {
+      notification.error({
+        message: response.data.message || "Unable to fetch account information.",
+      });
+      return null;
+    }
+  } catch (error) {
+    notification.error({
+      message: error?.message || "Some thing wrong. Please try later!",
+    });
+    return null;
+  }
+};
