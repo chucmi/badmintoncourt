@@ -30,6 +30,18 @@ const handleLogout = async () => {
   }
 };
 
+const handleAdminCourt = () => {
+  window.location.href = "/court";
+};
+
+const handleAdminListCourt = () => {
+  window.location.href = "/listcourt";
+};
+
+const handleAdminPayment = () => {
+  window.location.href = "/payment";
+};
+
 export const OwnerMenuItems = [
   {
     key: "1",
@@ -105,8 +117,50 @@ export const AdminMenuItems = [
       </a>
     ),
   },
+  // {
+  //   key: "2",
+  //   icon: <BarChartOutlined />,
+  //   label: (
+  //     <a
+  //       onClick={(e) => {
+  //         e.preventDefault();
+  //         handleAdminCourt();
+  //       }}
+  //     >
+  //       Court Management
+  //     </a>
+  //   ),
+  // },
   {
-    key: "2",
+    key: "3",
+    icon: <BarChartOutlined />,
+    label: (
+      <a
+        onClick={(e) => {
+          e.preventDefault();
+          handleAdminListCourt();
+        }}
+      >
+        List Court
+      </a>
+    ),
+  },
+  {
+    key: "4",
+    icon: <BarChartOutlined />,
+    label: (
+      <a
+        onClick={(e) => {
+          e.preventDefault();
+          handleAdminPayment();
+        }}
+      >
+        Payment
+      </a>
+    ),
+  },
+  {
+    key: "5",
     icon: <LogoutOutlined />,
     label: (
       <a

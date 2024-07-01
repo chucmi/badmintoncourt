@@ -19,6 +19,8 @@ import {
   OwnerMenuItems,
 } from "../components/MenuItems/MenuItems";
 import CourtUpdate from "../components/CourtUpdate/CourtUpdate";
+import YardForm from "../components/Admin/AdminCourtManagement";
+import YardList from "../components/Admin/AdminListCourt";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -46,6 +48,9 @@ export default function AppRoutes() {
                   element={<ManagerLayout items={AdminMenuItems} />}
                 >
                   <Route index element={<PaymentHistory />} />
+                  {/* <Route path="court" element={<YardForm />} /> */}
+                  <Route path="listcourt" element={<YardList />} />
+                  <Route path="payment" element={<PaymentHistory />} />
                 </Route>
               </Route>
             </>
