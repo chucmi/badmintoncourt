@@ -5,6 +5,7 @@ import { account } from '../../services/authAPI';
 const TransactionHistory = () => {
     const [transactions, setTransactions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc');  
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -20,14 +21,20 @@ const TransactionHistory = () => {
         fetchTransactions();
     }, []);
 
-    const toggleTournamentStatus = (index) => {
-        const updatedTransactions = [...transactions];
-        updatedTransactions[index].istournament = !updatedTransactions[index].istournament;
-        setTransactions(updatedTransactions);
-    };
-
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
+    };
+
+    const handleSort = () => {
+        const sortedTransactions = [...transactions].sort((a, b) => {
+            if (sortOrder === 'asc') {
+                return a.booking_order_id - b.booking_order_id;
+            } else {
+                return b.booking_order_id - a.booking_order_id;
+            }
+        });
+        setTransactions(sortedTransactions);
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');  
     };
 
     const filteredTransactions = transactions.filter((transaction) =>
@@ -50,7 +57,12 @@ const TransactionHistory = () => {
                 <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                     <thead className="bg-gray-100 border-b border-gray-200">
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                            <th 
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                onClick={handleSort}
+                            >
+                                Order ID {sortOrder === 'asc' ? '▲' : '▼'}
+                            </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From</th>
@@ -65,8 +77,8 @@ const TransactionHistory = () => {
                                 <td className="px-6 py-4 whitespace-nowrap">{transaction.booking_order_id}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">{transaction.yard_name}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">{new Date(transaction.booking_at).toLocaleDateString()}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{`${transaction.slot_start_time}`}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{`${transaction.slot_end_time}`}</td>
+                                <td className="px-6 py-4 whitespace-nowrap">{transaction.slot_start_time}</td>
+                                <td className="px-6 py-4 whitespace-nowrap">{transaction.slot_end_time}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">{transaction.final_price}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
@@ -75,9 +87,10 @@ const TransactionHistory = () => {
                                             id={`toggle${index}`}
                                             name={`toggle${index}`}
                                             checked={transaction.istournament}
-                                            onChange={() => toggleTournamentStatus(index)}
-                                            className={`toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer  ${transaction.istournament ? 'bg-green-500' : 'bg-red-500'}`}
+                                            className={`toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer`}
+                                            style={{ backgroundColor: transaction.istournament ? 'green' : 'red' }}
                                             readOnly
+                                            disabled
                                         />
                                         <label
                                             htmlFor={`toggle${index}`}
