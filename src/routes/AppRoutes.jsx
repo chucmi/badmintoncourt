@@ -13,6 +13,7 @@ import PaymentHistory from "../components/PaymentHistory/PaymentHistory";
 import useAuth from "../services/config/provider/useAuth";
 import RequireAuth from "../services/config/provider/RequireAuth";
 import CourtForm from "../components/CourtForm/CourtForm";
+import TransactionHistory from "../components/TransactionHistory/TransactionHistory";
 import ListOwnerCourt from "../components/ListOwnerCourt/ListOwnerCourt";
 import {
   AdminMenuItems,
@@ -76,6 +77,7 @@ export default function AppRoutes() {
                 <Route path="login" element={<Login />} />
                 <Route path="login-success" element={<LoginSuccess />} />
                 <Route path="register" element={<Register />} />
+                <Route path="transaction-history" element={<TransactionHistory />} />
               </Route>
             </>
           ) : (
