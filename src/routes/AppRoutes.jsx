@@ -21,6 +21,8 @@ import {
 import CourtUpdate from "../components/CourtUpdate/CourtUpdate";
 import YardForm from "../components/Admin/AdminCourtManagement";
 import YardList from "../components/Admin/AdminListCourt";
+import UserForm from "../components/UserForm/UserForm";
+import StaffList from "../components/StaffList/StaffList";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -64,6 +66,7 @@ export default function AppRoutes() {
                   <Route index element={<CourtForm />} />
                   <Route path="courts" element={<ListOwnerCourt />} />
                   <Route path="courts/:yardid" element={<CourtUpdate />} />
+                  <Route path="staffs" element={<StaffList />} />
                 </Route>
               </Route>
             </>

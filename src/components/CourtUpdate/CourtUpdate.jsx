@@ -109,7 +109,7 @@ export default function CourtUpdate() {
 
     try {
       if (selectedSlot) {
-        await updateSlot(court.id, data); // Update slot if it exists
+        await updateSlot(selectedSlot.id, data); // Update slot if it exists
         notification.success({
           message: "Slot updated successfully",
           description: "The slot has been updated successfully.",
