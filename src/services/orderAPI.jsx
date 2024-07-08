@@ -29,3 +29,20 @@ export const createBookingOrdersBulk = async (orderItems) => {
     throw error;
   }
 };
+
+export const getOrdersByUserId = async (userId) => {
+  try {
+    const response = await axiosClient.get(`/v1/bookingOrders/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: "Some thing wrong. Please try later!",
+        description:
+          error?.message || "Đã xảy ra lỗi xảy ra. Vui lòng thử lại sau.",
+      });
+      notificationDisplayed = true;
+    }
+    throw error;
+  }
+};
