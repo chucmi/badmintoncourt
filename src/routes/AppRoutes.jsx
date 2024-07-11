@@ -14,6 +14,7 @@ import useAuth from "../services/config/provider/useAuth";
 import RequireAuth from "../services/config/provider/RequireAuth";
 import CourtForm from "../components/CourtForm/CourtForm";
 import TransactionHistory from "../components/TransactionHistory/TransactionHistory";
+import PaymentSuccess from "../components/PaymentSuccess/PaymentSuccess"
 import ListOwnerCourt from "../components/ListOwnerCourt/ListOwnerCourt";
 import {
   AdminMenuItems,
@@ -24,6 +25,7 @@ import YardForm from "../components/Admin/AdminCourtManagement";
 import YardList from "../components/Admin/AdminListCourt";
 import UserForm from "../components/UserForm/UserForm";
 import StaffList from "../components/StaffList/StaffList";
+import OrderList from "../components/OrderList/OrderList";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -81,6 +83,8 @@ export default function AppRoutes() {
                 <Route path="login-success" element={<LoginSuccess />} />
                 <Route path="register" element={<Register />} />
                 <Route path="transaction-history" element={<TransactionHistory />} />
+                <Route path="payment-success" element={<PaymentSuccess />} />
+                <Route path="orders" element={<OrderList />} />
               </Route>
             </>
           ) : (

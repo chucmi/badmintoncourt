@@ -21,6 +21,8 @@ import Logo from "../../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../services/authAPI"; // Import logout function
 import { useSelector } from "react-redux";
+import { AiOutlineOrderedList } from "react-icons/ai";
+import { History } from "@mui/icons-material";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
@@ -44,28 +46,29 @@ export default function Header() {
       key: "2",
       label: (
         <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.aliyun.com"
+          onClick={(e) => {
+            e.preventDefault();
+            handleOrderList();
+          }}
         >
-          2nd menu item (disabled)
+          Orders
         </a>
       ),
-      icon: <SmileOutlined />,
-      disabled: true,
+      icon: <AiOutlineOrderedList />,
     },
     {
       key: "3",
       label: (
         <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
+          onClick={(e) => {
+            e.preventDefault();
+            handleHistory();
+          }}
         >
-          3rd menu item (disabled)
+          History
         </a>
       ),
-      disabled: true,
+      icon: <History />,
     },
     {
       key: "4",
@@ -87,12 +90,20 @@ export default function Header() {
     try {
       await logout();
       setIsLoggedIn(false);
-      window.location.href = "/";
+      navigate("/");
     } catch (error) {
       notification.error({
         message: error?.message || "Some thing wrong. Please try later!",
       });
     }
+  };
+
+  const handleHistory = () => {
+    navigate("/transaction-history");
+  };
+
+  const handleOrderList = () => {
+    navigate("/orders");
   };
 
   return (
