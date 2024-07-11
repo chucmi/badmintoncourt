@@ -35,8 +35,8 @@ export default function CartReport() {
       yard_id: item.id,
       user_id: userId,
       slot_id: item.slot_id,
-      tourament_start: item.tournament_start,
-      tourament_end: item.tournament_end,
+      tournament_start: item.tournament_start,
+      tournament_end: item.tournament_end,
     }));
 
     try {
