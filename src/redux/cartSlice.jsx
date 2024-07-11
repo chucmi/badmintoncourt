@@ -78,6 +78,22 @@ const cartSlice = createSlice({
         saveCartToLocalStorage(state);
       }
     },
+    clearCartPayment: (state) => {
+      if (state.cartItems.length === 0) {
+        notification.warning({
+          message: "Sân không tồn tại",
+          description: `Không có sân nào trong giỏ hàng.`,
+        });
+      } else {
+        state.cartItems = [];
+        notification.info({
+          message: "Đặt sân thành công",
+          description: `Sân đã đã được đặt. Vui lòng kiểm tra lịch sử đặt sân.`,
+        });
+
+        saveCartToLocalStorage(state);
+      }
+    },
     removeExpiredItems: (state) => {
       const now = Date.now();
       const beforeCount = state.cartItems.length; // Get initial count of items
@@ -101,7 +117,12 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, clearCart, removeExpiredItems } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  clearCart,
+  removeExpiredItems,
+  clearCartPayment,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

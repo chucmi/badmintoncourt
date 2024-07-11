@@ -97,15 +97,18 @@ export default function OrderList() {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      render: (text) =>
-        text === true ? (
-          <Tag color="green">Đã thanh toán</Tag>
-        ) : (
-          <Tag color="red">Chờ thanh toán</Tag>
-        ),
+      render: (text) => {
+        if (text === true) {
+          return <Tag color="green">Đã thanh toán</Tag>;
+        } else if (text === null) {
+          return <Tag color="orange">Chờ thanh toán</Tag>;
+        } else {
+          return <Tag color="red">Đã hủy thanh toán</Tag>;
+        }
+      },
     },
     {
-      title: "Thao tác",
+      title: "",
       dataIndex: "action",
       key: "action",
       render: (_, record) =>

@@ -6,10 +6,7 @@ let notificationDisplayed = false;
 
 export const createBookingOrdersBulk = async (orderItems) => {
   try {
-    const response = await axiosClient.post(
-      "/v1/createBookingOrders/bulk",
-      orderItems
-    );
+    const response = await axiosClient.post("/v1/bookingOrders", orderItems);
     if (!notificationDisplayed) {
       notification.success({
         message: "Đặt hàng thành công",

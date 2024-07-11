@@ -19,7 +19,6 @@ export const getYards = async (pageNumber = 0) => {
   }
 };
 
-
 // export const getYards2 = async (pageNumber) => {
 //   try {
 //     const response = await axiosClient.get(`/v1/yards?pageNumber=${pageNumber}`);
@@ -42,6 +41,20 @@ export const getYards = async (pageNumber = 0) => {
 export const getYardDetail = async (id) => {
   try {
     const response = await axiosClient.get(`/v1/yards/${id}`);
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+      notificationDisplayed = true;
+    }
+  }
+};
+
+export const getYardDetailActiveSlot = async (id) => {
+  try {
+    const response = await axiosClient.get(`/v1/yards/${id}/active-slots`);
     return response.data;
   } catch (error) {
     if (!notificationDisplayed) {
