@@ -9,6 +9,7 @@ import {
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { createPayment } from "../../services/paymentAPI";
+import { formatDateTime } from "../../utils/time";
 
 export default function OrderList() {
   const [orders, setOrders] = useState([]);
@@ -141,7 +142,7 @@ export default function OrderList() {
     id: order.id,
     name: order.yard.name,
     yard_id: order.yard.id,
-    booking_at: order.booking_at,
+    booking_at: formatDateTime(order.booking_at),
     start_time: order.tournament_start + "  lúc " + order.slot.start_time,
     end_time: order.tournament_end + "  lúc " + order.slot.end_time,
     price: order.slot.price,
