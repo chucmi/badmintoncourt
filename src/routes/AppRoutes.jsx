@@ -25,6 +25,7 @@ import YardForm from "../components/Admin/AdminCourtManagement";
 import YardList from "../components/Admin/AdminListCourt";
 import UserForm from "../components/UserForm/UserForm";
 import StaffList from "../components/StaffList/StaffList";
+import OrderList from "../components/OrderList/OrderList";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -83,6 +84,7 @@ export default function AppRoutes() {
                 <Route path="register" element={<Register />} />
                 <Route path="transaction-history" element={<TransactionHistory />} />
                 <Route path="payment-success" element={<PaymentSuccess />} />
+                <Route path="orders" element={<OrderList />} />
               </Route>
             </>
           ) : (

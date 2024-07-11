@@ -16,7 +16,7 @@ export const getPayments = async () => {
       notificationDisplayed = true;
     }
   }
-}
+};
 
 export const getTransactionOfUser = async (userId) => {
   try {
@@ -31,4 +31,24 @@ export const getTransactionOfUser = async (userId) => {
       notificationDisplayed = true;
     }
   }
-}
+};
+
+export const createPayment = async (amount, bookingCode) => {
+  try {
+    const response = await axiosClient.get(
+      "/payments/vn-pay?amount=" +
+        amount +
+        "&bookingCode=" +
+        bookingCode +
+        "&bankCode=NCB"
+    );
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+      notificationDisplayed = true;
+    }
+  }
+};

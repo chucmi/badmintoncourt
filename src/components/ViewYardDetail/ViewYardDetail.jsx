@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { Fade } from "react-slideshow-image";
 import { TinyColor } from "@ctrl/tinycolor";
-import { getYardDetail } from "../../services/yardAPI";
+import { getYardDetail, getYardDetailActiveSlot } from "../../services/yardAPI";
 import { addToCart } from "../../redux/cartSlice"; // Adjust the path accordingly
 import "react-slideshow-image/dist/styles.css";
 import { formatDate, formatTime } from "../../utils/time";
@@ -28,7 +28,7 @@ const ViewYardDetail = () => {
   useEffect(() => {
     const fetchCourtDetail = async () => {
       try {
-        const data = await getYardDetail(yardid);
+        const data = await getYardDetailActiveSlot(yardid);
         setCourtDetail(data);
       } catch (error) {
         setError(error.message || "Something went wrong. Please try later!");

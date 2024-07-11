@@ -1,12 +1,15 @@
 import { Button, Card, Divider, List, Typography, notification } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createBookingOrdersBulk } from "../../services/orderAPI";
 import { useNavigate } from "react-router-dom";
+import { clearCartPayment } from "../../redux/cartSlice";
 const { Text } = Typography;
 
 export default function CartReport() {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const token = localStorage.getItem("token");
   let userId = null;
   if (token) {
@@ -33,11 +36,12 @@ export default function CartReport() {
       user_id: userId,
       slot_id: item.slot_id,
       tourament_start: item.tournament_start,
-      tourament_end: item.tourament_end,
+      tourament_end: item.tournament_end,
     }));
 
     try {
       await createBookingOrdersBulk(orderItems);
+      dispatch(clearCartPayment());
     } catch (error) {
       console.error("Error during checkout:", error);
     }
