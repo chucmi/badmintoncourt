@@ -7,6 +7,8 @@ import {
   Switch,
   notification,
   Modal,
+  Upload,
+  Image,
 } from "antd";
 import { useState, useEffect } from "react";
 import FormInput from "../FormInput/FormInput";
@@ -17,6 +19,10 @@ import dayjs from "dayjs";
 import SlotForm from "../SlotForm/SlotForm";
 import { createSlot, updateSlot } from "../../services/slotAPI";
 import SlotItem from "../SlotItem/SlotItem";
+import { UploadOutlined } from "@mui/icons-material";
+import { storage } from "../../services/firebase/UploadImgSvc";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { createYardImage, getYardImages } from "../../services/yardImageAPI";
 
 export default function CourtUpdate() {
   const [form] = Form.useForm();
@@ -26,6 +32,8 @@ export default function CourtUpdate() {
   const [isSlotModalVisible, setIsSlotModalVisible] = useState(false);
   const [slotForm] = Form.useForm();
   const [selectedSlot, setSelectedSlot] = useState(null); // New state for selected slot
+  const [yardImgs, setYardImgs] = useState([]);
+  const [image, setImage] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,8 +53,10 @@ export default function CourtUpdate() {
   const fetchCourt = async () => {
     try {
       const data = await getYardDetail(yardid);
+      const images = await getYardImages(yardid);
       if (data) {
         setCourt(data);
+        setYardImgs(images);
       }
     } catch (error) {
       console.error("Error fetching court details:", error);
@@ -137,6 +147,34 @@ export default function CourtUpdate() {
   const handleEditSlot = (slot) => {
     setSelectedSlot(slot);
     setIsSlotModalVisible(true);
+  };
+
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageChange = (info) => {
+    setImage(info.target.files[0]);
+  };
+  const handleImageUpload = async () => {
+    const img = image;
+    if (img) {
+      try {
+        setUploading(true);
+        const storageRef = ref(storage, `images/${img.name}${Math.random()}`);
+        await uploadBytes(storageRef, img);
+        const url = await getDownloadURL(storageRef);
+        const data = {
+          yard_id: yardid,
+          img: url,
+        };
+        await createYardImage(data);
+        fetchCourt();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setUploading(false);
+        setImage(null);
+      }
+    }
   };
 
   return (
@@ -259,6 +297,32 @@ export default function CourtUpdate() {
             >
               Create Slot
             </Button>
+          </div>
+          <div className="pb-6">
+            <div>
+              <h4>Court Image:</h4>
+              <div className="flex gap-5 p-3">
+                {yardImgs.map((img) => (
+                  <Image
+                    key={img.id}
+                    src={img.image}
+                    width={100}
+                    height={100}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+
+              <Button disabled={uploading} onClick={handleImageUpload}>
+                {uploading ? "Uploading..." : "Upload Image"}
+              </Button>
+            </div>
           </div>
 
           <Form.Item>
