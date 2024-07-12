@@ -1,7 +1,7 @@
 import { Button, notification, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
-import { getOrdersByUserId } from "../../services/orderAPI";
+import { getOrdersByUserId, updateOrderStatus } from "../../services/orderAPI";
 import {
   Money,
   MoneyOffCsredTwoTone,
@@ -20,18 +20,17 @@ export default function OrderList() {
   let notificationDisplayed = false;
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const data = await getOrdersByUserId(userId);
-        if (data) {
-          setOrders(data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch orders:", error);
+  const fetchOrders = async () => {
+    try {
+      const data = await getOrdersByUserId(userId);
+      if (data) {
+        setOrders(data);
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+    }
+  };
+  useEffect(() => {
     fetchOrders();
   }, [userId]);
 
@@ -46,6 +45,15 @@ export default function OrderList() {
         });
         notificationDisplayed = true;
       }
+    }
+  };
+
+  const handleCancelOrder = async (id) => {
+    try {
+      await updateOrderStatus(id);
+      await fetchOrders();
+    } catch (error) {
+      console.error("Failed to cancel order:", error);
     }
   };
 
@@ -113,9 +121,7 @@ export default function OrderList() {
       dataIndex: "action",
       key: "action",
       render: (_, record) =>
-        record.status === true ? (
-          <></>
-        ) : (
+        record.status === null ? (
           <>
             <div className="flex gap-2">
               <Button
@@ -128,11 +134,14 @@ export default function OrderList() {
               <Button
                 className="bg-red-400 flex font-semibold"
                 icon={<MoneyOffCsredTwoTone />}
+                onClick={() => handleCancelOrder(record.id)}
               >
                 Hủy
               </Button>
             </div>
           </>
+        ) : (
+          <></>
         ),
     },
   ];

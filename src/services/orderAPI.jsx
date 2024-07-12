@@ -43,3 +43,22 @@ export const getOrdersByUserId = async (userId) => {
     throw error;
   }
 };
+
+export const updateOrderStatus = async (orderId) => {
+  try {
+    const response = await axiosClient.patch(
+      `/v1/bookingOrders/status/${orderId}`
+    );
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: "Some thing wrong. Please try later!",
+        description:
+          error?.message || "Đã xảy ra lỗi xảy ra. Vui này thử lại sau.",
+      });
+      notificationDisplayed = true;
+    }
+    throw error;
+  }
+};
