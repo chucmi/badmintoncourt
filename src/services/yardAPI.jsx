@@ -19,6 +19,21 @@ export const getYards = async (pageNumber = 0) => {
   }
 };
 
+export const getYardsSearch = async (name, pageNumber = 0) => {
+  try {
+    const response = await axiosClient.get(
+      `/v1/yards/search?name=${name}&pageNumber=${pageNumber}`
+    );
+    return response.data.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+      notificationDisplayed = true;
+    }
+  }
+};
 // export const getYards2 = async (pageNumber) => {
 //   try {
 //     const response = await axiosClient.get(`/v1/yards?pageNumber=${pageNumber}`);

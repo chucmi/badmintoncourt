@@ -39,6 +39,7 @@ const CourtCard = ({ court }) => {
           type="primary"
           className="font-semibold h-10"
           onClick={handleViewDetail}
+          disabled={!court.status}
         >
           Đặt sân ngay
         </Button>

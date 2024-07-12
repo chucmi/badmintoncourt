@@ -4,6 +4,7 @@ import {
   Badge,
   Button,
   Dropdown,
+  Form,
   Input,
   Space,
   notification,
@@ -28,6 +29,7 @@ export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const [form] = Form.useForm();
 
   const items = [
     {
@@ -106,23 +108,42 @@ export default function Header() {
     navigate("/orders");
   };
 
+  const handleOnSearch = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        window.location.href = "/search/" + values.search;
+      })
+      .catch((info) => {
+        console.log("Validate Failed:", info);
+      });
+  };
+
   return (
     <>
       <HeaderAntd className="text-center flex items-center justify-center bg-slate-300 text-white h-24">
         <a href="/">
           <img className="h-16 w-80 bg-contain" src={Logo} />
         </a>
-        <Input
-          className="font-bold h-12 ml-8"
-          placeholder="Nhập sân cầu lông bạn cần tìm?"
-        />
-        <Button
-          type="primary"
-          icon={<SearchOutlined />}
-          className="text-black font-bold h-12 w-48 ml-2"
-        >
-          Tìm kiếm
-        </Button>
+        <Form form={form} className="w-4/5 flex pt-7">
+          <Form.Item name={"search"} className="font-bold ml-8 w-full">
+            <Input
+              placeholder="Nhập sân cầu lông bạn cần tìm?"
+              className="h-12"
+              value={""}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              icon={<SearchOutlined />}
+              className="text-black font-bold h-12 w-48 ml-2"
+              onClick={handleOnSearch}
+            >
+              Tìm kiếm
+            </Button>
+          </Form.Item>
+        </Form>
         {isLoggedIn ? (
           <Dropdown
             menu={{

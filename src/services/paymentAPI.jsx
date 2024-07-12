@@ -21,7 +21,6 @@ export const getPayments = async () => {
 export const getTransactionOfUser = async (userId) => {
   try {
     const response = await axiosClient.get(`/payments/user/${userId}`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     if (!notificationDisplayed) {
