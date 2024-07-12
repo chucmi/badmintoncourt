@@ -27,6 +27,7 @@ import UserForm from "../components/UserForm/UserForm";
 import StaffList from "../components/StaffList/StaffList";
 import OrderList from "../components/OrderList/OrderList";
 import ListCourtSearch from "../components/ListCourtSearch/ListCourtSearch";
+import PaymentError from "../components/PaymentError/PaymemtError";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -89,6 +90,7 @@ export default function AppRoutes() {
                   element={<TransactionHistory />}
                 />
                 <Route path="payment-success" element={<PaymentSuccess />} />
+                <Route path="payment-error" element={<PaymentError />} />
                 <Route path="orders" element={<OrderList />} />
               </Route>
             </>
