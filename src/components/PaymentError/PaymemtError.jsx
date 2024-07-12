@@ -18,7 +18,7 @@ const PaymentError = () => {
       status="error"
       title="Payment Error"
       subTitle="Sorry, there was an issue with your payment. Please try again."
-      extra={<Button type="primary" onClick={() => navigate('/home')}>Try Again</Button>}
+      extra={<Button type="primary" onClick={() => navigate('/')}>Try Again</Button>}
     />
   );
 };
