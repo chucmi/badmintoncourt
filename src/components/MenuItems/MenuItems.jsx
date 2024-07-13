@@ -5,7 +5,13 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { logout } from "../../services/authAPI";
-import { LogoutOutlined } from "@mui/icons-material";
+import {
+  ListAltOutlined,
+  LogoutOutlined,
+  ReportGmailerrorred,
+  ReportOffOutlined,
+  StackedBarChartOutlined,
+} from "@mui/icons-material";
 
 const handleHome = () => {
   window.location.href = "/";
@@ -17,6 +23,10 @@ const handleCourtManagement = () => {
 
 const handleStaffManagement = () => {
   window.location.href = "/staffs";
+};
+
+const handleFeedback = () => {
+  window.location.href = "/feedback";
 };
 
 const handleLogout = async () => {
@@ -133,7 +143,7 @@ export const AdminMenuItems = [
   // },
   {
     key: "3",
-    icon: <BarChartOutlined />,
+    icon: <ListAltOutlined />,
     label: (
       <a
         onClick={(e) => {
@@ -161,6 +171,20 @@ export const AdminMenuItems = [
   },
   {
     key: "5",
+    icon: <ReportGmailerrorred />,
+    label: (
+      <a
+        onClick={(e) => {
+          e.preventDefault();
+          handleFeedback();
+        }}
+      >
+        Feedbacks
+      </a>
+    ),
+  },
+  {
+    key: "6",
     icon: <LogoutOutlined />,
     label: (
       <a

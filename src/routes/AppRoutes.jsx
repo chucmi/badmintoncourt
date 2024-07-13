@@ -28,6 +28,7 @@ import StaffList from "../components/StaffList/StaffList";
 import OrderList from "../components/OrderList/OrderList";
 import ListCourtSearch from "../components/ListCourtSearch/ListCourtSearch";
 import PaymentError from "../components/PaymentError/PaymemtError";
+import FeedbackList from "../components/FeedbackList/FeedbackList";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -59,6 +60,7 @@ export default function AppRoutes() {
                   {/* <Route path="court" element={<YardForm />} /> */}
                   <Route path="listcourt" element={<YardList />} />
                   <Route path="payment" element={<PaymentHistory />} />
+                  <Route path="feedback" element={<FeedbackList />} />
                 </Route>
               </Route>
             </>

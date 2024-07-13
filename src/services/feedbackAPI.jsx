@@ -17,3 +17,17 @@ export const createFeedback = async (data) => {
     }
   }
 };
+
+export const getFeedbacks = async () => {
+  try {
+    const response = await axiosClient.get("/v1/feedback");
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+      notificationDisplayed = true;
+    }
+  }
+};
