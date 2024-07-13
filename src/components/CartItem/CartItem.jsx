@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Row, Col, Button, Typography, Image, Select } from "antd";
+import { Row, Col, Button, Typography, Image, Select, Carousel } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../redux/cartSlice";
-import NoDataImg from "../../assets/nodata.png";
+import NoDataImg from "../../assets/1.png";
 
 const { Text } = Typography;
 
@@ -27,16 +27,24 @@ const CartItem = ({ item }) => {
         <Button type="text" icon={<CloseOutlined />} onClick={handleRemove} />
       </Col>
       <Col span={4}>
-        <Image
-          width={100}
-          height={100}
-          src={item.image || NoDataImg}
-          alt={item.name || "No Data"}
-          style={{ border: "2px solid #000" }}
-        />
+        {item.images.length > 0 ? (
+          <Carousel>
+            {item.images.map((image, index) => (
+              <Image
+                key={index}
+                src={image.image}
+                alt={item.name}
+                width={100}
+                height={100}
+              />
+            ))}
+          </Carousel>
+        ) : (
+          <Image src={NoDataImg} alt={item.name} width={100} height={100} />
+        )}
       </Col>
       <Col span={6} style={{ textAlign: "center" }}>
-        <Text strong>{item.name || "No Data"}</Text>
+        <Text strong>{item.name || "Không có dữ liệu"}</Text>
       </Col>
       <Col span={8} style={{ textAlign: "center" }}>
         <Row>
