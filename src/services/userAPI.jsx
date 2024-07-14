@@ -38,3 +38,37 @@ export const createUser = async (data) => {
     throw error;
   }
 };
+
+export const getUser = async (userId) => {
+  try {
+    const response = await axiosClient.get(`/v1/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: "Error",
+        description: "Failed to fetch user. Please try again later.",
+      });
+      notificationDisplayed = true;
+    }
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+};
+
+export const updateUser = async (data, userId) => {
+  try {
+    const response = await axiosClient.put(`/v1/user/${userId}`, data);
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: "Error",
+        description: "Failed to update user. Please try again later.",
+      });
+      notificationDisplayed = true;
+    }
+    console.error("Error updating user:", error);
+    throw error;
+  }
+};

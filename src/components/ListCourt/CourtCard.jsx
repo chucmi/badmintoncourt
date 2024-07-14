@@ -17,6 +17,7 @@ const CourtCard = ({ court }) => {
           <Carousel autoplay className="object-cover w-56 h-36">
             {court.images.map((image, index) => (
               <img
+              key={index}
                 alt={`court-${index}`}
                 src={image.image}
                 className="object-cover w-56 h-36"
