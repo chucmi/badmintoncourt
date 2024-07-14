@@ -36,13 +36,15 @@ export default function Header() {
       key: "1",
       label: (
         <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
+          onClick={(e) => {
+            e.preventDefault();
+            handleProfile();
+          }}
         >
-          1st menu item
+          Profile
         </a>
       ),
+      icon: <UserOutlined />,
     },
     {
       key: "2",
@@ -87,6 +89,10 @@ export default function Header() {
       ),
     },
   ];
+
+  const handleProfile = () => {
+    navigate("/profile");
+  };
 
   const handleLogout = async () => {
     try {

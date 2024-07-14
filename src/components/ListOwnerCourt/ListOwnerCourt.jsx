@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getOwnerYards } from "../../services/yardAPI";
-import { Card, Skeleton, Spin } from "antd";
+import { Card, Carousel, Skeleton, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const { Meta } = Card;
@@ -44,7 +44,25 @@ export default function ListOwnerCourt() {
             key={court.id}
             hoverable
             style={{ width: 340 }}
-            cover={<img alt="example" src="/src/assets/1.png" />}
+            cover={
+              court.images.length > 0 ? (
+                <Carousel autoplay>
+                  {court.images.map((image, index) => (
+                    <img
+                      alt={`court-${index}`}
+                      src={image.image}
+                      className="w-full h-52"
+                    />
+                  ))}
+                </Carousel>
+              ) : (
+                <img
+                  alt="court"
+                  src="/src/assets/1.png"
+                  className="w-full h-52"
+                />
+              )
+            }
             actions={[
               <a onClick={() => navigate(`/courts/${court.id}`)}>Chỉnh sửa</a>,
             ]}

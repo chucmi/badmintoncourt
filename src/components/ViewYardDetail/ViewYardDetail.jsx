@@ -15,6 +15,7 @@ import { getYardDetail, getYardDetailActiveSlot } from "../../services/yardAPI";
 import { addToCart } from "../../redux/cartSlice"; // Adjust the path accordingly
 import "react-slideshow-image/dist/styles.css";
 import { formatDate, formatTime } from "../../utils/time";
+import { ArrayToString } from "../../utils/text";
 
 const ViewYardDetail = () => {
   const { yardid } = useParams();
@@ -92,8 +93,7 @@ const ViewYardDetail = () => {
         slot_start: formatTime(selectedSlotDetail.start_time),
         slot_end: formatTime(selectedSlotDetail.end_time),
         date_count: dateCount,
-        image:
-          "https://shopvnb.com/uploads/tin_tuc/review-san-cau-long-quan-12-san-cau-long-nhat-pham.webp", // You can dynamically set the image URL here
+        images: courtDetail.images,
       })
     );
   };
@@ -172,36 +172,49 @@ const ViewYardDetail = () => {
           }}
           className="slide-container"
         >
-          <Fade>
-            {slideImages.map((image, index) => (
-              <div
-                key={index}
-                style={{ ...divStyle, backgroundImage: `url(${image.url})` }}
-                className="border-2 rounded-2xl border-black"
-              >
-                <div style={bannerStyle}>
-                  <span>{image.caption}</span>
+          {courtDetail.images.length > 0 ? (
+            <Fade>
+              {courtDetail.images.map((image, index) => (
+                <div
+                  key={index}
+                  style={{
+                    ...divStyle,
+                    backgroundImage: `url(${image.image})`,
+                  }}
+                  className="border-2 rounded-2xl border-black"
+                >
+                  <div style={bannerStyle}>
+                    <span>{courtDetail.name}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </Fade>
+              ))}
+            </Fade>
+          ) : (
+            <div className="object-cover ">
+              <img
+                alt="court"
+                src="/src/assets/1.png"
+                className="object-cover "
+              />
+            </div>
+          )}
         </div>
         <div className="border-2 rounded-2xl border-black bg-white p-5 ml-10 w-[528px] h-[320px]">
           <div className="text-left">
             <h2 className="font-bold">{courtDetail.name}</h2>
             <div className="pt-3">
               <p>
-                <span className="font-bold">📌 Location: </span>
+                <span className="font-bold">📌 Địa chỉ: </span>
                 {courtDetail.address}
               </p>
               <p>
-                <span className="font-bold">⏰ Time-Available: </span>
+                <span className="font-bold">⏰ Giờ mở cửa: </span>
                 {formatTime(courtDetail.open_time)} -{" "}
                 {formatTime(courtDetail.close_time)}
               </p>
               <p>
-                <span className="font-bold">📞 PhoneNumber: </span>
-                {courtDetail.phone || "No data!"}
+                <span className="font-bold">📞 Số điện thoại: </span>
+                {ArrayToString(courtDetail.telephones) || "Không có dữ liệu"}
               </p>
               <div className="flex items-center">
                 <span className="font-bold">⏲ Lúc: </span>

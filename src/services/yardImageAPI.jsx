@@ -35,3 +35,17 @@ export const getYardImages = async (yard_id) => {
     }
   }
 };
+
+export const deleteYardImage = async (id) => {
+  try {
+    const response = await axiosClient.delete(`/v1/yardImages/delete/${id}`);
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+      notificationDisplayed = true;
+    }
+  }
+};

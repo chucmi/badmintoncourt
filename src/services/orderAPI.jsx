@@ -6,7 +6,10 @@ let notificationDisplayed = false;
 
 export const createBookingOrdersBulk = async (orderItems) => {
   try {
-    const response = await axiosClient.post("/v1/bookingOrders", orderItems);
+    const response = await axiosClient.post(
+      "/v1/bookingOrders/create",
+      orderItems
+    );
     if (!notificationDisplayed) {
       notification.success({
         message: "Đặt hàng thành công",
@@ -16,10 +19,11 @@ export const createBookingOrdersBulk = async (orderItems) => {
     }
     return response.data;
   } catch (error) {
+    console.error(error);
     if (!notificationDisplayed) {
       notification.error({
         message: "Lỗi đặt hàng",
-        description: "Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại sau.",
+        description: "Sân đã có người đặt trước. Vui lòng thử lại sau.",
       });
       notificationDisplayed = true;
     }

@@ -4,9 +4,9 @@ import { notification } from "antd";
 
 let notificationDisplayed = false;
 
-export const createFeedback = async (data) => {
+export const createPhone = async (data) => {
   try {
-    const response = await axiosClient.post("/v1/feedback/create", data);
+    const response = await axiosClient.post(`/telephones`, data);
     return response.data;
   } catch (error) {
     if (!notificationDisplayed) {
@@ -18,9 +18,9 @@ export const createFeedback = async (data) => {
   }
 };
 
-export const getFeedbacks = async () => {
+export const deletePhone = async (id) => {
   try {
-    const response = await axiosClient.get("/v1/feedback");
+    const response = await axiosClient.delete(`/telephones/${id}`);
     return response.data;
   } catch (error) {
     if (!notificationDisplayed) {

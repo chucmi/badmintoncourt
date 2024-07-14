@@ -9,6 +9,7 @@ import {
   Modal,
   Upload,
   Image,
+  Tag,
 } from "antd";
 import { useState, useEffect } from "react";
 import FormInput from "../FormInput/FormInput";
@@ -19,10 +20,16 @@ import dayjs from "dayjs";
 import SlotForm from "../SlotForm/SlotForm";
 import { createSlot, updateSlot } from "../../services/slotAPI";
 import SlotItem from "../SlotItem/SlotItem";
-import { UploadOutlined } from "@mui/icons-material";
+import { CloseOutlined, UploadOutlined } from "@mui/icons-material";
 import { storage } from "../../services/firebase/UploadImgSvc";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { createYardImage, getYardImages } from "../../services/yardImageAPI";
+import {
+  createYardImage,
+  deleteYardImage,
+  getYardImages,
+} from "../../services/yardImageAPI";
+import PhoneForm from "../PhoneForm/PhoneForm";
+import { createPhone, deletePhone } from "../../services/phoneAPI";
 
 export default function CourtUpdate() {
   const [form] = Form.useForm();
@@ -30,9 +37,10 @@ export default function CourtUpdate() {
   const { yardid } = useParams();
   const [provinces, setProvinces] = useState([]);
   const [isSlotModalVisible, setIsSlotModalVisible] = useState(false);
+  const [isPhoneModalVisible, setIsPhoneModalVisible] = useState(false);
   const [slotForm] = Form.useForm();
+  const [phoneForm] = Form.useForm();
   const [selectedSlot, setSelectedSlot] = useState(null); // New state for selected slot
-  const [yardImgs, setYardImgs] = useState([]);
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
 
@@ -53,10 +61,8 @@ export default function CourtUpdate() {
   const fetchCourt = async () => {
     try {
       const data = await getYardDetail(yardid);
-      const images = await getYardImages(yardid);
       if (data) {
         setCourt(data);
-        setYardImgs(images);
       }
     } catch (error) {
       console.error("Error fetching court details:", error);
@@ -101,6 +107,42 @@ export default function CourtUpdate() {
         message: "Cập nhật sân thành công",
         description: "Sân của bạn đã được cập nhật thành công.",
       });
+    } catch (error) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+    }
+  };
+
+  const handleSavePhone = async (values) => {
+    const data = {
+      yard_id: yardid,
+      telephone: values.telephone,
+    };
+    try {
+      await createPhone(data);
+      notification.success({
+        message: "Thêm só điện thoại thành công",
+        description: "Số điện thoại đã được thêm thành công.",
+      });
+      setIsPhoneModalVisible(false);
+      phoneForm.resetFields();
+      await fetchCourt(); // Fetch updated court details
+    } catch (error) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+    }
+  };
+
+  const handleDeletePhone = async (id) => {
+    try {
+      await deletePhone(id);
+      notification.success({
+        message: "Xóa số điện thoại thành công",
+        description: "Số điện thoại đã được xóa thành công.",
+      });
+      await fetchCourt(); // Fetch updated court details
     } catch (error) {
       notification.error({
         message: error?.message || "Some thing wrong. Please try later!",
@@ -174,6 +216,22 @@ export default function CourtUpdate() {
         setUploading(false);
         setImage(null);
       }
+    }
+  };
+
+  const handleDeleteImage = async (imageId) => {
+    try {
+      // Call your delete image API here
+      await deleteYardImage(imageId);
+      notification.success({
+        message: "Xóa ảnh thành công",
+        description: "Ảnh đã được xóa thành công.",
+      });
+      fetchCourt(); // Fetch updated court details
+    } catch (error) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
     }
   };
 
@@ -281,6 +339,29 @@ export default function CourtUpdate() {
           </Form.Item>
           <div className="pb-6">
             <div className="flex pb-5 gap-2">
+              {court.telephones.map((phone) => (
+                <div>
+                  <Tag color="blue">
+                    <div className="flex gap-2">
+                      {phone.telephone}
+                      <a onClick={() => handleDeletePhone(phone.id)}>
+                        <CloseOutlined key="delete" />
+                      </a>
+                    </div>
+                  </Tag>
+                </div>
+              ))}
+            </div>
+            <Button
+              type="default"
+              onClick={() => setIsPhoneModalVisible(true)}
+              style={{ marginLeft: 10 }}
+            >
+              Add Phone
+            </Button>
+          </div>
+          <div className="pb-6">
+            <div className="flex pb-5 gap-2">
               {court.slots.map((slot) => (
                 <SlotItem
                   key={slot.id}
@@ -302,14 +383,34 @@ export default function CourtUpdate() {
             <div>
               <h4>Court Image:</h4>
               <div className="flex gap-5 p-3">
-                {yardImgs.map((img) => (
-                  <Image
+                {court.images.map((img) => (
+                  <div
                     key={img.id}
-                    src={img.image}
-                    width={100}
-                    height={100}
-                  />
+                    style={{ position: "relative", display: "inline-block" }}
+                  >
+                    <Image src={img.image} width={100} height={100} />
+                    <CloseOutlined
+                      onClick={() => handleDeleteImage(img.id)}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        cursor: "pointer",
+                        color: "red",
+                      }}
+                    />
+                  </div>
                 ))}
+                <CloseOutlined
+                  onClick={() => handleDeleteImage(img.id)}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    cursor: "pointer",
+                    color: "red",
+                  }}
+                />
               </div>
             </div>
             <div className="flex gap-2">
@@ -353,6 +454,14 @@ export default function CourtUpdate() {
           handleSaveSlot={handleSaveSlot}
           slot={selectedSlot}
         />
+      </Modal>
+      <Modal
+        title="Add Phone"
+        open={isPhoneModalVisible}
+        onCancel={() => setIsPhoneModalVisible(false)}
+        footer={null}
+      >
+        <PhoneForm form={phoneForm} handleSavePhone={handleSavePhone} />
       </Modal>
     </>
   );
