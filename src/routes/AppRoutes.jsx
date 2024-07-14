@@ -19,6 +19,7 @@ import ListOwnerCourt from "../components/ListOwnerCourt/ListOwnerCourt";
 import {
   AdminMenuItems,
   OwnerMenuItems,
+  StaffMenuItems,
 } from "../components/MenuItems/MenuItems";
 import CourtUpdate from "../components/CourtUpdate/CourtUpdate";
 import YardForm from "../components/Admin/AdminCourtManagement";
@@ -98,6 +99,10 @@ export default function AppRoutes() {
                 <Route path="profile" element={<UserProfile />} />
               </Route>
             </>
+          ) : auth?.role === "ROLE_STAFF" ? (
+            <Route path="/" element={<ManagerLayout items={StaffMenuItems} />}>
+              <Route index element={<CourtForm />} />
+            </Route>
           ) : (
             <></>
           )}

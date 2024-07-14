@@ -111,6 +111,23 @@ export const OwnerMenuItems = [
   },
 ];
 
+export const StaffMenuItems = [
+  {
+    key: "1",
+    icon: <AppstoreAddOutlined />,
+    label: (
+      <a
+        onClick={(e) => {
+          e.preventDefault();
+          handleHome();
+        }}
+      >
+        Home
+      </a>
+    ),
+  },
+];
+
 // TODO:change later
 export const AdminMenuItems = [
   {
