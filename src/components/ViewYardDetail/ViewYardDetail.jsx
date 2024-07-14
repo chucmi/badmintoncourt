@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   ConfigProvider,
@@ -8,10 +8,15 @@ import {
   Select,
   DatePicker,
   Skeleton,
+  Carousel,
 } from "antd";
 import { Fade } from "react-slideshow-image";
 import { TinyColor } from "@ctrl/tinycolor";
-import { getYardDetail, getYardDetailActiveSlot } from "../../services/yardAPI";
+import {
+  getRandomYard,
+  getYardDetail,
+  getYardDetailActiveSlot,
+} from "../../services/yardAPI";
 import { addToCart } from "../../redux/cartSlice"; // Adjust the path accordingly
 import "react-slideshow-image/dist/styles.css";
 import { formatDate, formatTime } from "../../utils/time";
@@ -26,20 +31,33 @@ const ViewYardDetail = () => {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [bookingType, setBookingType] = useState("inday"); // Default booking type
   const [selectedDates, setSelectedDates] = useState(["", ""]);
-  useEffect(() => {
-    const fetchCourtDetail = async () => {
-      try {
-        const data = await getYardDetailActiveSlot(yardid);
-        setCourtDetail(data);
-      } catch (error) {
-        setError(error.message || "Something went wrong. Please try later!");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [recommendedCourts, setRecommendedCourts] = useState([]);
+  const navigate = useNavigate();
+  const fetchCourtDetail = async () => {
+    try {
+      const data = await getYardDetailActiveSlot(yardid);
+      setCourtDetail(data);
+    } catch (error) {
+      setError(error.message || "Something went wrong. Please try later!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const fetchRecommendedCourts = async () => {
+    console.log("fetching recommended courts");
+    try {
+      const data = await getRandomYard(4);
+      setRecommendedCourts(data);
+    } catch (error) {
+      setError(error.message || "Something went wrong. Please try later!");
+    }
+  };
+
+  useEffect(() => {
     fetchCourtDetail();
-  }, [yardid]);
+    fetchRecommendedCourts();
+  }, []);
 
   const handleAddToCart = () => {
     if (!selectedSlot) {
@@ -97,25 +115,6 @@ const ViewYardDetail = () => {
       })
     );
   };
-
-  const slideImages = [
-    {
-      url: "https://shopvnb.com/uploads/tin_tuc/review-san-cau-long-quan-12-san-cau-long-nhat-pham.webp",
-      caption: "First Slide",
-    },
-    {
-      url: "https://shopvnb.com/uploads/tin_tuc/review-san-cau-long-quan-12-san-cau-long-nhat-pham.webp",
-      caption: "Second Slide",
-    },
-    {
-      url: "https://shopvnb.com/uploads/tin_tuc/review-san-cau-long-quan-12-san-cau-long-nhat-pham.webp",
-      caption: "Third Slide",
-    },
-    {
-      url: "https://shopvnb.com/uploads/tin_tuc/review-san-cau-long-quan-12-san-cau-long-nhat-pham.webp",
-      caption: "Fourth Slide",
-    },
-  ];
 
   const divStyle = {
     display: "flex",
@@ -329,18 +328,40 @@ const ViewYardDetail = () => {
       </div>
 
       <div className="pt-44 pb-12">
-        <h1 className="text-cyan-600 font-bold text-left pl-48">
+        <h1 className="text-cyan-600 font-bold text-left pl-48 pb-4">
           CÁC SÂN CẦU LÔNG KHÁC DÀNH CHO BẠN
         </h1>
         <div className="flex justify-evenly">
-          {slideImages.map((image, index) => (
-            <div key={index} className="h-[291px] w-[291px]">
-              <img
-                className="h-full w-full object-cover rounded-2xl"
-                src={image.url}
-                alt={`slide-${index}`}
-              />
-            </div>
+          {recommendedCourts.map((court, index) => (
+            <>
+              <div className="flex flex-col gap-2">
+                <div
+                  key={index}
+                  className="h-48 w-72"
+                  onClick={() => (window.location.href = `/yard/${court.id}`)}
+                >
+                  {court.images.length > 0 ? (
+                    <Carousel autoplay className="object-cover h-full w-full">
+                      {court.images.map((image, index) => (
+                        <img
+                          key={index}
+                          alt={`court-${index}`}
+                          src={image.image}
+                          className="object-cover h-48 w-72 rounded-2xl"
+                        />
+                      ))}
+                    </Carousel>
+                  ) : (
+                    <img
+                      className="h-full w-full object-cover rounded-2xl"
+                      src="/src/assets/1.png"
+                      alt={`slide-${index}`}
+                    />
+                  )}
+                </div>
+                <div className="font-semibold">{court.name}</div>
+              </div>
+            </>
           ))}
         </div>
       </div>
