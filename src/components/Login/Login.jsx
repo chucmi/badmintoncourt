@@ -82,9 +82,6 @@ const Login = () => {
               <span>Login</span>
               <AiOutlineSwapRight className="icon" />
             </button>
-            <span className="forgotPassword">
-              Forgot your password <a href="">Click Here</a>
-            </span>
           </form>
           <div className="footerDiv">
             <span className="text">Dont have an account?</span>

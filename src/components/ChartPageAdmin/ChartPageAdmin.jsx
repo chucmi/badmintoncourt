@@ -42,7 +42,7 @@ export default function ChartPageAdmin() {
             height={300}
           />
         </div>
-        <div>
+        <div className="p-4">
           <OwnerList />
         </div>
       </div>

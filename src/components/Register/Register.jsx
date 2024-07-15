@@ -20,11 +20,10 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [navigate, setNavigate] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [selectRole, setSelectRole] = useState(null);
 
   const submit = async (e) => {
-    let roleId = 2;
     e.preventDefault();
-    console.log("submit");
     const response = await axios.post(
       "https://badmintonbookingserver.up.railway.app/api/v1/auth/signup",
       {
@@ -33,11 +32,11 @@ const Register = () => {
         firstName,
         lastName,
         password,
-        roleId,
+        selectRole,
       }
     );
 
-    console.log(response)
+    console.log(response);
 
     if (response !== null) {
       setNavigate(true);
@@ -139,6 +138,28 @@ const Register = () => {
                   id="password"
                   placeholder="Enter password"
                   onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="inputDiv">
+              <label htmlFor="password">Vai trò</label>
+              <div className="input flex">
+                <p>Người đặt sân</p>
+                <input
+                  type="radio"
+                  id="role_user"
+                  name="role"
+                  value="2"
+                  defaultChecked
+                  onChange={(e) => setSelectRole(e.target.value)}
+                />
+                <p>Người cho thuê sân</p>
+                <input
+                  type="radio"
+                  id="role_owner"
+                  name="role"
+                  value="4"
+                  onChange={(e) => setSelectRole(e.target.value)}
                 />
               </div>
             </div>

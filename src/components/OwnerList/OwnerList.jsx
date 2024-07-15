@@ -5,6 +5,8 @@ import { createUser, getAllStaffs } from "../../services/userAPI";
 import { EditOutlined } from "@mui/icons-material";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { mdiBadminton } from "@mdi/js";
+import Icon from "@mdi/react";
 
 export default function OwnerList() {
   const [isUserModalVisible, setIsUserModalVisible] = useState(false);
@@ -37,6 +39,7 @@ export default function OwnerList() {
     const fetchStaffs = async () => {
       try {
         const data = await getAllStaffs(1);
+        console.log(data);
         if (data) {
           setStaffList(data);
         }
@@ -99,10 +102,20 @@ export default function OwnerList() {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Button
-          onClick={() => navigate("/listcourt/" + record.id)}
-          icon={<EditOutlined />}
-        />
+        <>
+          <div className="flex justify-center gap-2">
+            <Button
+              onClick={() => navigate("/listcourt/" + record.id)}
+              icon={<Icon path={mdiBadminton} size={1} />}
+            />
+            <Button
+              type="primary"
+              onClick={() => navigate("/listcourt/" + record.id)}
+            >
+              Duyệt
+            </Button>
+          </div>
+        </>
       ),
     },
   ];
