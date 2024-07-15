@@ -51,3 +51,18 @@ export const createPayment = async (amount, bookingCode) => {
     }
   }
 };
+
+export const getPaymentsOfYard = async (yardId) => {
+  try {
+    const response = await axiosClient.get(`/payments/yard/${yardId}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+      notificationDisplayed = true;
+    }
+  }
+};

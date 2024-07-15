@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import CourtCard from "./CourtCard";
 import RecommendedCard from "./Recommend";
-import { getYards } from "../../services/yardAPI";
+import { getRandomYard, getYards } from "../../services/yardAPI";
 import { Skeleton } from "antd";
 
 const sampleData = [
@@ -114,17 +114,25 @@ const ListCourt = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [recommendedCourts, setRecommendedCourts] = useState([]);
+  const fetchYards = async () => {
+    const data = await getYards(currentPage - 1);
+    if (data) {
+      setCourts(data);
+      setTotalPages(data.totalPages);
+    }
+    setLoading(false);
+  };
 
+  const fetchRecommendedCourts = async () => {
+    const data = await getRandomYard(5);
+    if (data) {
+      setRecommendedCourts(data);
+    }
+  };
   useEffect(() => {
-    const fetchYards = async () => {
-      const data = await getYards(currentPage - 1);
-      if (data) {
-        setCourts(data);
-        setTotalPages(data.totalPages);
-      }
-      setLoading(false);
-    };
     fetchYards();
+    fetchRecommendedCourts();
   }, [currentPage]);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -183,7 +191,7 @@ const ListCourt = () => {
               <div className="border rounded p-4">
                 <h3 className="text-lg font-bold mb-4">Recommended Courts</h3>
                 <div className="grid grid-cols-1 ">
-                  {sampleData.slice(0, 4).map((court) => (
+                  {recommendedCourts.map((court) => (
                     <div key={court.id}>
                       <RecommendedCard court={court} />
                     </div>

@@ -126,7 +126,39 @@ export const StaffMenuItems = [
       </a>
     ),
   },
+  {
+    key: "2",
+    icon: <BarChartOutlined />,
+    label: (
+      <a
+        onClick={(e) => {
+          e.preventDefault();
+          handleStaffYards();
+        }}
+      >
+        Yards
+      </a>
+    ),
+  },
+  {
+    key: "3",
+    icon: <LogoutOutlined />,
+    label: (
+      <a
+        onClick={(e) => {
+          e.preventDefault();
+          handleLogout();
+        }}
+      >
+        Logout
+      </a>
+    ),
+  },
 ];
+
+const handleStaffYards = () => {
+  window.location.href = "/yards";
+};
 
 // TODO:change later
 export const AdminMenuItems = [

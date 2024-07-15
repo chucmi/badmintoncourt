@@ -125,10 +125,10 @@ export const getOwnerYards = async (hostId) => {
   }
 };
 
-export const getRandomYard = async () => {
+export const getRandomYard = async (size) => {
   try {
-    const response = await axiosClient.get(`/v1/yards/getRandom`);
-    return response.data;
+    const response = await axiosClient.get(`/v1/yards/getRandom/${size}`);
+    return response.data.data;
   } catch (error) {
     if (!notificationDisplayed) {
       notification.error({
