@@ -18,6 +18,7 @@ export default function YardListDetails() {
 
   const staffId = JSON.parse(atob(token.split(".")[1])).id;
 
+  const [error, setError] = useState();
   //   [
   //     {
   //       "id": 32,
