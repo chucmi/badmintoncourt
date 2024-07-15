@@ -8,6 +8,17 @@ export const formatTime = (time) => {
   }).format(date);
 };
 
+export const formatTimeV2 = (time) => {
+  const date = new Date(`1970-01-01T${time}Z`);
+  // Apply UTC+7 offset
+  date.setHours(date.getHours() - 7);
+  return new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(date);
+};
+
 export const formatDate = (date) => {
   try {
     const isoDate = new Date(date).toISOString();
