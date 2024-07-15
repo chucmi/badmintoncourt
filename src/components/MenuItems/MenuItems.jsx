@@ -74,6 +74,20 @@ export const OwnerMenuItems = [
       <a
         onClick={(e) => {
           e.preventDefault();
+          handleCreateCourt();
+        }}
+      >
+        Create Court
+      </a>
+    ),
+  },
+  {
+    key: "3",
+    icon: <BarChartOutlined />,
+    label: (
+      <a
+        onClick={(e) => {
+          e.preventDefault();
           handleCourtManagement();
         }}
       >
@@ -82,7 +96,7 @@ export const OwnerMenuItems = [
     ),
   },
   {
-    key: "3",
+    key: "4",
     icon: <TeamOutlined />,
     label: (
       <a
@@ -96,7 +110,7 @@ export const OwnerMenuItems = [
     ),
   },
   {
-    key: "4",
+    key: "5",
     icon: <LogoutOutlined />,
     label: (
       <a
@@ -110,6 +124,10 @@ export const OwnerMenuItems = [
     ),
   },
 ];
+
+const handleCreateCourt = () => {
+  window.location.href = "/courts/new";
+};
 
 export const StaffMenuItems = [
   {

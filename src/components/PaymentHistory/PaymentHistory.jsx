@@ -13,7 +13,7 @@ const PaymentHistory = () => {
         const data = await getPayments();
         setPayments(data);
       } catch (err) {
-        setError('Failed to fetch payments.');
+        setError("Failed to fetch payments.");
       } finally {
         setLoading(false);
       }
@@ -66,10 +66,21 @@ const PaymentHistory = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {payments.map((item) => (
                 <tr key={item.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.final_price.toLocaleString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.booking_order_id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.istournament ? "Yes" : "No"}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {item.id}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {(item.final_price / 100).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {item.booking_order_id}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {item.istournament ? "Yes" : "No"}
+                  </td>
                 </tr>
               ))}
             </tbody>

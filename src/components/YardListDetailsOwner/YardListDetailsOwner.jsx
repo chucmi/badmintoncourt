@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPaymentsOfYard } from "../../services/paymentAPI";
-import { Button, Form, Modal, notification, Table } from "antd";
+import { Button, Form, Modal, notification, Table, Typography } from "antd";
 import CheckinForm from "../CheckinForm/CheckinForm";
 import moment from "moment";
 import { updateCheckin } from "../../services/checkinAPI";
 import { formatDateTime } from "../../utils/time";
 
-export default function YardListDetails() {
+export default function YardListDetailsOwner() {
   const { yardid } = useParams();
   const [payments, setPayments] = useState([]);
-  const [form] = Form.useForm();
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectPayment, setSelectPayment] = useState(null);
-  const [selectUser, setSelectUser] = useState(null);
-  const token = localStorage.getItem("token");
-  const [checkin, setCheckin] = useState(null);
 
-  const staffId = JSON.parse(atob(token.split(".")[1])).id;
-
-  const [error, setError] = useState();
   //   [
   //     {
   //       "id": 32,
@@ -67,7 +58,7 @@ export default function YardListDetails() {
       const data = await getPaymentsOfYard(yardid);
       setPayments(data);
     } catch (err) {
-      setError("Failed to fetch payments.");
+      console.log(err);
     }
   };
 
@@ -82,56 +73,39 @@ export default function YardListDetails() {
       key: "id",
     },
     {
-      title: "Final Price",
+      title: "Giá tiền",
       dataIndex: "final_price",
       key: "final_price",
     },
     {
-      title: "Booking At",
+      title: "Đặt lúc",
       dataIndex: "booking_at",
       key: "booking_at",
     },
+
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-    },
-    {
-      title: "Tournament Start",
+      title: "Ngày bắt đầu",
       dataIndex: "tournament_start",
       key: "tournament_start",
     },
     {
-      title: "Tournament End",
+      title: "Ngày kết thúc",
       dataIndex: "tournament_end",
       key: "tournament_end",
     },
     {
-      title: "Start Time",
+      title: "Giờ bắt đầu",
       dataIndex: "start_time",
       key: "start_time",
     },
     {
-      title: "End Time",
+      title: "Giờ kết thúc",
       dataIndex: "end_time",
       key: "end_time",
     },
     {
-      title: "Action",
+      title: "",
       key: "action",
-      render: (_, record) => (
-        <Button
-          type="primary"
-          onClick={() => {
-            setIsFormVisible(true);
-            setSelectPayment(record.id);
-            setSelectUser(record.user_id);
-            setCheckin(record.checkin_id);
-          }}
-        >
-          Check-in
-        </Button>
-      ),
     },
   ];
 
@@ -150,42 +124,12 @@ export default function YardListDetails() {
     user_id: payment.booking_order.user_id,
   }));
 
-  const handleSaveCheckin = async (values) => {
-    try {
-      const data = {
-        id: checkin,
-        check_in_time: values.checkin_time.format("HH:mm:ss"),
-        check_out_time: values.checkout_time.format("HH:mm:ss"),
-        status: true,
-        payment_id: selectPayment,
-        user_id: selectUser,
-        check_in_by_id: staffId,
-      };
-
-      await updateCheckin(data);
-      notification.success({
-        message: "Check-in successfully",
-        description: "The check-in has been successfully.",
-      });
-
-      setIsFormVisible(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <>
-      <div>YardListDetails</div>
+      <div>
+        <Typography.Title level={3}>Danh sách thanh toán</Typography.Title>
+      </div>
       <Table columns={columns} dataSource={dataSource} />
-      <Modal
-        open={isFormVisible}
-        onCancel={() => setIsFormVisible(false)}
-        footer={null}
-        title="Check-in"
-      >
-        <CheckinForm handleSaveCheckin={handleSaveCheckin} form={form} />
-      </Modal>
     </>
   );
 }

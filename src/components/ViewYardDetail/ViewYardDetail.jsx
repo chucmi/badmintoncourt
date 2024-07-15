@@ -9,6 +9,7 @@ import {
   DatePicker,
   Skeleton,
   Carousel,
+  Typography,
 } from "antd";
 import { Fade } from "react-slideshow-image";
 import { TinyColor } from "@ctrl/tinycolor";
@@ -21,6 +22,7 @@ import { addToCart } from "../../redux/cartSlice"; // Adjust the path accordingl
 import "react-slideshow-image/dist/styles.css";
 import { formatDate, formatTime } from "../../utils/time";
 import { ArrayToString } from "../../utils/text";
+import Paragraph from "antd/es/typography/Paragraph";
 
 const ViewYardDetail = () => {
   const { yardid } = useParams();
@@ -325,6 +327,15 @@ const ViewYardDetail = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="px-20 container pt-20">
+        <Paragraph className="text-3xl text-left font-semibold text-blue-400">
+          Thông tin thêm:
+        </Paragraph>
+
+        <Paragraph className="text-left font-semibold text-xl ">
+          {courtDetail.description}
+        </Paragraph>
       </div>
 
       <div className="pt-44 pb-12">

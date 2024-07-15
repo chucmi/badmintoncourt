@@ -3,7 +3,7 @@ import FormInput from "../FormInput/FormInput";
 import { useEffect, useState } from "react";
 import { createUser } from "../../services/userAPI";
 
-export default function UserForm({ user, onFinish ,form}) {
+export default function UserForm({ user, onFinish, form }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -79,7 +79,9 @@ export default function UserForm({ user, onFinish ,form}) {
             rules={[{ required: true, message: "Please select the gender" }]}
           >
             <select className="w-full h-9 border-2 rounded-lg">
-              <option value={true}>Male</option>
+              <option value={true} selected>
+                Male
+              </option>
               <option value={false}>Female</option>
               <option value={""}>Other</option>
             </select>

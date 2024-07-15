@@ -1,23 +1,21 @@
 import { useEffect, useState } from "react";
 import { getOwnerYards } from "../../services/yardAPI";
 import { Card, Carousel, Skeleton, Spin } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const { Meta } = Card;
 
-export default function ListOwnerCourt() {
+export default function ListOwnerCourtAdmin() {
   const navigate = useNavigate();
   const [courts, setCourts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const hostId = JSON.parse(
-    atob(localStorage.getItem("token").split(".")[1])
-  ).id;
+  const { hostid } = useParams();
 
   useEffect(() => {
     const fetchCourts = async () => {
       setLoading(true); // Start loading
       try {
-        const data = await getOwnerYards(hostId);
+        const data = await getOwnerYards(hostid);
         if (data) {
           setCourts(data);
         }
@@ -28,7 +26,7 @@ export default function ListOwnerCourt() {
       }
     };
     fetchCourts();
-  }, [hostId]);
+  }, [hostid]);
 
   return (
     <div className="container mx-auto flex justify-evenly">
@@ -72,11 +70,7 @@ export default function ListOwnerCourt() {
               </a>,
             ]}
           >
-            <Meta
-              title={court.name}
-              description={court.description}
-              style={{ height: "100px" }}
-            />
+            <Meta title={court.name} description={court.description} />
           </Card>
         ))
       )}

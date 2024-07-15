@@ -22,7 +22,7 @@ export default function CourtForm() {
       name: values.courtName,
       address: values.address,
       description: values.description,
-      province_id: values.province_id,
+      province_id: parseInt(values.province_id),
       status: values.status,
       open_time: formatTime(values.openingTime),
       close_time: formatTime(values.closingTime),

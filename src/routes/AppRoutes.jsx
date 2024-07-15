@@ -34,6 +34,10 @@ import UserProfile from "../components/UserProfile/UserProfile";
 import ChartPage from "../components/ChartPage/ChartPage";
 import YardListStaff from "../components/YardListStaff/YardListStaff";
 import YardListDetails from "../components/YardListDetails/YardListDetails";
+import ChartPageAdmin from "../components/ChartPageAdmin/ChartPageAdmin";
+import OwnerList from "../components/OwnerList/OwnerList";
+import ListOwnerCourtAdmin from "../components/ListOwnerCourtAdmin/ListOwnerCourtAdmin";
+import YardListDetailsOwner from "../components/YardListDetailsOwner/YardListDetailsOwner";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -61,9 +65,13 @@ export default function AppRoutes() {
                   path="/"
                   element={<ManagerLayout items={AdminMenuItems} />}
                 >
-                  <Route index element={<ChartPage />} />
+                  <Route index element={<ChartPageAdmin />} />
                   {/* <Route path="court" element={<YardForm />} /> */}
-                  <Route path="listcourt" element={<YardList />} />
+                  <Route path="listcourt" element={<OwnerList />} />
+                  <Route
+                    path="listcourt/:hostid"
+                    element={<ListOwnerCourtAdmin />}
+                  />
                   <Route path="payment" element={<PaymentHistory />} />
                   <Route path="feedback" element={<FeedbackList />} />
                 </Route>
@@ -78,7 +86,12 @@ export default function AppRoutes() {
                 >
                   <Route index element={<ChartPage />} />
                   <Route path="courts" element={<ListOwnerCourt />} />
+                  <Route path="courts/new" element={<CourtForm />} />
                   <Route path="courts/:yardid" element={<CourtUpdate />} />
+                  <Route
+                    path="payment/:yardid"
+                    element={<YardListDetailsOwner />}
+                  />
                   <Route path="staffs" element={<StaffList />} />
                 </Route>
               </Route>

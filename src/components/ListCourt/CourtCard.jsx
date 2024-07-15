@@ -11,13 +11,13 @@ const CourtCard = ({ court }) => {
     navigate(`/yard/${court.id}`);
   };
   return (
-    <div className="flex flex-col md:flex-row items-start bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden w-full h-auto p-4">
+    <div className="flex flex-col md:flex-row items-start bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden w-full h-56 p-4">
       <div className="object-fit w-full md:w-60 h-full md:h-auto ">
         {court.images.length > 0 ? (
           <Carousel autoplay className="object-cover w-56 h-36">
             {court.images.map((image, index) => (
               <img
-              key={index}
+                key={index}
                 alt={`court-${index}`}
                 src={image.image}
                 className="object-cover w-56 h-36"
@@ -54,7 +54,11 @@ const CourtCard = ({ court }) => {
             {getMinMaxPrice(court.slots) || "Không có dữ liệu!"}
           </p>
         </div>
-        <p className="font-normal text-gray-700">{court.description}</p>
+        <div className="h-12">
+          <p className="font-normal text-gray-700 text-wrap">
+            {court.description}
+          </p>
+        </div>
       </div>
       <div className="p-4">
         <Button
