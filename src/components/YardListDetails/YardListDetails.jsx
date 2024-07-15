@@ -10,6 +10,7 @@ export default function YardListDetails() {
   const [form] = Form.useForm();
   const [isFormVisible, setIsFormVisible] = useState(false);
 
+  const [error, setError] = useState();
   //   [
   //     {
   //       "id": 32,

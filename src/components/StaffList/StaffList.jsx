@@ -2,7 +2,7 @@ import { Button, Table, Modal, Avatar, Tag, notification, Form } from "antd";
 import React, { useEffect, useState } from "react";
 import UserForm from "../UserForm/UserForm";
 import { createUser, getAllStaffs } from "../../services/userAPI";
-import { EditOutlined, VerifiedOutlined } from "@mui/icons-material";
+import { EditOutlined} from "@mui/icons-material";
 import { FaUser } from "react-icons/fa";
 
 export default function StaffList() {

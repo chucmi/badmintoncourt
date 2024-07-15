@@ -37,7 +37,9 @@ const Register = () => {
       }
     );
 
-    if (response.code === 200) {
+    console.log(response)
+
+    if (response !== null) {
       setNavigate(true);
     } else {
       setNavigate(false);
