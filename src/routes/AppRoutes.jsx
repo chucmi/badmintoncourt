@@ -31,6 +31,9 @@ import ListCourtSearch from "../components/ListCourtSearch/ListCourtSearch";
 import PaymentError from "../components/PaymentError/PaymemtError";
 import FeedbackList from "../components/FeedbackList/FeedbackList";
 import UserProfile from "../components/UserProfile/UserProfile";
+import ChartPage from "../components/ChartPage/ChartPage";
+import YardListStaff from "../components/YardListStaff/YardListStaff";
+import YardListDetails from "../components/YardListDetails/YardListDetails";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -58,7 +61,7 @@ export default function AppRoutes() {
                   path="/"
                   element={<ManagerLayout items={AdminMenuItems} />}
                 >
-                  <Route index element={<PaymentHistory />} />
+                  <Route index element={<ChartPage />} />
                   {/* <Route path="court" element={<YardForm />} /> */}
                   <Route path="listcourt" element={<YardList />} />
                   <Route path="payment" element={<PaymentHistory />} />
@@ -73,7 +76,7 @@ export default function AppRoutes() {
                   path="/"
                   element={<ManagerLayout items={OwnerMenuItems} />}
                 >
-                  <Route index element={<CourtForm />} />
+                  <Route index element={<ChartPage />} />
                   <Route path="courts" element={<ListOwnerCourt />} />
                   <Route path="courts/:yardid" element={<CourtUpdate />} />
                   <Route path="staffs" element={<StaffList />} />
@@ -102,6 +105,8 @@ export default function AppRoutes() {
           ) : auth?.role === "ROLE_STAFF" ? (
             <Route path="/" element={<ManagerLayout items={StaffMenuItems} />}>
               <Route index element={<CourtForm />} />
+              <Route path="yards" element={<YardListStaff />} />
+              <Route path="yards/:yardid" element={<YardListDetails />} />
             </Route>
           ) : (
             <></>
