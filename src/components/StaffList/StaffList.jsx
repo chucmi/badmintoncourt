@@ -44,6 +44,7 @@ export default function StaffList() {
         message: "Thay đổi trang thái thành công",
         description: "Thay đổi trang thái thành công.",
       });
+      setLoading(false);
       fetchStaffs();
       return response;
     } catch (error) {
