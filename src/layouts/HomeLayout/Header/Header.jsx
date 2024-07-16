@@ -14,7 +14,6 @@ import {
   SearchOutlined,
   UserOutlined,
   DownOutlined,
-  SmileOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Header as HeaderAntd } from "antd/es/layout/layout";

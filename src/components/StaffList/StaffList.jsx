@@ -169,7 +169,7 @@ export default function StaffList() {
     <>
       <div>
         <Button type="primary" onClick={() => setIsUserModalVisible(true)}>
-          Create Staff
+          Thêm nhân viên
         </Button>
       </div>
 

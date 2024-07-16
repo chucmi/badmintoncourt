@@ -20,7 +20,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [navigate, setNavigate] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [selectRole, setSelectRole] = useState("");
+  const [selectRole, setSelectRole] = useState(2);
 
   const submit = async (e) => {
     e.preventDefault();

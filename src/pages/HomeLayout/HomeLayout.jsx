@@ -8,7 +8,7 @@ import "./global.scss";
 export default function HomeLayout() {
   return (
     <>
-      <Layout>
+      <Layout className="grid-container min-h-screen">
         <Header />
         <Content className="text-center h-fit text-black">
           <Outlet />

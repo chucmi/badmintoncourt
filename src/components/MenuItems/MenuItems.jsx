@@ -63,7 +63,7 @@ export const OwnerMenuItems = [
           handleHome();
         }}
       >
-        Home
+        Trang chủ
       </a>
     ),
   },
@@ -77,7 +77,7 @@ export const OwnerMenuItems = [
           handleCreateCourt();
         }}
       >
-        Create Court
+        Tạo sân
       </a>
     ),
   },
@@ -91,7 +91,7 @@ export const OwnerMenuItems = [
           handleCourtManagement();
         }}
       >
-        Court Management
+        Quản Lý Sân
       </a>
     ),
   },
@@ -105,7 +105,7 @@ export const OwnerMenuItems = [
           handleStaffManagement();
         }}
       >
-        Staff Management
+        Quản Lý Nhân Viên
       </a>
     ),
   },
@@ -119,7 +119,7 @@ export const OwnerMenuItems = [
           handleLogout();
         }}
       >
-        Logout
+        Đăng Xuất
       </a>
     ),
   },
