@@ -13,6 +13,7 @@ export default function StaffList() {
   ).id;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [listLoading, setListLoading] = useState(false);
 
   const onFinish = async (values) => {
     const datas = {
@@ -56,9 +57,11 @@ export default function StaffList() {
 
   const fetchStaffs = async () => {
     try {
+      setListLoading(true);
       const data = await getAllStaffs(manager_id);
       if (data) {
         setStaffList(data);
+        setListLoading(false);
       }
     } catch (error) {
       console.error("Failed to fetch staffs:", error);
@@ -171,7 +174,12 @@ export default function StaffList() {
       </div>
 
       <div style={{ marginTop: 20 }}>
-        <Table columns={columns} dataSource={dataSource} pagination={false} />
+        <Table
+          loading={listLoading}
+          columns={columns}
+          dataSource={dataSource}
+          pagination={false}
+        />
       </div>
 
       <Modal

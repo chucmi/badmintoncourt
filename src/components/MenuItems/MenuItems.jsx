@@ -190,7 +190,7 @@ export const AdminMenuItems = [
           handleHome();
         }}
       >
-        Home
+        Trang chủ
       </a>
     ),
   },
@@ -218,7 +218,7 @@ export const AdminMenuItems = [
           handleAdminListCourt();
         }}
       >
-        List Court
+        Danh sách chủ sân
       </a>
     ),
   },
@@ -232,7 +232,7 @@ export const AdminMenuItems = [
           handleAdminPayment();
         }}
       >
-        Payment
+        Thanh toán
       </a>
     ),
   },
@@ -246,7 +246,7 @@ export const AdminMenuItems = [
           handleFeedback();
         }}
       >
-        Feedbacks
+        Phản hồi
       </a>
     ),
   },
@@ -260,7 +260,7 @@ export const AdminMenuItems = [
           handleLogout();
         }}
       >
-        Logout
+        Đăng xuất
       </a>
     ),
   },

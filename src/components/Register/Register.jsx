@@ -20,10 +20,11 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [navigate, setNavigate] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [selectRole, setSelectRole] = useState(null);
+  const [selectRole, setSelectRole] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
+
     const response = await axios.post(
       "https://badmintonbookingserver.up.railway.app/api/v1/auth/signup",
       {
@@ -32,11 +33,9 @@ const Register = () => {
         firstName,
         lastName,
         password,
-        selectRole,
+        role_id: parseInt(selectRole),
       }
     );
-
-    console.log(response);
 
     if (response !== null) {
       setNavigate(true);
@@ -59,12 +58,12 @@ const Register = () => {
         </div>
         <div className="formDiv">
           <div className="headerDiv">
-            <h3>Create Account</h3>
+            <h3>Tạo tài khoản</h3>
             {errorMsg && <p class="text-red-600">{errorMsg}</p>}
           </div>
           <form action="" className="form grid" onSubmit={submit}>
             <div className="inputDiv">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">Tên đăng nhập</label>
               <div className="input flex">
                 <FaUserShield className="icon" />
                 <input
@@ -88,7 +87,7 @@ const Register = () => {
               </div>
             </div>
             <div className="inputDiv">
-              <label htmlFor="firstName">First Name</label>
+              <label htmlFor="firstName">Họ</label>
               <div className="input flex">
                 <FaUserShield className="icon" />
                 <input
@@ -100,7 +99,7 @@ const Register = () => {
               </div>
             </div>
             <div className="inputDiv">
-              <label htmlFor="lastName">Last Name</label>
+              <label htmlFor="lastName">Tên</label>
               <div className="input flex">
                 <FaUserShield className="icon" />
                 <input
@@ -111,26 +110,8 @@ const Register = () => {
                 />
               </div>
             </div>
-            {/* <div className="inputDiv">
-              <label htmlFor="dob">Date of Birth</label>
-              <div className="input flex">
-                <FaUserShield className="icon" />
-                <input type="date" id="dob" 
-                  onChange={e => setDob(e.target.value)}/>
-              </div>
-            </div>
             <div className="inputDiv">
-              <label htmlFor="gender">Gender</label>
-              <div className="input flex">
-                <FaUserShield className="icon" />
-                <select id="gender" onChange={e => setGender(e.target.value)}>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-              </div>
-            </div> */}
-            <div className="inputDiv">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Mật khẩu</label>
               <div className="input flex">
                 <BsFillShieldLockFill className="icon" />
                 <input
@@ -149,7 +130,7 @@ const Register = () => {
                   type="radio"
                   id="role_user"
                   name="role"
-                  value="2"
+                  value={2}
                   defaultChecked
                   onChange={(e) => setSelectRole(e.target.value)}
                 />
@@ -158,7 +139,7 @@ const Register = () => {
                   type="radio"
                   id="role_owner"
                   name="role"
-                  value="4"
+                  value={4}
                   onChange={(e) => setSelectRole(e.target.value)}
                 />
               </div>
@@ -170,7 +151,7 @@ const Register = () => {
           </form>
           <div className="footerDiv">
             <Button>
-              <Link to={"/login"}>Back</Link>
+              <Link to={"/login"}>Trở về</Link>
             </Button>
           </div>
         </div>

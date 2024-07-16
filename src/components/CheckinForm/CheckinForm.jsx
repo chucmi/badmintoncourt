@@ -13,7 +13,7 @@ export default function CheckinForm({ form, handleSaveCheckin }) {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Submit
+            Checkin
           </Button>
         </Form.Item>
       </Form>

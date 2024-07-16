@@ -6,6 +6,7 @@ export default function SlotItem({
   slot,
   handleOnEditSlot,
   handleOnDeleteSlot,
+  isAdmin,
 }) {
   return (
     <Card
@@ -25,16 +26,15 @@ export default function SlotItem({
       <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
         Slot:{formatTime(slot.start_time)} - {formatTime(slot.end_time)} |
         Price:{slot.price.toLocaleString("vi-VN")}đ
-        <Tooltip title="Edit">
-          <a onClick={() => handleOnEditSlot(slot)}>
-            <EditOutlined key="edit" />
-          </a>
-        </Tooltip>
-        <Tooltip title="Delete">
-          <a>
-            <CloseOutlined key="delete" />
-          </a>
-        </Tooltip>
+        {isAdmin ? (
+          <Tooltip title="Edit">
+            <a onClick={() => handleOnEditSlot(slot)}>
+              <EditOutlined key="edit" />
+            </a>
+          </Tooltip>
+        ) : (
+          <></>
+        )}
       </div>
     </Card>
   );

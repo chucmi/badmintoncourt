@@ -64,17 +64,17 @@ export default function FeedbackListYard() {
       key: "id",
     },
     {
-      title: "Rating",
+      title: "Điểm đánh giá (thang điểm 5)",
       dataIndex: "rating",
       key: "rating",
     },
     {
-      title: "Problem",
+      title: "Nội dung",
       dataIndex: "problem",
       key: "problem",
     },
     {
-      title: "Date",
+      title: "Ngày gửi",
       dataIndex: "create_date",
       key: "create_date",
     },

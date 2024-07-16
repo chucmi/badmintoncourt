@@ -23,7 +23,7 @@ export default function CourtForm() {
       address: values.address,
       description: values.description,
       province_id: parseInt(values.province_id),
-      status: values.status,
+      status: false,
       open_time: formatTime(values.openingTime),
       close_time: formatTime(values.closingTime),
       host_id: JSON.parse(atob(localStorage.getItem("token").split(".")[1])).id,
@@ -43,21 +43,20 @@ export default function CourtForm() {
   };
 
   const [provinces, setProvinces] = useState([]);
-
+  const fetchProvinces = async () => {
+    const data = await getProvinces();
+    if (data) {
+      setProvinces(data);
+    }
+  };
   useEffect(() => {
-    const fetchProvinces = async () => {
-      const data = await getProvinces();
-      if (data) {
-        setProvinces(data);
-      }
-    };
     fetchProvinces();
   }, []);
 
   return (
     <>
       <div className="font-bold text-2xl mb-4 text-center mt-6">
-        Add Your Court
+        Đăng ký sân mới
       </div>
       <Form
         className="mx-44"
@@ -69,27 +68,27 @@ export default function CourtForm() {
         }}
       >
         <FormInput
-          label="Court Name:"
+          label="Tên sân:"
           name="courtName"
-          rules={[{ required: true, message: "Please enter the court name" }]}
+          rules={[{ required: true, message: "Vui lòng nhập tên sân" }]}
         >
-          <Input placeholder="Enter court name" />
+          <Input placeholder="Nhập tên sân" />
         </FormInput>
 
         <FormInput
-          label="Address:"
+          label="Địa chỉ:"
           name="address"
-          rules={[{ required: true, message: "Please enter the address" }]}
+          rules={[{ required: true, message: "Vui lòng nhập địa chỉ" }]}
         >
-          <Input placeholder="Enter address" />
+          <Input placeholder="Nhập địa chỉ" />
         </FormInput>
 
         <FormInput
-          label="Province:"
+          label="Tỉnh:"
           name="province_id"
-          rules={[{ required: true, message: "Please select the province" }]}
+          rules={[{ required: true, message: "Vui lòng chọn tỉnh thành" }]}
         >
-          <Select placeholder="Select province">
+          <Select placeholder="Chọn tỉnh thành">
             {provinces.map((province) => (
               <Select.Option
                 key={province.province_id}
@@ -102,24 +101,26 @@ export default function CourtForm() {
         </FormInput>
 
         <FormInput
-          label="Description:"
+          label="Mô tả:"
           name="description"
-          rules={[{ required: true, message: "Please enter the description" }]}
+          rules={[{ required: true, message: "Vui lòng thêm mô tả sân" }]}
         >
-          <Input.TextArea placeholder="Enter description" rows={4} />
+          <Input.TextArea placeholder="Nhập mô tả" rows={4} />
         </FormInput>
 
         <div className="flex">
           <FormInput
-            label="Opening Time:"
+            label="Giờ mở cửa:"
             name="openingTime"
             rules={[
-              { required: true, message: "Please select the opening time" },
+              { required: true, message: "Vui lòng chọn giờ mở cửa" },
               {
                 validator: (_, value) =>
                   value && value.isValid()
                     ? Promise.resolve()
-                    : Promise.reject(new Error("Please select a valid time")),
+                    : Promise.reject(
+                        new Error("Vui lòng chọn thời gian phù hợp")
+                      ),
               },
             ]}
           >
@@ -129,15 +130,17 @@ export default function CourtForm() {
           <div className="w-8" />
 
           <FormInput
-            label="Closing Time:"
+            label="Giờ đóng cửa:"
             name="closingTime"
             rules={[
-              { required: true, message: "Please select the closing time" },
+              { required: true, message: "Vui lòng chọn thời gian đóng cửa" },
               {
                 validator: (_, value) =>
                   value && value.isValid()
                     ? Promise.resolve()
-                    : Promise.reject(new Error("Please select a valid time")),
+                    : Promise.reject(
+                        new Error("Vui lòng chọn thời gian phù hợp")
+                      ),
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
@@ -146,7 +149,7 @@ export default function CourtForm() {
                     return Promise.resolve();
                   }
                   return Promise.reject(
-                    new Error("Closing time must be after opening time")
+                    new Error("Thời gian đóng cửa phải hơn thời gian mở cửa")
                   );
                 },
               }),
@@ -156,13 +159,9 @@ export default function CourtForm() {
           </FormInput>
         </div>
 
-        <FormInput label="Status:" name="status" valuePropName="checked">
-          <Switch checkedChildren="Open" unCheckedChildren="Closed" />
-        </FormInput>
-
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Submit
+            Tạo sân
           </Button>
         </Form.Item>
       </Form>

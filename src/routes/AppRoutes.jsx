@@ -77,6 +77,8 @@ export default function AppRoutes() {
                     path="payment/:yardid"
                     element={<YardListDetailsOwner />}
                   />
+                  <Route path="courts/:yardid" element={<CourtUpdate />} />
+
                   <Route path="payment" element={<PaymentHistory />} />
                   <Route path="feedback" element={<FeedbackList />} />
                   <Route
@@ -96,7 +98,10 @@ export default function AppRoutes() {
                   <Route index element={<ChartPage />} />
                   <Route path="courts" element={<ListOwnerCourt />} />
                   <Route path="courts/new" element={<CourtForm />} />
-                  <Route path="courts/:yardid" element={<CourtUpdate />} />
+                  <Route
+                    path="courts/:yardid"
+                    element={<CourtUpdate isAdmin={false} />}
+                  />
                   <Route
                     path="feedback/:yardid"
                     element={<FeedbackListYard />}
@@ -130,7 +135,7 @@ export default function AppRoutes() {
             </>
           ) : auth?.role === "ROLE_STAFF" ? (
             <Route path="/" element={<ManagerLayout items={StaffMenuItems} />}>
-              <Route index element={<CourtForm />} />
+              <Route index element={<YardListStaff />} />
               <Route path="yards" element={<YardListStaff />} />
               <Route path="yards/:yardid" element={<YardListDetails />} />
             </Route>

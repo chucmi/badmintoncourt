@@ -90,7 +90,7 @@ export default function CartReport() {
         style={{ marginTop: 16 }}
         onClick={handleCheckout}
       >
-        Thanh toán
+        Tiến hành đặt sân
       </Button>
     </Card>
   );

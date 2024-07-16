@@ -31,7 +31,7 @@ import {
 import PhoneForm from "../PhoneForm/PhoneForm";
 import { createPhone, deletePhone } from "../../services/phoneAPI";
 
-export default function CourtUpdate() {
+export default function CourtUpdate({ isAdmin = true }) {
   const [form] = Form.useForm();
   const [court, setCourt] = useState(null);
   const { yardid } = useParams();
@@ -43,18 +43,17 @@ export default function CourtUpdate() {
   const [selectedSlot, setSelectedSlot] = useState(null); // New state for selected slot
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchProvinces = async () => {
-      try {
-        const data = await getProvinces();
-        if (data) {
-          setProvinces(data);
-        }
-      } catch (error) {
-        console.error("Error fetching provinces:", error);
+  const fetchProvinces = async () => {
+    try {
+      const data = await getProvinces();
+      if (data) {
+        setProvinces(data);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching provinces:", error);
+    }
+  };
+  useEffect(() => {
     fetchProvinces();
   }, []);
 
@@ -71,7 +70,7 @@ export default function CourtUpdate() {
 
   useEffect(() => {
     fetchCourt();
-  }, [yardid]);
+  }, []);
 
   useEffect(() => {
     if (court) {
@@ -95,10 +94,10 @@ export default function CourtUpdate() {
       address: values.address,
       description: values.description,
       province_id: values.province_id,
-      status: values.status,
+      status: isAdmin ? values.status : false,
       open_time: formatTime(values.openingTime),
       close_time: formatTime(values.closingTime),
-      host_id: JSON.parse(atob(localStorage.getItem("token").split(".")[1])).id,
+      host_id: court.host_id,
     };
 
     try {
@@ -133,6 +132,7 @@ export default function CourtUpdate() {
         message: error?.message || "Some thing wrong. Please try later!",
       });
     }
+    onFinish(form.getFieldsValue());
   };
 
   const handleDeletePhone = async (id) => {
@@ -148,6 +148,7 @@ export default function CourtUpdate() {
         message: error?.message || "Some thing wrong. Please try later!",
       });
     }
+    onFinish(form.getFieldsValue());
   };
 
   const handleSaveSlot = async (values) => {
@@ -184,6 +185,7 @@ export default function CourtUpdate() {
           `Failed to ${selectedSlot ? "update" : "create"} slot. Please try later.`,
       });
     }
+    onFinish(form.getFieldsValue());
   };
 
   const handleEditSlot = (slot) => {
@@ -217,6 +219,7 @@ export default function CourtUpdate() {
         setImage(null);
       }
     }
+    onFinish(form.getFieldsValue());
   };
 
   const handleDeleteImage = async (imageId) => {
@@ -233,12 +236,13 @@ export default function CourtUpdate() {
         message: error?.message || "Some thing wrong. Please try later!",
       });
     }
+    onFinish(form.getFieldsValue());
   };
 
   return (
     <>
       <div className="font-bold text-2xl mb-4 text-center mt-6">
-        Update Your Court
+        Chỉnh sửa {court?.name}
       </div>
       {court && (
         <Form
@@ -248,27 +252,30 @@ export default function CourtUpdate() {
           onFinish={onFinish}
         >
           <Form.Item
-            label="Court Name:"
+            label="Tên sân:"
             name="courtName"
             rules={[{ required: true, message: "Please enter the court name" }]}
           >
-            <Input placeholder="Enter court name" />
+            <Input disabled={isAdmin} placeholder="Enter court name" />
           </Form.Item>
 
           <Form.Item
-            label="Address:"
+            label="Địa chỉ:"
             name="address"
             rules={[{ required: true, message: "Please enter the address" }]}
           >
-            <Input placeholder="Enter address" />
+            <Input disabled={isAdmin} placeholder="Enter address" />
           </Form.Item>
 
           <Form.Item
-            label="Province:"
+            label="Tỉnh:"
             name="province_id"
             rules={[{ required: true, message: "Please select the province" }]}
           >
-            <select className="w-full h-10 border-2 rounded-lg">
+            <select
+              disabled={isAdmin}
+              className="w-full h-10 border-2 rounded-lg"
+            >
               {provinces.map((province) => (
                 <option key={province.province_id} value={province.province_id}>
                   {province.province_name}
@@ -278,18 +285,22 @@ export default function CourtUpdate() {
           </Form.Item>
 
           <Form.Item
-            label="Description:"
+            label="Mô tả:"
             name="description"
             rules={[
               { required: true, message: "Please enter the description" },
             ]}
           >
-            <Input.TextArea placeholder="Enter description" rows={4} />
+            <Input.TextArea
+              disabled={isAdmin}
+              placeholder="Enter description"
+              rows={4}
+            />
           </Form.Item>
 
           <div className="flex">
             <Form.Item
-              label="Opening Time:"
+              label="Giờ mở cửa:"
               name="openingTime"
               rules={[
                 { required: true, message: "Please select the opening time" },
@@ -301,13 +312,13 @@ export default function CourtUpdate() {
                 },
               ]}
             >
-              <TimePicker format="HH:mm" />
+              <TimePicker disabled={isAdmin} format="HH:mm" />
             </Form.Item>
 
             <div className="w-8" />
 
             <Form.Item
-              label="Closing Time:"
+              label="Giờ đóng cửa:"
               name="closingTime"
               rules={[
                 { required: true, message: "Please select the closing time" },
@@ -330,12 +341,16 @@ export default function CourtUpdate() {
                 }),
               ]}
             >
-              <TimePicker format="HH:mm" />
+              <TimePicker disabled={isAdmin} format="HH:mm" />
             </Form.Item>
           </div>
 
-          <Form.Item label="Status:" name="status" valuePropName="checked">
-            <Switch checkedChildren="Open" unCheckedChildren="Closed" />
+          <Form.Item label="Trạng thái:" name="status" valuePropName="checked">
+            <Switch
+              checkedChildren="Open"
+              unCheckedChildren="Closed"
+              disabled={!isAdmin}
+            />
           </Form.Item>
           <div className="pb-6">
             <div className="flex pb-5 gap-2">
@@ -344,21 +359,29 @@ export default function CourtUpdate() {
                   <Tag color="blue">
                     <div className="flex gap-2">
                       {phone.telephone}
-                      <a onClick={() => handleDeletePhone(phone.id)}>
-                        <CloseOutlined key="delete" />
-                      </a>
+                      {isAdmin === false ? (
+                        <a onClick={() => handleDeletePhone(phone.id)}>
+                          <CloseOutlined key="delete" />
+                        </a>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </Tag>
                 </div>
               ))}
             </div>
-            <Button
-              type="default"
-              onClick={() => setIsPhoneModalVisible(true)}
-              style={{ marginLeft: 10 }}
-            >
-              Add Phone
-            </Button>
+            {isAdmin === false ? (
+              <Button
+                type="default"
+                onClick={() => setIsPhoneModalVisible(true)}
+                style={{ marginLeft: 10 }}
+              >
+                Add Phone
+              </Button>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="pb-6">
             <div className="flex pb-5 gap-2">
@@ -371,17 +394,21 @@ export default function CourtUpdate() {
               ))}
             </div>
 
-            <Button
-              type="default"
-              onClick={() => setIsSlotModalVisible(true)}
-              style={{ marginLeft: 10 }}
-            >
-              Create Slot
-            </Button>
+            {isAdmin === false ? (
+              <Button
+                type="default"
+                onClick={() => setIsSlotModalVisible(true)}
+                style={{ marginLeft: 10 }}
+              >
+                Create Slot
+              </Button>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="pb-6">
             <div>
-              <h4>Court Image:</h4>
+              <h4>Hình ảnh:</h4>
               <div className="flex gap-5 p-3">
                 {court.images.map((img) => (
                   <div
@@ -389,41 +416,39 @@ export default function CourtUpdate() {
                     style={{ position: "relative", display: "inline-block" }}
                   >
                     <Image src={img.image} width={100} height={100} />
-                    <CloseOutlined
-                      onClick={() => handleDeleteImage(img.id)}
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        right: 0,
-                        cursor: "pointer",
-                        color: "red",
-                      }}
-                    />
+                    {isAdmin === false ? (
+                      <CloseOutlined
+                        onClick={() => handleDeleteImage(img.id)}
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          right: 0,
+                          cursor: "pointer",
+                          color: "red",
+                        }}
+                      />
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 ))}
-                <CloseOutlined
-                  onClick={() => handleDeleteImage(img.id)}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    cursor: "pointer",
-                    color: "red",
-                  }}
-                />
               </div>
             </div>
-            <div className="flex gap-2">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
+            {isAdmin === false ? (
+              <div className="flex gap-2">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
 
-              <Button disabled={uploading} onClick={handleImageUpload}>
-                {uploading ? "Uploading..." : "Upload Image"}
-              </Button>
-            </div>
+                <Button disabled={uploading} onClick={handleImageUpload}>
+                  {uploading ? "Đang tải lên ..." : "Đăng Ảnh"}
+                </Button>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
 
           <Form.Item>

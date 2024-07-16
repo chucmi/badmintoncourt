@@ -41,7 +41,7 @@ export default function Header() {
             handleProfile();
           }}
         >
-          Profile
+          Hồ sơ
         </a>
       ),
       icon: <UserOutlined />,
@@ -55,7 +55,7 @@ export default function Header() {
             handleOrderList();
           }}
         >
-          Orders
+          Đơn đặt
         </a>
       ),
       icon: <AiOutlineOrderedList />,
@@ -69,7 +69,7 @@ export default function Header() {
             handleHistory();
           }}
         >
-          History
+          Lịch sử đặt
         </a>
       ),
       icon: <History />,
@@ -84,7 +84,7 @@ export default function Header() {
             handleLogout();
           }}
         >
-          Logout
+          Đăng xuất
         </a>
       ),
     },

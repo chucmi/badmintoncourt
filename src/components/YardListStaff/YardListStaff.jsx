@@ -1,4 +1,4 @@
-import { Button, Table } from "antd";
+import { Button, Table, Tag, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import { getOwnerYards } from "../../services/yardAPI";
 import { useNavigate } from "react-router-dom";
@@ -93,23 +93,29 @@ export default function YardListStaff() {
       key: "id",
     },
     {
-      title: "Name",
+      title: "Tên sân",
       dataIndex: "name",
       key: "name",
     },
 
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
       key: "status",
+      render: (_, record) =>
+        record.status === true ? (
+          <Tag color="green">Đang hoat động</Tag>
+        ) : (
+          <Tag color="red">Ngừng hoat động</Tag>
+        ),
     },
     {
-      title: "Open Time",
+      title: "Giờ mở cửa",
       dataIndex: "open_time",
       key: "open_time",
     },
     {
-      title: "Close Time",
+      title: "Giờ đóng cửa",
       dataIndex: "close_time",
       key: "close_time",
     },
@@ -119,7 +125,7 @@ export default function YardListStaff() {
       key: "action",
       render: (_, record) => (
         <Button type="primary" onClick={() => navigate(`/yards/${record.id}`)}>
-          View Checkin
+          Xem Checkin
         </Button>
       ),
     },
@@ -136,7 +142,9 @@ export default function YardListStaff() {
 
   return (
     <>
-      <div>Yard list</div>
+      <div>
+        <Typography.Title level={3}>Danh sách sân</Typography.Title>
+      </div>
       <Table dataSource={dataSource} columns={columns} />
     </>
   );

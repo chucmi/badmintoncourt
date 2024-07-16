@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPaymentsOfYard } from "../../services/paymentAPI";
-import { Button, Form, Modal, notification, Table } from "antd";
+import {
+  Button,
+  Form,
+  Modal,
+  notification,
+  Table,
+  Tag,
+  Typography,
+} from "antd";
 import CheckinForm from "../CheckinForm/CheckinForm";
 import moment from "moment";
 import { updateCheckin } from "../../services/checkinAPI";
@@ -20,48 +28,6 @@ export default function YardListDetails() {
   const staffId = JSON.parse(atob(token.split(".")[1])).id;
 
   const [error, setError] = useState();
-  //   [
-  //     {
-  //       "id": 32,
-  //       "final_price": 6000000,
-  //       "booking_order": {
-  //         "id": 15,
-  //         "booking_at": "2024-07-12T14:26:40.802594",
-  //         "status": true,
-  //         "yard": {
-  //           "id": 1,
-  //           "name": "Sân Vip số 1 Sài Gòn",
-  //           "address": "HCM",
-  //           "province_id": 79,
-  //           "description": "Sân cầu lông số 1 HCM",
-  //           "status": true,
-  //           "open_time": "07:00:00",
-  //           "close_time": "22:00:00",
-  //           "create_date": null,
-  //           "update_date": null,
-  //           "create_by": 3,
-  //           "update_by": 1,
-  //           "host_id": null
-  //         },
-  //         "user_id": 13,
-  //         "slot": {
-  //           "id": 5,
-  //           "price": 60000,
-  //           "status": "true",
-  //           "start_time": "07:00:00",
-  //           "end_time": "08:00:00",
-  //           "create_date": "2024-06-17",
-  //           "update_date": null,
-  //           "create_by": 3,
-  //           "update_by": null
-  //         },
-  //         "tournament_start": "2024-07-12",
-  //         "tournament_end": "2024-07-12"
-  //       },
-  //       "istournament": true
-  //     }
-  //   ]
-
   const fetchPayments = async () => {
     try {
       const data = await getPaymentsOfYard(yardid);
@@ -82,56 +48,67 @@ export default function YardListDetails() {
       key: "id",
     },
     {
-      title: "Final Price",
+      title: "Giá tiền",
       dataIndex: "final_price",
       key: "final_price",
     },
     {
-      title: "Booking At",
+      title: "Đặt lúc",
       dataIndex: "booking_at",
       key: "booking_at",
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
       key: "status",
+      render: (status) =>
+        status ? (
+          <Tag color="green">Đã check-in</Tag>
+        ) : (
+          <Tag color="orange">Chờ check-in</Tag>
+        ),
     },
     {
-      title: "Tournament Start",
+      title: "Đặt từ",
       dataIndex: "tournament_start",
       key: "tournament_start",
     },
     {
-      title: "Tournament End",
+      title: "Đặt tới",
       dataIndex: "tournament_end",
       key: "tournament_end",
     },
     {
-      title: "Start Time",
+      title: "Bắt đầu lúc",
       dataIndex: "start_time",
       key: "start_time",
     },
     {
-      title: "End Time",
+      title: "Kết thúc lúc",
       dataIndex: "end_time",
       key: "end_time",
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "action",
-      render: (_, record) => (
-        <Button
-          type="primary"
-          onClick={() => {
-            setIsFormVisible(true);
-            setSelectPayment(record.id);
-            setSelectUser(record.user_id);
-            setCheckin(record.checkin_id);
-          }}
-        >
-          Check-in
-        </Button>
-      ),
+      render: (_, record) =>
+        !record.status ? (
+          <Button
+            type="primary"
+            onClick={() => {
+              setIsFormVisible(true);
+              setSelectPayment(record.id);
+              setSelectUser(record.user_id);
+              setCheckin(record.checkin_id);
+            }}
+          >
+            Check-in
+          </Button>
+        ) : (
+          <>
+            <Tag color="green">Đã check-in</Tag>
+          </>
+        ),
     },
   ];
 
@@ -148,6 +125,7 @@ export default function YardListDetails() {
     start_time: payment.booking_order.slot.start_time,
     end_time: payment.booking_order.slot.end_time,
     user_id: payment.booking_order.user_id,
+    status: payment.checkin.status,
   }));
 
   const handleSaveCheckin = async (values) => {
@@ -164,9 +142,11 @@ export default function YardListDetails() {
 
       await updateCheckin(data);
       notification.success({
-        message: "Check-in successfully",
-        description: "The check-in has been successfully.",
+        message: "Check-in thành công",
+        description: "Đã checkin thành công.",
       });
+
+      fetchPayments();
 
       setIsFormVisible(false);
     } catch (err) {
@@ -176,7 +156,9 @@ export default function YardListDetails() {
 
   return (
     <>
-      <div>YardListDetails</div>
+      <div>
+        <Typography.Title level={3}>Danh sách check-in</Typography.Title>
+      </div>
       <Table columns={columns} dataSource={dataSource} />
       <Modal
         open={isFormVisible}

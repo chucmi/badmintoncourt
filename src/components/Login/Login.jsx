@@ -8,6 +8,7 @@ import video from "../../assets/video.mp4";
 import pic from "../../assets/login.png";
 import "../../App.css";
 import axiosClient from "../../services/config/axios";
+import { notification } from "antd";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -27,12 +28,28 @@ const Login = () => {
         { username, password },
         { withCredentials: true }
       );
-      axiosClient.defaults.headers.common["Authorization"] =
-        `Bearer ${data.token}`;
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("refresh_token", data.refresh_token);
-
-      window.location.href = "/";
+      if (data.data !== null) {
+        axiosClient.defaults.headers.common["Authorization"] =
+          `Bearer ${data.token}`;
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("refresh_token", data.refresh_token);
+        notification.success({
+          message: "Đăng nhập thành công",
+          description: "Bạn đã đăng nhập. Đang chuyển trang...",
+        });
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500); // Redirects after 1.5 seconds
+      } else {
+        notification.error({
+          message: "Đăng nhập thất bại",
+          description:
+            "Sai tài khoản hoặc mật khẩu hoặc tài khoản chưa được kích hoạt.",
+        });
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 2000); // Redirects after 3 seconds
+      }
     } catch (error) {
       setError("Login failed");
       console.error("Login failed", error);
@@ -48,7 +65,7 @@ const Login = () => {
         </div>
         <div className="formDiv">
           <div className="headerDiv">
-            <h3>Welcome Back!</h3>
+            <h3>Chào mừng trở lại!</h3>
           </div>
           <form onSubmit={submit} className="form grid">
             {error && <span>{error}</span>}
@@ -79,18 +96,18 @@ const Login = () => {
               </div>
             </div>
             <button type="submit" className="btn flex">
-              <span>Login</span>
+              <span>Đăng nhập</span>
               <AiOutlineSwapRight className="icon" />
             </button>
           </form>
           <div className="footerDiv">
-            <span className="text">Dont have an account?</span>
+            <span className="text">Bạn chưa có tài khoản?</span>
             <Link to="/register" className="signUpLink">
-              Sign Up
+              Đăng ký
             </Link>
           </div>
           <div className="pt-4 text-center font-semibold">
-            Or
+            Hoặc, đăng truy cập bằng:
             <GoogleButton onClick={() => googleLogin()} />
           </div>
         </div>
