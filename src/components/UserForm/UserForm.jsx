@@ -22,14 +22,14 @@ export default function UserForm({ user, onFinish, form }) {
       <div>
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <FormInput
-            label={"First Name:"}
+            label={"Họ:"}
             name={"first_name"}
             rules={[{ required: true, message: "Please enter the first name" }]}
           >
             <Input type="text" placeholder="Enter first name" />
           </FormInput>
           <FormInput
-            label={"Last Name:"}
+            label={"Tên:"}
             name={"last_name"}
             rules={[{ required: true, message: "Please enter the last name" }]}
           >
@@ -43,7 +43,7 @@ export default function UserForm({ user, onFinish, form }) {
             <Input type="email" placeholder="Enter email" />
           </FormInput>
           <FormInput
-            label={"Username:"}
+            label={"Tên đăng nhập:"}
             name={"username"}
             rules={[{ required: true, message: "Please enter the username" }]}
           >
@@ -52,7 +52,7 @@ export default function UserForm({ user, onFinish, form }) {
           {!user ? (
             <>
               <FormInput
-                label={"Password:"}
+                label={"Mật khẩu:"}
                 name={"password"}
                 rules={[
                   { required: true, message: "Please enter the password" },
@@ -76,18 +76,18 @@ export default function UserForm({ user, onFinish, form }) {
           ) : null}
 
           <FormInput
-            label={"Gender:"}
+            label={"Giới tính:"}
             name={"gender"}
             rules={[{ required: true, message: "Please select the gender" }]}
           >
             <select className="w-full h-9 border-2 rounded-lg">
-              <option value={true}>Male</option>
-              <option value={false}>Female</option>
-              <option value={""}>Other</option>
+              <option value={true}>Nam</option>
+              <option value={false}>Nữ</option>
+              <option value={""}>Khác</option>
             </select>
           </FormInput>
           <FormInput
-            label={"Day of Birth:"}
+            label={"Ngày tháng năm sinh:"}
             name={"dob"}
             rules={[
               {
@@ -100,7 +100,7 @@ export default function UserForm({ user, onFinish, form }) {
           </FormInput>
           <FormInput>
             <Button type="primary" htmlType="submit">
-              {user ? "Update" : "Create"}
+              {user ? "Cập nhật" : "Tạo mới"}
             </Button>
           </FormInput>
         </Form>

@@ -80,7 +80,7 @@ export default function StaffList() {
       render: (text) => `#${text}`,
     },
     {
-      title: "Name",
+      title: "Họ và Tên",
       dataIndex: "name",
       key: "name",
       render: (_, record) => (
@@ -94,7 +94,7 @@ export default function StaffList() {
       ),
     },
     {
-      title: "Username",
+      title: "Tên đăng nhập",
       dataIndex: "username",
       key: "username",
     },
@@ -104,19 +104,19 @@ export default function StaffList() {
       key: "email",
     },
     {
-      title: "Gender",
+      title: "Giới tính",
       dataIndex: "gender",
       key: "gender",
       render: (gender) => (gender ? "Male" : "Female"),
     },
     {
-      title: "Date of Birth",
+      title: "Ngày tháng năm sinh",
       dataIndex: "dob",
       key: "dob",
       render: (dob) => new Date(dob).toLocaleDateString(),
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       key: "status",
       render: (_, record) =>
         record.status ? (
@@ -126,7 +126,7 @@ export default function StaffList() {
         ), // Example status : Active, Inactive
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "action",
       render: (_, record) =>
         record.status ? (
@@ -184,7 +184,7 @@ export default function StaffList() {
       </div>
 
       <Modal
-        title="Create New Staff"
+        title="Tạo mới nhân viên"
         open={isUserModalVisible}
         onCancel={() => setIsUserModalVisible(false)}
         footer={null}

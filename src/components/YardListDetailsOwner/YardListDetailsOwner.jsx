@@ -10,6 +10,7 @@ import { formatDateTime } from "../../utils/time";
 export default function YardListDetailsOwner() {
   const { yardid } = useParams();
   const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //   [
   //     {
@@ -57,6 +58,7 @@ export default function YardListDetailsOwner() {
     try {
       const data = await getPaymentsOfYard(yardid);
       setPayments(data);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -131,7 +133,7 @@ export default function YardListDetailsOwner() {
           Danh sách thanh toán của sân
         </Typography.Title>
       </div>
-      <Table columns={columns} dataSource={dataSource} />
+      <Table loading={loading} columns={columns} dataSource={dataSource} />
     </>
   );
 }
