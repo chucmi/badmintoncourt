@@ -6,7 +6,7 @@ let notificationDisplayed = false;
 
 export const updateCheckin = async (data) => {
   try {
-    const response = await axiosClient.put("/v1/checkIn/status", data);
+    const response = await axiosClient.patch("/v1/checkIn/status", data);
     return response.data;
   } catch (error) {
     if (!notificationDisplayed) {
