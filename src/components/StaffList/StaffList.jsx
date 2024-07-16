@@ -1,8 +1,8 @@
 import { Button, Table, Modal, Avatar, Tag, notification, Form } from "antd";
 import React, { useEffect, useState } from "react";
 import UserForm from "../UserForm/UserForm";
-import { createUser, getAllStaffs } from "../../services/userAPI";
-import { EditOutlined} from "@mui/icons-material";
+import { createUser, getAllStaffs, toggleStatus } from "../../services/userAPI";
+import { EditOutlined } from "@mui/icons-material";
 import { FaUser } from "react-icons/fa";
 
 export default function StaffList() {
@@ -12,6 +12,7 @@ export default function StaffList() {
     atob(localStorage.getItem("token").split(".")[1])
   ).id;
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
   const onFinish = async (values) => {
     const datas = {
@@ -34,17 +35,36 @@ export default function StaffList() {
     form.resetFields();
   };
 
-  useEffect(() => {
-    const fetchStaffs = async () => {
-      try {
-        const data = await getAllStaffs(manager_id);
-        if (data) {
-          setStaffList(data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch staffs:", error);
+  const handleToggle = async (id) => {
+    try {
+      setLoading(true);
+      const response = await toggleStatus(id);
+      notification.success({
+        message: "Thay đổi trang thái thành công",
+        description: "Thay đổi trang thái thành công.",
+      });
+      fetchStaffs();
+      return response;
+    } catch (error) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+        description: "Thay đổi trang thái thất bại.",
+      });
+      throw error;
+    }
+  };
+
+  const fetchStaffs = async () => {
+    try {
+      const data = await getAllStaffs(manager_id);
+      if (data) {
+        setStaffList(data);
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch staffs:", error);
+    }
+  };
+  useEffect(() => {
     fetchStaffs();
   }, []);
 
@@ -94,12 +114,39 @@ export default function StaffList() {
     {
       title: "Status",
       key: "status",
-      render: () => <Tag color="green">Active</Tag>, // Example status : Active, Inactive
+      render: (_, record) =>
+        record.status ? (
+          <Tag color="green">Active</Tag>
+        ) : (
+          <Tag color="red">Inactive</Tag>
+        ), // Example status : Active, Inactive
     },
     {
       title: "Action",
       key: "action",
-      render: () => <Button icon={<EditOutlined />} />,
+      render: (_, record) =>
+        record.status ? (
+          <>
+            <div className="flex justify-center gap-2">
+              <Button
+                loading={loading}
+                type="primary"
+                className="bg-red-400"
+                onClick={() => handleToggle(record.id)}
+              >
+                Thu hồi
+              </Button>
+            </div>
+          </>
+        ) : (
+          <Button
+            type="primary"
+            loading={loading}
+            onClick={() => handleToggle(record.id)}
+          >
+            Duyệt
+          </Button>
+        ),
     },
   ];
 
@@ -112,6 +159,7 @@ export default function StaffList() {
     dob: staff.dob,
     first_name: staff.first_name,
     last_name: staff.last_name,
+    status: staff.status,
   }));
 
   return (

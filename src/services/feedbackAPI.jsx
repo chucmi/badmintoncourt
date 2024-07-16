@@ -31,3 +31,17 @@ export const getFeedbacks = async () => {
     }
   }
 };
+
+export const getFeedbacksByYardId = async (yard_id) => {
+  try {
+    const response = await axiosClient.get(`/v1/feedback/yard/${yard_id}`);
+    return response.data;
+  } catch (error) {
+    if (!notificationDisplayed) {
+      notification.error({
+        message: error?.message || "Some thing wrong. Please try later!",
+      });
+      notificationDisplayed = true;
+    }
+  }
+};

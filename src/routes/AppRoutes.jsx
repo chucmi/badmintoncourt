@@ -38,6 +38,7 @@ import ChartPageAdmin from "../components/ChartPageAdmin/ChartPageAdmin";
 import OwnerList from "../components/OwnerList/OwnerList";
 import ListOwnerCourtAdmin from "../components/ListOwnerCourtAdmin/ListOwnerCourtAdmin";
 import YardListDetailsOwner from "../components/YardListDetailsOwner/YardListDetailsOwner";
+import FeedbackListYard from "../components/FeedbackListYard/FeedbackListYard";
 
 export default function AppRoutes() {
   const { auth } = useAuth();
@@ -72,8 +73,16 @@ export default function AppRoutes() {
                     path="listcourt/:hostid"
                     element={<ListOwnerCourtAdmin />}
                   />
+                  <Route
+                    path="payment/:yardid"
+                    element={<YardListDetailsOwner />}
+                  />
                   <Route path="payment" element={<PaymentHistory />} />
                   <Route path="feedback" element={<FeedbackList />} />
+                  <Route
+                    path="feedback/:yardid"
+                    element={<FeedbackListYard />}
+                  />
                 </Route>
               </Route>
             </>
@@ -88,6 +97,10 @@ export default function AppRoutes() {
                   <Route path="courts" element={<ListOwnerCourt />} />
                   <Route path="courts/new" element={<CourtForm />} />
                   <Route path="courts/:yardid" element={<CourtUpdate />} />
+                  <Route
+                    path="feedback/:yardid"
+                    element={<FeedbackListYard />}
+                  />
                   <Route
                     path="payment/:yardid"
                     element={<YardListDetailsOwner />}

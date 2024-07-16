@@ -68,9 +68,19 @@ export default function ListOwnerCourtAdmin() {
               <a key="payment" onClick={() => navigate(`/payment/${court.id}`)}>
                 Xem thanh toán
               </a>,
+              <a
+                key="payment"
+                onClick={() => navigate(`/feedback/${court.id}`)}
+              >
+                Xem đánh giá
+              </a>,
             ]}
           >
-            <Meta title={court.name} description={court.description} />
+            <Meta
+              title={court.name}
+              description={court.description}
+              style={{ height: "100px" }}
+            />
           </Card>
         ))
       )}

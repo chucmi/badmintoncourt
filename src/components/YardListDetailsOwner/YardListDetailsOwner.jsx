@@ -127,7 +127,9 @@ export default function YardListDetailsOwner() {
   return (
     <>
       <div>
-        <Typography.Title level={3}>Danh sách thanh toán</Typography.Title>
+        <Typography.Title level={3}>
+          Danh sách thanh toán của sân
+        </Typography.Title>
       </div>
       <Table columns={columns} dataSource={dataSource} />
     </>

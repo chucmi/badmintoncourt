@@ -70,6 +70,12 @@ export default function ListOwnerCourt() {
               <a key="payment" onClick={() => navigate(`/payment/${court.id}`)}>
                 Xem thanh toán
               </a>,
+              <a
+                key="payment"
+                onClick={() => navigate(`/feedback/${court.id}`)}
+              >
+                Xem đánh giá
+              </a>,
             ]}
           >
             <Meta
