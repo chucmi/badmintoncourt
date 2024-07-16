@@ -11,7 +11,9 @@ export default function UserForm({ user, onFinish, form }) {
   };
 
   useEffect((user) => {
-    form.setFieldsValue({});
+    form.setFieldsValue({
+      gender: true,
+    });
   }),
     [user];
 
@@ -79,9 +81,7 @@ export default function UserForm({ user, onFinish, form }) {
             rules={[{ required: true, message: "Please select the gender" }]}
           >
             <select className="w-full h-9 border-2 rounded-lg">
-              <option value={true} selected>
-                Male
-              </option>
+              <option value={true}>Male</option>
               <option value={false}>Female</option>
               <option value={""}>Other</option>
             </select>
