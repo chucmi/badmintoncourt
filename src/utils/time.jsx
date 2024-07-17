@@ -52,3 +52,36 @@ export function formatDateTime(dateString) {
   // Return the formatted string
   return `${year}-${month}-${day} lúc ${hours}:${minutes}:${seconds}`;
 }
+
+export const calculateTimeRemaining = (bookingAtTime) => {
+  // Convert bookingAtTime to a Date object in US-West timezone
+  const bookingTime = new Date(bookingAtTime);
+  const timeZone = "America/Los_Angeles";
+
+  // Adjust bookingTime to UTC to ensure consistent calculation
+  const bookingTimeUTC = new Date(
+    bookingTime.toLocaleString("en-US", { timeZone: "UTC" })
+  );
+
+  // Calculate 5 minutes later time
+  const fiveMinutesLater = new Date(bookingTimeUTC.getTime() + 5 * 60 * 1000);
+
+  // Get current time in US-West timezone
+  const currentTime = new Date().toLocaleString("en-US", {
+    timeZone: timeZone,
+  });
+  const currentTimeMillis = new Date(currentTime).getTime();
+
+  // Calculate time difference in milliseconds
+  let timeDiff = fiveMinutesLater - currentTimeMillis;
+
+  // Ensure timeDiff is positive
+  timeDiff = Math.max(timeDiff, 0);
+
+  // Calculate minutes and seconds
+  const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+  const seconds = Math.floor((timeDiff / 1000) % 60);
+
+  // Format the result as mm:ss
+  return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+};

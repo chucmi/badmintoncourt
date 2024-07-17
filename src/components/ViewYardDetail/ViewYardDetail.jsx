@@ -47,7 +47,6 @@ const ViewYardDetail = () => {
   };
 
   const fetchRecommendedCourts = async () => {
-    console.log("fetching recommended courts");
     try {
       const data = await getRandomYard(4);
       setRecommendedCourts(data);

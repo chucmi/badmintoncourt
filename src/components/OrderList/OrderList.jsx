@@ -9,7 +9,7 @@ import {
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { createPayment } from "../../services/paymentAPI";
-import { formatDateTime } from "../../utils/time";
+import { calculateTimeRemaining, formatDateTime } from "../../utils/time";
 
 export default function OrderList() {
   const [orders, setOrders] = useState([]);
@@ -36,6 +36,20 @@ export default function OrderList() {
     fetchOrders();
   }, [userId]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const updatedData = orders.map((order) => ({
+        ...order,
+        booking_at_time: formatDateTime(order.booking_at),
+      }));
+      setOrders(updatedData);
+      if (remainingTime(updatedData.booking_at_time) === "NaN:NaN") {
+        fetchOrders();
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [orders]);
+
   const handlePayment = async (amount, bookingCode) => {
     try {
       const response = await createPayment(amount, bookingCode);
@@ -57,6 +71,11 @@ export default function OrderList() {
     } catch (error) {
       console.error("Failed to cancel order:", error);
     }
+  };
+
+  const remainingTime = (bookingAtTime) => {
+    const timeRemaining = calculateTimeRemaining(bookingAtTime); // Implement this function in your utils
+    return timeRemaining;
   };
 
   const columns = [
@@ -108,11 +127,12 @@ export default function OrderList() {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      render: (text) => {
+      render: (text, record) => {
         if (text === true) {
           return <Tag color="green">Đã thanh toán</Tag>;
         } else if (text === null) {
-          return <Tag color="orange">Chờ thanh toán</Tag>;
+          const remaining = remainingTime(record.booking_at_time);
+          return <Tag color="orange">Chờ thanh toán {remaining}</Tag>;
         } else {
           return <Tag color="red">Đã hủy thanh toán</Tag>;
         }
@@ -158,6 +178,7 @@ export default function OrderList() {
     end_time: order.tournament_end + "  lúc " + order.slot.end_time,
     price: order.slot.price,
     status: order.status,
+    booking_at_time: order.booking_at,
   }));
   return (
     <>
