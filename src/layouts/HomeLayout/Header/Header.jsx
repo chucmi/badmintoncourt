@@ -163,8 +163,17 @@ export default function Header() {
             }}
           >
             <a onClick={(e) => e.preventDefault()}>
-              <Space>
+              <Space className="pl-5 text-black">
                 <Avatar size={42} className="ml-5" icon={<UserOutlined />} />
+                {
+                  <p className="font-bold">
+                    {
+                      JSON.parse(
+                        atob(localStorage.getItem("token").split(".")[1])
+                      ).sub
+                    }
+                  </p>
+                }
                 <DownOutlined className="text-xl ml-2" />
               </Space>
             </a>
