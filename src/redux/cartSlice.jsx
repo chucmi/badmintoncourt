@@ -39,7 +39,7 @@ const cartSlice = createSlice({
       if (!itemExists) {
         state.cartItems.push({ ...action.payload, addedAt: Date.now() });
         notification.success({
-          message: "Đã thêm vào giỏ hàng",
+          message: "Đã thêm vào giỏ hàng",
           description: `${action.payload.name} đã được thêm vào giỏ hàng.`,
         });
       } else {
@@ -56,7 +56,7 @@ const cartSlice = createSlice({
         (item) => item.id !== action.payload.id
       );
       notification.info({
-        message: "Sân đã xóa",
+        message: "Sân đã xóa",
         description: `Sân đã được xoá khỏi giỏ hàng.`,
       });
 
@@ -116,6 +116,16 @@ const cartSlice = createSlice({
     },
   },
 });
+
+// Selector to get remaining time for a specific item
+export const selectRemainingTime = (state, itemId) => {
+  const now = Date.now();
+  const item = state.cart.cartItems.find(item => item.id === itemId);
+  if (item) {
+    return Math.max(0, (item.addedAt + 5 * 60 * 1000) - now);
+  }
+  return 0;
+};
 
 export const {
   addToCart,

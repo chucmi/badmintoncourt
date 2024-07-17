@@ -16,6 +16,7 @@ export default function OrderList() {
   const userId = JSON.parse(
     atob(localStorage.getItem("token").split(".")[1])
   ).id;
+  const [loading, setLoading] = useState(true);
 
   let notificationDisplayed = false;
 
@@ -25,6 +26,7 @@ export default function OrderList() {
       const data = await getOrdersByUserId(userId);
       if (data) {
         setOrders(data);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Failed to fetch orders:", error);
@@ -161,7 +163,12 @@ export default function OrderList() {
     <>
       <div className="flex justify-center">
         <div className="container">
-          <Table columns={columns} dataSource={data} pagination={false} />
+          <Table
+            loading={loading}
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+          />
         </div>
       </div>
     </>

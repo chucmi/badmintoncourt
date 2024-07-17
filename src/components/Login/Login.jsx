@@ -70,27 +70,27 @@ const Login = () => {
           <form onSubmit={submit} className="form grid">
             {error && <span>{error}</span>}
             <div className="inputDiv">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">Tên đăng nhập</label>
               <div className="input flex">
                 <FaUserShield className="icon" />
                 <input
                   onChange={(e) => setUsername(e.target.value)}
                   type="text"
                   id="username"
-                  placeholder="Enter username"
+                  placeholder="Nhập tên đăng nhập"
                   required
                 />
               </div>
             </div>
             <div className="inputDiv">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Mật khẩu</label>
               <div className="input flex">
                 <BsFillShieldLockFill className="icon" />
                 <input
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   id="password"
-                  placeholder="Enter password"
+                  placeholder="Nhập mật khẩu"
                   required
                 />
               </div>

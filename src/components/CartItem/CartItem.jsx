@@ -4,6 +4,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../redux/cartSlice";
 import NoDataImg from "../../assets/1.png";
+import ItemCountdown from "../ItemCountdown/ItemCountdown";
 
 const { Text } = Typography;
 
@@ -63,6 +64,7 @@ const CartItem = ({ item }) => {
         <Text className="text-red-600 font-semibold">
           {item.price.toLocaleString("vi-VN")}đ / ngày
         </Text>
+        <ItemCountdown itemId={item.id} />
       </Col>
     </Row>
   );

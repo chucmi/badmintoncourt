@@ -54,7 +54,7 @@ export default function Header() {
             handleOrderList();
           }}
         >
-          Đơn đặt
+          Sân đã đặt
         </a>
       ),
       icon: <AiOutlineOrderedList />,
@@ -95,7 +95,14 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
+      notification.info({
+        message: "Đang đăng xuất...",
+      });
       await logout();
+      notification.success({
+        message: "Đăng xuất thành công",
+        description: "Bạn đã đăng xuất thành công, hẹn gặp lại!",
+      });
       setIsLoggedIn(false);
       navigate("/");
     } catch (error) {

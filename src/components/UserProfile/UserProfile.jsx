@@ -2,10 +2,17 @@ import { Button, Form, Input, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import FormInput from "../FormInput/FormInput";
 import { getUser, updateUser } from "../../services/userAPI";
+import dayjs from "dayjs";
 
 export default function UserProfile() {
   const [form] = Form.useForm();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    gender: "",
+    dob: "",
+  });
   const userId = JSON.parse(
     atob(localStorage.getItem("token").split(".")[1])
   ).id;
@@ -13,7 +20,13 @@ export default function UserProfile() {
   const fetchUser = async () => {
     try {
       const data = await getUser(userId);
-      setUser(data);
+      setUser({
+        first_name: data.first_name || "",
+        last_name: data.last_name || "",
+        email: data.email || "",
+        gender: data.gender != null ? data.gender : "",
+        dob: data.dob ? dayjs(data.dob).format("YYYY-MM-DD") : "",
+      });
     } catch (error) {
       console.error("Failed to fetch user:", error);
     }
@@ -21,13 +34,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     fetchUser();
-    form.setFieldsValue({
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      gender: user.gender,
-      dob: user.dob,
-    });
+    form.setFieldsValue(user);
   }, [user, form]);
 
   const handleSave = async (values) => {
@@ -37,13 +44,14 @@ export default function UserProfile() {
       last_name: values.last_name,
       email: values.email,
       gender: values.gender,
-      dob: values.dob,
+      dob: dayjs(values.dob).format("YYYY-MM-DD"),
     };
     await updateUser(data, userId);
     notification.success({
       message: "Cập nhật thành công",
       description: "Thông tin người dùng đã được cập nhật.",
     });
+    fetchUser();
   };
 
   return (
@@ -57,17 +65,17 @@ export default function UserProfile() {
             <Input type="text" placeholder="Enter last name" />
           </FormInput>
           <FormInput label={"Email:"} name={"email"}>
-            <input
+            <Input
               className="w-full h-9 border-2 rounded-lg"
               type="email"
-              placeholder="  Enter email"
+              placeholder="Enter email"
             />
           </FormInput>
           <FormInput label={"Gender:"} name={"gender"}>
             <select className="w-full h-9 border-2 rounded-lg">
-              <option value={true}>Male</option>
-              <option value={false}>Female</option>
-              <option value={""}>Other</option>
+              <option value="true">Male</option>
+              <option value="false">Female</option>
+              <option value="">Other</option>
             </select>
           </FormInput>
           <FormInput label={"Day of Birth:"} name={"dob"}>

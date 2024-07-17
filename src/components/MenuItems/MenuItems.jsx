@@ -12,6 +12,8 @@ import {
   ReportOffOutlined,
   StackedBarChartOutlined,
 } from "@mui/icons-material";
+import Icon from "@mdi/react";
+import { mdiBadminton } from "@mdi/js";
 
 const handleHome = () => {
   window.location.href = "/";
@@ -69,7 +71,7 @@ export const OwnerMenuItems = [
   },
   {
     key: "2",
-    icon: <BarChartOutlined />,
+    icon: <Icon path={mdiBadminton} size={1} />,
     label: (
       <a
         onClick={(e) => {

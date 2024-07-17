@@ -91,7 +91,7 @@ export default function OwnerList() {
       dataIndex: "gender",
       key: "gender",
       render: (gender) =>
-        gender === null ? "Không xác định" : gender ? "Nam" : "Nữ",
+        gender === null ? "Chưa xác định" : gender ? "Nam" : "Nữ",
     },
     {
       title: "Ngày tháng năm sinh",
@@ -117,9 +117,12 @@ export default function OwnerList() {
           <>
             <div className="flex justify-center gap-2">
               <Button
+                className="flex justify-center gap-2"
                 onClick={() => navigate("/listcourt/" + record.id)}
                 icon={<Icon path={mdiBadminton} size={1} />}
-              />
+              >
+                Xem sân
+              </Button>
               <Button
                 loading={loading}
                 type="primary"

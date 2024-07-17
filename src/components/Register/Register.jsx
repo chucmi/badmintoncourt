@@ -69,7 +69,7 @@ const Register = () => {
                 <input
                   type="text"
                   id="username"
-                  placeholder="Enter username"
+                  placeholder="Điền tên đăng nhập"
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
@@ -81,7 +81,7 @@ const Register = () => {
                 <input
                   type="email"
                   id="email"
-                  placeholder="Enter email"
+                  placeholder="Điền email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -93,7 +93,7 @@ const Register = () => {
                 <input
                   type="text"
                   id="firstName"
-                  placeholder="Enter first name"
+                  placeholder="Điền họ"
                   onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
@@ -105,7 +105,7 @@ const Register = () => {
                 <input
                   type="text"
                   id="lastName"
-                  placeholder="Enter last name"
+                  placeholder="Điền tên"
                   onChange={(e) => setLastName(e.target.value)}
                 />
               </div>
@@ -117,7 +117,7 @@ const Register = () => {
                 <input
                   type="password"
                   id="password"
-                  placeholder="Enter password"
+                  placeholder="Điền mật khẩu"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
@@ -125,7 +125,7 @@ const Register = () => {
             <div className="inputDiv">
               <label htmlFor="password">Vai trò</label>
               <div className="input flex">
-                <p>Người đặt sân</p>
+                <p>Người đến đặt sân</p>
                 <input
                   type="radio"
                   id="role_user"

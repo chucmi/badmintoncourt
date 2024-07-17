@@ -27,6 +27,9 @@ export default function StaffList() {
       role_id: 3,
       manager_id: manager_id,
     };
+    notification.info({
+      message: "Đang tạo nhân viên...",
+    });
     await createUser(datas);
     setIsUserModalVisible(false);
     notification.success({
