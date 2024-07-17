@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getFeedbacks, getFeedbacksByYardId } from "../../services/feedbackAPI";
-import { Table } from "antd";
+import { Rate, Table } from "antd";
 import { useParams } from "react-router-dom";
 
 export default function FeedbackListYard() {
@@ -64,9 +64,17 @@ export default function FeedbackListYard() {
       key: "id",
     },
     {
-      title: "Điểm đánh giá (thang điểm 5)",
+      title: "Điểm đánh giá",
       dataIndex: "rating",
       key: "rating",
+      render: (_, record) => (
+        <>
+          <div className="flex items-center gap-2">
+            <Rate allowHalf defaultValue={record.rating} disabled />
+            {record.rating}
+          </div>
+        </>
+      ),
     },
     {
       title: "Nội dung",
@@ -88,7 +96,7 @@ export default function FeedbackListYard() {
   return (
     <>
       <div>
-        <h1 className="text-3xl font-bold mb-4 text-center">Feedback List</h1>
+        <h1 className="text-3xl font-bold mb-4 text-center">Thông tin feedback</h1>
       </div>
       <div className="flex justify-center ">
         <div className="container">

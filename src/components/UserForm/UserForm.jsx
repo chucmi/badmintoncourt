@@ -69,7 +69,7 @@ export default function UserForm({ user, onFinish, form }) {
                   checked={showPassword}
                   onClick={togglePasswordVisibility}
                 >
-                  Show Password
+                  Xem mật khẩu
                 </Checkbox>
               </FormInput>
             </>

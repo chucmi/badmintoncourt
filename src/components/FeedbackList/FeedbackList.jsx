@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getFeedbacks } from "../../services/feedbackAPI";
-import { Table } from "antd";
+import { Rate, Table } from "antd";
 
 export default function FeedbackList() {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -62,17 +62,25 @@ export default function FeedbackList() {
       key: "id",
     },
     {
-      title: "Rating",
+      title: "Điểm dánh giá",
       dataIndex: "rating",
       key: "rating",
+      render: (_, record) => (
+        <>
+          <div className="flex items-center gap-2">
+            <Rate allowHalf defaultValue={record.rating} disabled />
+            {record.rating}
+          </div>
+        </>
+      ),
     },
     {
-      title: "Problem",
+      title: "Nội dung",
       dataIndex: "problem",
       key: "problem",
     },
     {
-      title: "Date",
+      title: "Ngày gửi",
       dataIndex: "create_date",
       key: "create_date",
     },
@@ -86,7 +94,9 @@ export default function FeedbackList() {
   return (
     <>
       <div>
-        <h1 className="text-3xl font-bold mb-4 text-center">Feedback List</h1>
+        <h1 className="text-3xl font-bold mb-4 text-center">
+          Danh sách phản hồi
+        </h1>
       </div>
       <div className="flex justify-center ">
         <div className="container">

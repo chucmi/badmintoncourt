@@ -182,7 +182,7 @@ export default function OwnerList() {
     <>
       <div>
         <Button type="primary" onClick={() => setIsUserModalVisible(true)}>
-          Create Owner
+          Tạo mới chủ sân
         </Button>
       </div>
 
