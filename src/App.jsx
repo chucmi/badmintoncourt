@@ -12,7 +12,7 @@ function App() {
     // Function to periodically remove expired items
     const interval = setInterval(() => {
       dispatch(removeExpiredItems());
-    }, 60000); // Check every 60 seconds
+    }, 1000); // Check every 1 seconds
 
     // Initial check on component mount
     dispatch(removeExpiredItems());
