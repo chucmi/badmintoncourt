@@ -1,9 +1,15 @@
 import { Button, Table, Modal, Avatar, Tag, notification, Form } from "antd";
 import React, { useEffect, useState } from "react";
 import UserForm from "../UserForm/UserForm";
-import { createUser, getAllStaffs, toggleStatus } from "../../services/userAPI";
+import {
+  createUser,
+  getAllStaffs,
+  toggleStatus,
+  updateProfile,
+} from "../../services/userAPI";
 import { EditOutlined } from "@mui/icons-material";
 import { FaUser } from "react-icons/fa";
+import { formatDate } from "../../utils/time";
 
 export default function StaffList() {
   const [isUserModalVisible, setIsUserModalVisible] = useState(false);
@@ -14,29 +20,55 @@ export default function StaffList() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [listLoading, setListLoading] = useState(false);
+  const [selectUser, setSelectUser] = useState(null);
 
   const onFinish = async (values) => {
-    const datas = {
-      username: values.username,
-      email: values.email,
-      first_name: values.first_name,
-      last_name: values.last_name,
-      password: values.password,
-      dob: values.dob,
-      gender: values.gender,
-      role_id: 3,
-      manager_id: manager_id,
-    };
-    notification.info({
-      message: "Đang tạo nhân viên...",
-    });
-    await createUser(datas);
-    setIsUserModalVisible(false);
-    notification.success({
-      message: "Tạo nhân viên thành công",
-      description: "Nhân viên đã được tạo thành công.",
-    });
-    form.resetFields();
+    try {
+      if (selectUser) {
+        const datas = {
+          user_name: values.username,
+          email: values.email,
+          first_name: values.first_name,
+          last_name: values.last_name,
+          dob: values.dob,
+          gender: values.gender === "" ? null : values.gender,
+        };
+        notification.info({
+          message: "Đang cập nhật nhân viên...",
+        });
+        await updateProfile(datas, selectUser.id);
+        setIsUserModalVisible(false);
+        notification.success({
+          message: "Cập nhật nhân viên thành công",
+          description: "Nhân viên đã được cập nhật thành công.",
+        });
+        form.resetFields();
+        fetchStaffs();
+      } else {
+        const datas = {
+          username: values.username,
+          email: values.email,
+          first_name: values.first_name,
+          last_name: values.last_name,
+          password: values.password,
+          dob: values.dob,
+          gender: values.gender,
+          role_id: 3,
+          manager_id: manager_id,
+        };
+        notification.info({
+          message: "Đang tạo nhân viên...",
+        });
+        await createUser(datas);
+        setIsUserModalVisible(false);
+        notification.success({
+          message: "Tạo nhân viên thành công",
+          description: "Nhân viên đã được tạo thành công.",
+        });
+        form.resetFields();
+        fetchStaffs();
+      }
+    } catch (error) {}
   };
 
   const handleToggle = async (id) => {
@@ -136,6 +168,16 @@ export default function StaffList() {
           <>
             <div className="flex justify-center gap-2">
               <Button
+                type="primary"
+                onClick={() => {
+                  setSelectUser(record);
+                  setIsUserModalVisible(true);
+                }}
+                icon={<EditOutlined />}
+              >
+                Chỉnh sửa
+              </Button>
+              <Button
                 loading={loading}
                 type="primary"
                 className="bg-red-400"
@@ -146,13 +188,27 @@ export default function StaffList() {
             </div>
           </>
         ) : (
-          <Button
-            type="primary"
-            loading={loading}
-            onClick={() => handleToggle(record.id)}
-          >
-            Duyệt
-          </Button>
+          <>
+            <div className="flex justify-center gap-2">
+              <Button
+                type="primary"
+                onClick={() => {
+                  setSelectUser(record);
+                  setIsUserModalVisible(true);
+                }}
+                icon={<EditOutlined />}
+              >
+                Chỉnh sửa
+              </Button>
+              <Button
+                type="primary"
+                loading={loading}
+                onClick={() => handleToggle(record.id)}
+              >
+                Duyệt
+              </Button>
+            </div>
+          </>
         ),
     },
   ];
@@ -163,7 +219,7 @@ export default function StaffList() {
     username: staff.username,
     email: staff.email,
     gender: staff.gender,
-    dob: staff.dob,
+    dob: formatDate(new Date(staff.dob)),
     first_name: staff.first_name,
     last_name: staff.last_name,
     status: staff.status,
@@ -172,7 +228,14 @@ export default function StaffList() {
   return (
     <>
       <div>
-        <Button type="primary" onClick={() => setIsUserModalVisible(true)}>
+        <Button
+          type="primary"
+          onClick={() => {
+            form.resetFields();
+            setSelectUser(null);
+            setIsUserModalVisible(true);
+          }}
+        >
           Thêm nhân viên
         </Button>
       </div>
@@ -192,7 +255,7 @@ export default function StaffList() {
         onCancel={() => setIsUserModalVisible(false)}
         footer={null}
       >
-        <UserForm onFinish={onFinish} form={form} />
+        <UserForm onFinish={onFinish} form={form} user={selectUser} />
       </Modal>
     </>
   );
