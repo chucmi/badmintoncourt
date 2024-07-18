@@ -27,6 +27,13 @@ export default function UserProfile() {
         gender: data.gender != null ? data.gender : "",
         dob: data.dob ? dayjs(data.dob).format("YYYY-MM-DD") : "",
       });
+      form.setFieldsValue({
+        first_name: data.first_name || "",
+        last_name: data.last_name || "",
+        email: data.email || "",
+        gender: data.gender != null ? data.gender : "",
+        dob: data.dob ? dayjs(data.dob).format("YYYY-MM-DD") : "",
+      });
     } catch (error) {
       console.error("Failed to fetch user:", error);
     }
@@ -34,11 +41,9 @@ export default function UserProfile() {
 
   useEffect(() => {
     fetchUser();
-    form.setFieldsValue(user);
-  }, [user, form]);
+  }, []);
 
   const handleSave = async (values) => {
-    console.log(values);
     const data = {
       first_name: values.first_name,
       last_name: values.last_name,
