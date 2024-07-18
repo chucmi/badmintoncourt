@@ -63,10 +63,10 @@ export default function UserProfile() {
     <>
       <div className="container mx-auto p-12 h-2/4 w-2/4">
         <Form form={form} onFinish={handleSave}>
-          <FormInput label={"First Name:"} name={"first_name"}>
+          <FormInput label={"Họ:"} name={"first_name"}>
             <Input type="text" placeholder="Enter first name" />
           </FormInput>
-          <FormInput label={"Last Name:"} name={"last_name"}>
+          <FormInput label={"Tên:"} name={"last_name"}>
             <Input type="text" placeholder="Enter last name" />
           </FormInput>
           <FormInput label={"Email:"} name={"email"}>
@@ -76,19 +76,19 @@ export default function UserProfile() {
               placeholder="Enter email"
             />
           </FormInput>
-          <FormInput label={"Gender:"} name={"gender"}>
+          <FormInput label={"Giới tính:"} name={"gender"}>
             <select className="w-full h-9 border-2 rounded-lg">
-              <option value="true">Male</option>
-              <option value="false">Female</option>
-              <option value="">Other</option>
+              <option value="true">Nam</option>
+              <option value="false">Nữ</option>
+              <option value="">Khác</option>
             </select>
           </FormInput>
-          <FormInput label={"Day of Birth:"} name={"dob"}>
+          <FormInput label={"Ngày tháng năm sinh:"} name={"dob"}>
             <Input type="date" placeholder="Enter day of birth" />
           </FormInput>
           <FormInput>
             <Button type="primary" htmlType="submit">
-              Save
+              Lưu thay đổi
             </Button>
           </FormInput>
         </Form>
