@@ -10,12 +10,19 @@ export default function UserForm({ user, onFinish, form }) {
     setShowPassword(!showPassword);
   };
 
-  useEffect((user) => {
-    form.setFieldsValue({
-      gender: true,
-    });
+  useEffect(() => {
+    if (user) {
+      form.setFieldsValue({
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        username: user.username,
+        dob: user.dob,
+        gender: user.gender === null ? "" : user.gender,
+      });
+    }
   }),
-    [user];
+    [user, form];
 
   return (
     <>
@@ -75,11 +82,7 @@ export default function UserForm({ user, onFinish, form }) {
             </>
           ) : null}
 
-          <FormInput
-            label={"Giới tính:"}
-            name={"gender"}
-            rules={[{ required: true, message: "Please select the gender" }]}
-          >
+          <FormInput label={"Giới tính:"} name={"gender"}>
             <select className="w-full h-9 border-2 rounded-lg">
               <option value={true}>Nam</option>
               <option value={false}>Nữ</option>

@@ -9,6 +9,7 @@ import "./Register.scss";
 import { Button } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import { notification } from "antd";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -37,11 +38,15 @@ const Register = () => {
       }
     );
 
-    if (response !== null) {
+    if (response.data.data !== null) {
       setNavigate(true);
     } else {
       setNavigate(false);
-      setErrorMsg("Sign Up failed. Please try again");
+      setErrorMsg("Thông tin đã tồn tại trên hệ thống! Vui lòng thử lại!");
+      notification.error({
+        message: "Đăng ký thất bại",
+        description: "Đăng ký không thành công. Vui lòng thử lại!",
+      });
     }
   };
 
